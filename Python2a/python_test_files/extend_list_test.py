@@ -1,17 +1,19 @@
 from hashlib import new
-
-bars_real = 8
+import random
+bars_real = 12
 list = [0,4]
-notes = 8
+notes = 10
 
 #function for making variations (after a customizable amount of bars) for the original generated rhythm
 def rhythm_bars(eucl_list, bars, note_amount):
     buffer_list = eucl_list # a list i use to store a rhythm + the amount of bars we are in right now
     refrence_list = eucl_list # a list i use to store the imput rhythm, after 4 bars i change this to the imput rhythm + offset
     complete_eucl = [] # a list for returning a list with the complete rhythm
-    offset = 3
+    
     for i in range(bars):
-        if (i % 4 == 0) and (i != 0): #after every 4 bars make a variation
+        if (i % 4 == 0) and (i != 0): #after every 4 bars make a variation but not the first 4 bars
+            offset = random.randint(1,(note_amount*2)-1)#generating an random offset in the range 1 to 2 times the amount of notes 
+            print("this is the offset:", offset)
             buffer_list = [x + offset for x in eucl_list] #the original values of eucl_list with an offset
             print("this is the bufferlist with offset:", buffer_list)
             for x in range(len(buffer_list)): #for loop with modulo for making offset
