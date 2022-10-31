@@ -1,4 +1,5 @@
 from os import times
+from turtle import stamp
 import simpleaudio as sa 
 import time as time 
 import random 
@@ -70,7 +71,7 @@ amount_of_notes = time_sign_to_notes(time_signature)
 
 #function for generating euclidean rhythms 
 def euclidean_gen(num_pulses, num_notes, offset):
-    # calculate duration of a note, expressed in 16th
+    # calculate duration of a note, expressed in eight notes
     note_dur = int(num_pulses / num_notes)
     # fill list num_notes times with the duration value
     sequence = [note_dur] * num_notes
@@ -99,31 +100,53 @@ def euclidean_gen(num_pulses, num_notes, offset):
     timestamp_sequence.sort()
     return timestamp_sequence
 
-kick_pattern = euclidean_gen(amount_of_notes,random.randint(1,4), 0)
-clap_pattern = euclidean_gen(amount_of_notes,random.randint(1,4), 0)
-tambourine_pattern = euclidean_gen(amount_of_notes,random.randint(3,amount_of_notes - 3), 0)
+kick_pattern = euclidean_gen(amount_of_notes,random.randint(1,5),0) #starting with an offset of 0 so the rhythm always starts with a kick
+clap_pattern = euclidean_gen(amount_of_notes,random.randint(1,5), random.randint(2,6)) #starting with an random offset between 2 and 6 so the clap will always be after the kick in the first bars
+tambourine_pattern = euclidean_gen(amount_of_notes,random.randint(3,amount_of_notes - 3), random.randint(0,5))
 
-#function for making variations in the existing eucl rhythm
+#function for making variations (after a customizable amount of bars) for the original generated rhythm
 def rhythm_bars(eucl_list, bars, note_amount):
-    buffer_list = eucl_list # changing this list every step in the for loop, adding the amount of notes * the amount of bars to every item in the list
-    complete_eucl = []
+    buffer_list = eucl_list # a list i use to store a rhythm + the amount of bars we are in right now
+    refrence_list = eucl_list # a list i use to store the imput rhythm, after 4 bars i change this to the imput rhythm + offset
+    complete_eucl = [] # a list for returning a list with the complete rhythm
+    
     for i in range(bars):
-        buffer_list = [x + i*note_amount for x in eucl_list]
-        print(i, "=", buffer_list)
-        complete_eucl.extend(buffer_list)
+        if (i % 4 == 0) and (i != 0): #after every 4 bars make a variation but not the first 4 bars
+            offset = random.randint(1,(note_amount*2)-1)#generating an random offset in the range 1 to 2 times the amount of notes 
+            buffer_list = [x + offset for x in eucl_list] #the original values of eucl_list with an offset
+
+            for x in range(len(buffer_list)): #for loop with modulo for making offset
+                buffer_list[x] = buffer_list[x] % note_amount 
+            buffer_list.sort() #
+            refrence_list = buffer_list #store the rhythm + offset (new rhythm) in a variable
+            #add the rhythm + the bar we in to the complete_eucl list
+            buffer_list = [x + i*note_amount for x in buffer_list]
+            complete_eucl.extend(buffer_list)
+    
+        else:
+            buffer_list = [x + i*note_amount for x in refrence_list]
+            complete_eucl.extend(buffer_list)
+
     return complete_eucl
-  
-print("this is the kick pattern:",kick_pattern)
-print("this is the clap pattern:",clap_pattern)
-print("this is the tambourine pattern:",tambourine_pattern)
 
-total_rhythm = rhythm_bars(tambourine_pattern, bars_amount, amount_of_notes)
-print("this is the total rhythm:",total_rhythm) 
+total_rhythm_tb = rhythm_bars(tambourine_pattern, bars_amount, amount_of_notes)
+total_rhythm_k = rhythm_bars(kick_pattern, bars_amount, amount_of_notes)
+total_rhythm_c = rhythm_bars(clap_pattern, bars_amount, amount_of_notes)
 
+print("this is the total kick rhythm:", total_rhythm_k) 
+print("this is the total clap rhythm:", total_rhythm_c) 
+print("this is the total tambourine rhythm:", total_rhythm_tb) 
 
+#function for convertion timestamps in 8th notes to timestamps in actual time
+def stamps8th_to_stampstime(x_bpm, y_ts_8th):
+    time_stamps_time = []
+    #calculating the value of an eigtht note
+    e_note = 30/x_bpm
+    #for loop for adding the time values to a list
+    for ts in y_ts_8th:
+        time_stamps_time.append(e_note*ts)
+    return time_stamps_time
 
-
-
-
-
-
+timestamps_k = stamps8th_to_stampstime(default_bpm, total_rhythm_k)
+timestamps_c = stamps8th_to_stampstime(default_bpm, total_rhythm_c)
+timestamps_tb = stamps8th_to_stampstime(default_bpm, total_rhythm_tb)
