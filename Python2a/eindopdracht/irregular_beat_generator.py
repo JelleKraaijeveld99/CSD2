@@ -1,5 +1,3 @@
-from os import times
-from turtle import stamp
 import simpleaudio as sa 
 import time as time 
 import random 
@@ -111,7 +109,7 @@ def rhythm_bars(eucl_list, bars, note_amount):
     complete_eucl = [] # a list for returning a list with the complete rhythm
     
     for i in range(bars):
-        if (i % 4 == 0) and (i != 0): #after every 4 bars make a variation but not the first 4 bars
+        if (i % 2 == 0) and (i != 0): #after every 4 bars make a variation but not the first 4 bars
             offset = random.randint(1,(note_amount*2)-1)#generating an random offset in the range 1 to 2 times the amount of notes 
             buffer_list = [x + offset for x in eucl_list] #the original values of eucl_list with an offset
 
@@ -150,3 +148,45 @@ def stamps8th_to_stampstime(x_bpm, y_ts_8th):
 timestamps_k = stamps8th_to_stampstime(default_bpm, total_rhythm_k)
 timestamps_c = stamps8th_to_stampstime(default_bpm, total_rhythm_c)
 timestamps_tb = stamps8th_to_stampstime(default_bpm, total_rhythm_tb)
+ 
+#function for making events according to the timestamps and a random instrument from the instrument list
+def event_maker(t_stamp, instrument):
+    event_list = []
+    for x in range(len(t_stamp)):
+           event_list.append({'timestamp': t_stamp[x], 'instrument': instrument})
+    return event_list
+
+kick_events = event_maker(timestamps_k, kick)
+clap_events = event_maker(timestamps_c, clap)
+tambourine_events = event_maker(timestamps_tb, tambourine)
+
+#section for adding all the events together and sorting them in the right order according to the timestamp value
+all_events = kick_events + clap_events + tambourine_events
+
+all_events = sorted(all_events, key=lambda x: x['timestamp'])
+print("after the sort:", all_events)
+
+#section of the code for the audio playback
+start_time = time.time()
+
+#var for popping an event from the event_list
+event = all_events.pop(0)
+
+#while loop for playing the sequence 
+while True:
+    #var for storing current time 
+    current_time = time.time()
+    #check if the event has to be played
+    if(current_time - start_time >= event['timestamp']):
+        event['instrument'].play()
+        #replace the event var with the next event in the list and check if there are events left in the event_list
+        if(all_events):
+            event = all_events.pop(0)
+        #if there are no events left in the list break the loop
+        else:
+          break
+
+    else:
+      time.sleep(0.001)    
+
+time.sleep(1)
