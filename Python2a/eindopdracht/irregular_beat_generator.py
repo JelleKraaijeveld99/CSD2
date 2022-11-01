@@ -19,24 +19,30 @@ time_signature = 0
 print("\nHi, welcome to the irregular beat generator. This program will generate an irregular beat according to a given BPM, amount of bars and either a 5/4 or a 7/8 time signature. Lets start!\n")
 
 # input the bpm 
-while True:
+retrieve_bpm = True
+while retrieve_bpm:
     try:
-        default_bpm = int(input("\nAt what BPM do you want the sequence to be played?\n"))
-    except ValueError:
-        print("\nSorry, can u please give a number")
+        default_bpm = int(input("\nAt what BPM do you want the sequence to be played? Please give a number between 50 and 180\n"))
+    except:
+        print("\nSorry, can u please give a number between 50 and 180")
     else: 
-    #break stops the loop   
-        break
+        if default_bpm in range(50,181):
+            retrieve_bpm = False
+        else:
+         print("\nSorry, can u please give a number between 50 and 180")
 
 #input the amount of bars
-while True:
+retrieve_bars = True
+while retrieve_bars:
     try:
-        bars_amount = int(input("\nHow many bars do you want to be generated?\n"))
-    except ValueError:
-        print("\nSorry, can u please give a number")
-    else: 
-    #break stops the loop   
-        break
+        bars_amount = int(input("\nHow many bars do you want to be generated? Please give a number between 0 and 16\n"))
+    except:
+        print("\nSorry, can u please give a number between 0 and 8")
+    else:
+        if bars_amount in range(0,9):
+            retrieve_bars = False
+        else:
+         print("\nSorry, can u please give a number between 0 and 8")
 
 #input the time signature 
 retrieve_time_signature = True
