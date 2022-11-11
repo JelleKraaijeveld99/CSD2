@@ -1,6 +1,7 @@
 import simpleaudio as sa 
 import time as time 
 import random 
+from midiutil import MIDIFile
 
 #samples:
 kick = sa.WaveObject.from_wave_file("../testsamples/testkick.wav")
@@ -142,7 +143,7 @@ print("this is the total clap rhythm:", total_rhythm_c)
 print("this is the total tambourine rhythm:", total_rhythm_tb) 
 
 #section for converting ts to durations so i can export to midi later on 
-def ts_to_dur_events(ts_list,x_bpm, instr_name):
+def ts_to_dur_list(ts_list,x_bpm):
     #empty list for durations
     dur_list = []
 
@@ -158,28 +159,24 @@ def ts_to_dur_events(ts_list,x_bpm, instr_name):
         dur_list.append(dur_note * e_note)
     
     #add the last timestamp value (which is the first because i reversed the list) to the duration list. 
-    dur_list.append(ts_list.pop()*e_note)
+    dur_list.insert(0, 1*e_note)
+    
     
     #now reverse the duration list so all the durations are in the right order again. 
     dur_list.reverse()
 
-    #section for making the events
-    event_list = []
-    for x in range(len(dur_list)):
-           event_list.append({'duration': dur_list[x], 'instrument': instr_name})
-    
-    return event_list
+    return dur_list
 
-all_dur_tb = ts_to_dur_events(total_rhythm_tb)
-all_dur_k = ts_to_dur_events(total_rhythm_k)
-all_dur_c = ts_to_dur_events(total_rhythm_c)
+all_dur_tb = ts_to_dur_list(total_rhythm_tb, default_bpm)
+all_dur_k = ts_to_dur_list(total_rhythm_k, default_bpm)
+all_dur_c = ts_to_dur_list(total_rhythm_c, default_bpm)
 
 dur_combined = all_dur_tb + all_dur_c + all_dur_c
 
 
-print("durations tb:", all_dur_tb)
-print("durations k:", all_dur_k)
-print("durations c:", all_dur_c)
+# print("durations tb:", all_dur_tb)
+# print("durations k:", all_dur_k)
+# print("durations c:", all_dur_c)
 
 #function for convertion timestamps in 8th notes to timestamps in actual time
 def stamps8th_to_stampstime(x_bpm, y_ts_8th):
@@ -196,22 +193,27 @@ timestamps_c = stamps8th_to_stampstime(default_bpm, total_rhythm_c)
 timestamps_tb = stamps8th_to_stampstime(default_bpm, total_rhythm_tb)
  
 #function for making events according to the timestamps and a random instrument from the instrument list
-def event_maker(t_stamp, instrument):
+def event_maker(t_stamp, sample, durations, instrument):
     event_list = []
     for x in range(len(t_stamp)):
-           event_list.append({'timestamp': t_stamp[x], 'instrument': instrument})
+           event_list.append({'timestamp': t_stamp[x], 'sample': sample, 'duration': durations[x], 'instrument': instrument})
     return event_list
 
-kick_events = event_maker(timestamps_k, kick)
-clap_events = event_maker(timestamps_c, clap)
-tambourine_events = event_maker(timestamps_tb, tambourine)
+kick_events = event_maker(timestamps_k, kick, all_dur_k, 'kick')
+clap_events = event_maker(timestamps_c, clap, all_dur_c, 'clap')
+tambourine_events = event_maker(timestamps_tb, tambourine, all_dur_tb, 'tambourine')
+
 
 #section for adding all the events together and sorting them in the right order according to the timestamp value
 all_events = kick_events + clap_events + tambourine_events
 
 all_events = sorted(all_events, key=lambda x: x['timestamp'])
-# print("after the sort:", all_events)
 
+#copy the eventlist so i can still use the events if the user wants to output MIDI
+
+all_events_buffer = all_events.copy
+# print("after the sort:", all_events)
+print("all events here:", all_events)
 #section of the code for the audio playback
 start_time = time.time()
 
@@ -224,7 +226,7 @@ while True:
     current_time = time.time()
     #check if the event has to be played
     if(current_time - start_time >= event['timestamp']):
-        event['instrument'].play()
+        event['sample'].play()
         #replace the event var with the next event in the list and check if there are events left in the event_list
         if(all_events):
             event = all_events.pop(0)
@@ -236,3 +238,23 @@ while True:
       time.sleep(0.001)    
 
 time.sleep(1)
+
+print("these are all the events after the playback:", all_events)
+
+midi_output = 'no'
+
+retrieve_midi = True
+
+while retrieve_midi:
+    matches = ['yes', 'Yes', 'y', 'Y', 'YES', 'no', 'No', 'n', 'N', 'NO']
+
+    try:
+        midi_output = str(input("\nDo you want to export the rhythm you just heard to MIDI? Type yes or no.\n"))
+    except:
+        print("\nSorry, can u please type yes or no")
+    else: 
+        if midi_output in matches:
+            retrieve_midi = False
+        else: 
+         print("\nSorry, can u please type yes or no")
+
