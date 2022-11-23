@@ -1,5 +1,6 @@
 #include "controller.h"
 #include "console.h"
+#include "headset.h"
 
 int main(){
 
@@ -10,6 +11,9 @@ controller.print_controller();
 Console console;
 console.declare_parts_cons();
 console.print_console();
+
+Headset headset;
+headset.print_headset();
 
 return 0;
 };
