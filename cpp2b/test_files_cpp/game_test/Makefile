@@ -16,7 +16,7 @@ $(PROG): $(OBJS)
 	$(CC) -c $< $(CFLAGS)
 
 clean:
-	/bin/rm -f $(PROG) $(OBJS)
+	/bin/rm -f $(OBJS)
 
 depend:
 	makedepend $(SRC)
