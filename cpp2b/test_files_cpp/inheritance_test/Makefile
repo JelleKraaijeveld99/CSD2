@@ -6,8 +6,8 @@
 CC = g++
 CFLAGS = -Wall
 PROG = Gametype
-SRC = games.cpp digital.cpp boardgame.cpp sport.cpp gametype_main.cpp
-OBJS = games.o digital.o boardgame.o sport.o gametype_main.o
+SRC = games.cpp boardgame.cpp gametype_main.cpp
+OBJS = games.o boardgame.o gametype_main.o
 
 $(PROG): $(OBJS)
 	$(CC) -o $@ $(OBJS)
