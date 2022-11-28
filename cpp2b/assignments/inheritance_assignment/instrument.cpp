@@ -9,5 +9,5 @@ Instrument::Instrument(){
 }
 
 void Instrument::instrument_play(){
-    cout << "A " << name << " of the type " << type << " with a pitch range of: " << pitchrange << " is playing: " << sound << endl;
+    cout << "A " << name << " of the type " << type << " with a pitch range of: " << pitchrange << " octaves is playing: " << sound << endl;
 }
