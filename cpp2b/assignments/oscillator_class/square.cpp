@@ -21,6 +21,14 @@ void Square::tick() {
   }
 
 
-  sample = (2*amplitude*phase)-amplitude;
+  if(phase<0.5f){
+    sample = amplitude;
+  }
+
+  if(phase>0.5f){
+    sample = amplitude*-1;
+  }
+
+
 }
 

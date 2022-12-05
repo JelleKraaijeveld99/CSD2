@@ -9,8 +9,8 @@
 #include "square.h"
 #include "saw.h"
 
-#define audioOutput 0 // macro for giving audio 
-#define writeOutput 1 // macro for giving write output
+#define audioOutput 1 // macro for giving audio 
+#define writeOutput 0 // macro for giving write output
 
 #define SAMPLERATE 44100
 
@@ -19,7 +19,7 @@
  * jackd invokes the JACK audio server daemon
  * https://github.com/jackaudio/jackaudio.github.com/wiki/jackd(1)
  * on mac, you can start the jack audio server daemon in the terminal:
- * jackd -d coreaudio
+ * jackd -d coreaudi
  */
 
 
@@ -28,21 +28,21 @@ class CustomCallback : public AudioCallback {
 public:
   void prepare(int rate) override { //give the samplerate to the JACK module 
     samplerate = (float) rate; //set the samplerate of the sine and the samplerate that is send to JACK module the sae
-    saw.setSamplerate(samplerate); //set the samplerate of the saw
+    square.setSamplerate(samplerate); //set the samplerate of the saw
     std::cout << "\nsamplerate: " << samplerate << "\n"; //print the samplerate 
   }
 
   void process(AudioBuffer buffer) override { //send the audiodata to JACK -- sample for sample with sine.getSample and sine.tick to go to the next sample 
     for (int i = 0; i < buffer.numFrames; ++i) {
       // write sample to buffer at channel 0, amp = 0.25
-      buffer.outputChannels[0][i] = saw.getSample(); 
-      saw.tick(); //go to the next sample 
+      buffer.outputChannels[0][i] = square.getSample(); 
+      square.tick(); //go to the next sample 
     }
   }
   private:
 
   float samplerate = SAMPLERATE; //set the samplerate 
-  Saw saw = Saw(440, samplerate); //make the saw here 
+  Square square = Square(440, samplerate); //make the saw here 
 
 };
 
@@ -61,12 +61,12 @@ if(writeOutput) //section for writing the sample to python code
 { 
   WriteToFile fileWriter("output.csv", true);
   
-  Saw saw(220, SAMPLERATE); //making the oscillator 
-  std::cout << "Saw frequency: " << saw.getFrequency() << "\n";
+  Square square(220, SAMPLERATE); //making the oscillator 
+  std::cout << "Saw frequency: " << square.getFrequency() << "\n";
   
   for(int i = 0; i < SAMPLERATE; i++) {
-    fileWriter.write(std::to_string(saw.getSample()) + "\n");
-    saw.tick();
+    fileWriter.write(std::to_string(square.getSample()) + "\n");
+    square.tick();
   }
 }
 
