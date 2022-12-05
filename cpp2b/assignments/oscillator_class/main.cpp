@@ -41,7 +41,7 @@ public:
   }
   private:
 
-  float samplerate = 44100; //set the samplerate 
+  float samplerate = SAMPLERATE; //set the samplerate 
   Saw saw = Saw(440, samplerate); //make the saw here 
 
 };
@@ -50,7 +50,6 @@ public:
 int main(int argc,char **argv)
 {
 
-  
   auto callback = CustomCallback {};
   auto jackModule = JackModule { callback };
 
@@ -58,13 +57,12 @@ if(audioOutput){
   jackModule.init (0, 1);
 }
 
-if(writeOutput){
-
+if(writeOutput) //section for writing the sample to python code 
+{ 
   WriteToFile fileWriter("output.csv", true);
   
-  Saw saw(220, SAMPLERATE);
+  Saw saw(220, SAMPLERATE); //making the oscillator 
   std::cout << "Saw frequency: " << saw.getFrequency() << "\n";
-  
   
   for(int i = 0; i < SAMPLERATE; i++) {
     fileWriter.write(std::to_string(saw.getSample()) + "\n");
