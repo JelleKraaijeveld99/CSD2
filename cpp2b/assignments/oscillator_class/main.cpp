@@ -4,9 +4,15 @@
 #include "math.h"
 #include "sine.h"
 #include "oscillator.h"
+#include "writeToFile.h"
 
 #include "square.h"
 #include "saw.h"
+
+#define audioOutput 0 // macro for giving audio 
+#define writeOutput 1 // macro for giving write output
+
+#define SAMPLERATE 44100
 
 /*
  * NOTE: jack2 needs to be installed
@@ -34,16 +40,37 @@ public:
     }
   }
   private:
+
   float samplerate = 44100; //set the samplerate 
-  Saw saw = Saw(440, samplerate); //make the sine here 
+  Saw saw = Saw(440, samplerate); //make the saw here 
+
 };
+
 
 int main(int argc,char **argv)
 {
+
+  
   auto callback = CustomCallback {};
   auto jackModule = JackModule { callback };
 
+if(audioOutput){
   jackModule.init (0, 1);
+}
+
+if(writeOutput){
+
+  WriteToFile fileWriter("output.csv", true);
+  
+  Saw saw(220, SAMPLERATE);
+  std::cout << "Saw frequency: " << saw.getFrequency() << "\n";
+  
+  
+  for(int i = 0; i < SAMPLERATE; i++) {
+    fileWriter.write(std::to_string(saw.getSample()) + "\n");
+    saw.tick();
+  }
+}
 
   bool running = true;
   while (running) {
