@@ -2,7 +2,7 @@
 #include <thread>
 #include "jack_module.h"
 #include "math.h"
-#include "writeToFile.h"
+#include "audioToFile.h"
 #include "oscillator.h"
 #include "callback.h"
 
