@@ -3,6 +3,8 @@
 
 #include "jack_module.h"
 #include "oscillator.h"
+#include "sine.h"
+#include "synth.h"
 
 class CustomCallback : public AudioCallback {
 public:
@@ -11,7 +13,7 @@ public:
 
 private:
   float samplerate = 44100;
-//   Oscillator oscillator = Oscillator(220, samplerate);
+  Synthesizer synth = Synthesizer(65);//make synths 
 };
 
 #endif //CALLBACK_H
