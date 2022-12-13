@@ -5,6 +5,8 @@
 #include "audioToFile.h"
 #include "oscillator.h"
 #include "callback.h"
+#include "synth.h"
+#include "fm_synth.h"
 
 #define WRITE_TO_FILE 0
 

@@ -5,6 +5,7 @@
 #include "oscillator.h"
 #include "sine.h"
 #include "synth.h"
+#include "fm_synth.h"
 
 class CustomCallback : public AudioCallback {
 public:
@@ -13,7 +14,7 @@ public:
 
 private:
   float samplerate = 44100;
-  Synthesizer synth = Synthesizer(65);//make synths 
+  FmSynth FMsynth = FmSynth(52);//make synths 
 };
 
 #endif //CALLBACK_H

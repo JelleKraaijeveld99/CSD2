@@ -1,28 +1,21 @@
 #include "synth.h"
 #include "math.h"
+// #include "fm_synth.h"
 
 Synthesizer::Synthesizer(int midiNote)
 {
-    frequency = midiToFreq(midiNote); // calculate the midi note to a frequency
-    sine.setFrequency(frequency); // set the frequency of the osc in the synth.h file
 }
 
 Synthesizer::~Synthesizer() //deconstructor
 {
 }
 
+
 void Synthesizer::tickSynth()
 {
-    sine.tick();
-    // sine1.tick();
-}
-
-float Synthesizer::getSampleSynth()
-{      
-
-    float multipleOscillators = sine.getSample();
-    
-    return multipleOscillators;  
+    myOscillators[0] -> tick();
+    myOscillators[1] -> tick();
+    myOscillators[2] -> tick(); 
 }
 
 float Synthesizer::midiToFreq(int midiNote)
@@ -31,4 +24,5 @@ float Synthesizer::midiToFreq(int midiNote)
     float freq = (a / 32) * pow(2, ((midiNote - 9) / 12.0));
     return freq;
 }
+
 
