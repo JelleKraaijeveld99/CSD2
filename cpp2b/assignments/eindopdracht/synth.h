@@ -16,7 +16,7 @@ class Synthesizer
 
     virtual float getSampleSynth() = 0; //getSample function that's empty, gets defined in fm and additive synth classes
 
-    float midiToFreq(int midiNote); //calculate the frequency according to the midinote
+    float midiToFreq(int midiNote, int interval); //calculate the frequency according to the midinote
 
     protected:
 
@@ -24,6 +24,7 @@ class Synthesizer
     
     float frequency;
     float midiNote;
+    float interval;
 };
 
 #endif

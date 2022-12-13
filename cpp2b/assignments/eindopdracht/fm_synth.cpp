@@ -7,7 +7,7 @@ FmSynth::FmSynth(int midiNote) : Synthesizer(midiNote) //constructor
     myOscillators[1] = new Saw(modulator1Freq,0.5f,44100); //modulator
     myOscillators[2] = new Sine(modulator2Freq,0.3f,44100); //modulator
     
-    frequency = midiToFreq(midiNote); // calculate the midi note to a frequency
+    frequency = midiToFreq(midiNote,0); // calculate the midi note to a frequency
     
     FmSynthCalc();
 
