@@ -13,7 +13,9 @@ class Synthesizer
     ~Synthesizer(); //deconstructor
 
     void tickSynth(); //tick the oscillators together
-    virtual float getSampleSynth() = 0; //get the samples from all the oscillators
+
+    virtual float getSampleSynth() = 0; //getSample function that's empty, gets defined in fm and additive synth classes
+
     float midiToFreq(int midiNote); //calculate the frequency according to the midinote
 
     protected:

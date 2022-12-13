@@ -7,6 +7,7 @@
 #include "callback.h"
 #include "synth.h"
 #include "fm_synth.h"
+#include "addSynth.h"
 
 #define WRITE_TO_FILE 0
 
