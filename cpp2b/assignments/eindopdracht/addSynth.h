@@ -21,6 +21,8 @@ void AddSynthCalc();
 
 float getSampleSynth();
 
+void setMidiNote(float midiNote);
+
 protected:
 //make oscillators
 

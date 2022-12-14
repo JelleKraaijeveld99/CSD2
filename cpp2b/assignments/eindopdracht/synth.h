@@ -18,6 +18,10 @@ class Synthesizer
 
     float midiToFreq(int midiNote, int interval); //calculate the frequency according to the midinote
 
+    //setter
+    virtual void setMidiNote(float midiNote) = 0; //function for setting the midiNote of a synth
+
+
     protected:
 
     Oscillator* myOscillators[3]; //empty pointer array for storing the oscillators in

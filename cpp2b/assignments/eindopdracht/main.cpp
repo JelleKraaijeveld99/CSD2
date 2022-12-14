@@ -11,6 +11,7 @@
 
 #define WRITE_TO_FILE 0
 
+
 int main(int argc, char **argv) {
   auto callback = CustomCallback{};
   auto jackModule = JackModule{callback};

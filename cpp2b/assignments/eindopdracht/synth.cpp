@@ -25,4 +25,3 @@ float Synthesizer::midiToFreq(int midiNote, int interval) //extra functionality 
     return freq;
 }
 
-
