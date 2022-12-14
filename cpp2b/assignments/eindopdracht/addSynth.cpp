@@ -17,7 +17,6 @@ AddSynth::AddSynth(int midiNote) : Synthesizer(midiNote) //constructor
 
 AddSynth::~AddSynth() //deconstructor 
 {
-
 }
 
 void AddSynth::AddSynthCalc() //function for giving the oscilators in the fm_synth.h file a certain frequency 
