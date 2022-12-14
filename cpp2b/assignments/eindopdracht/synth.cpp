@@ -11,7 +11,7 @@ Synthesizer::~Synthesizer() //deconstructor
 }
 
 
-void Synthesizer::tickSynth()
+void Synthesizer::tickSynth() //summed op the ticks of
 {
     myOscillators[0] -> tick();
     myOscillators[1] -> tick();

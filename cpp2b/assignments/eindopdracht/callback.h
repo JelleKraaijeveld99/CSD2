@@ -16,7 +16,7 @@ public:
 private:
   float samplerate = 44100;
   // FmSynth FMsynth = FmSynth(52);//make synths 
-  AddSynth ADDsynth = AddSynth(60);
+  AddSynth ADDsynth = AddSynth(48);
 };
 
 #endif //CALLBACK_H
