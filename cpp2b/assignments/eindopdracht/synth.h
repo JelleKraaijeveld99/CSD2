@@ -12,7 +12,7 @@ class Synthesizer
     Synthesizer(int midiNote); //constructor
     ~Synthesizer(); //deconstructor
 
-    void tickSynth(); //tick the oscillators together
+    virtual void tickSynth() = 0; //tick the oscillators together
 
     virtual float getSampleSynth() = 0; //getSample function that's empty, gets defined in fm and additive synth classes
 

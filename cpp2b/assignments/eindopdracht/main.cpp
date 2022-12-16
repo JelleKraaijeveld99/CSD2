@@ -2,15 +2,12 @@
 #include <thread>
 #include "jack_module.h"
 #include "math.h"
-
 #include "writeToFile.h"
-#include "oscillator.h"
-#include "callback.h"
-#include "synth.h"
-#include "fm_synth.h"
-#include "addSynth.h"
-#include "jack_module.h"
 #include "melody.h"
+#include "synth.h"
+#include "addSynth.h"
+#include "fm_synth.h"
+
 /*
  * NOTE: jack2 needs to be installed
  * jackd invokes the JACK audio server daemon
@@ -21,11 +18,14 @@
 
 #define WRITE_TO_FILE 0
 
-void updatePitch(Melody* melody, Synthesizer* synthesizer) { //function for updating the pitch of a synthesizer
+
+void updatePitch(Melody* melody, AddSynth* addsynth) {
   float pitch = melody->getPitch();
   std::cout << "next pitch: " << pitch << std::endl;
-  synthesizer->setMidiNote(pitch);
+  addsynth->setMidiNote(pitch);
 }
+
+
 
 int main(int argc,char **argv)
 {
@@ -36,8 +36,7 @@ int main(int argc,char **argv)
   jack.init(argv[0]);
   const double samplerate = jack.getSamplerate();
 
-  //section for making the synth
-  AddSynth ADDsynth(60);
+  AddSynth addsynth(60);
 
   Melody melody;
 
@@ -55,12 +54,13 @@ int main(int argc,char **argv)
 
   // keep track of the frameIndex, to play notes at a given frame interval
   int frameIndex = 0;
-  const int frameInterval = 0.20 * samplerate;
+  const int frameInterval = 0.2 * samplerate;
   // start with the first pitch
-  updatePitch(&melody, &ADDsynth);
+  updatePitch(&melody, &addsynth);
+
 
   //assign a function to the JackModule::onProces
-  jack.onProcess = [&ADDsynth, &amplitude, &melody, &frameIndex, frameInterval](jack_default_audio_sample_t *inBuf,
+  jack.onProcess = [&addsynth, &amplitude, &melody, &frameIndex, frameInterval](jack_default_audio_sample_t *inBuf,
     jack_default_audio_sample_t *outBuf, jack_nframes_t nframes) {
 
     // fill output buffer
@@ -70,17 +70,17 @@ int main(int argc,char **argv)
       if(frameIndex >= frameInterval) {
         // reset frameIndex
         frameIndex = 0;
-        updatePitch(&melody, &ADDsynth);
+        updatePitch(&melody, &addsynth);
       } else {
         // increment frameindex
         frameIndex++;
       }
 
       // write sample to output
-      outBuf[i] = ADDsynth.getSampleSynth() * amplitude;
+      outBuf[i] = addsynth.getSampleSynth() * amplitude;
 
       // calculate next sample
-      ADDsynth.tickSynth();
+      addsynth.tickSynth();
 
     }
 

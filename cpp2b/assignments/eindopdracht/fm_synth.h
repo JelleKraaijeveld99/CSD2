@@ -17,12 +17,15 @@ public:
 FmSynth(int midiNote);//constructor
 ~FmSynth();//deconstructor 
 
+void tickSynth();
+
 void FmSynthCalc();
 
 float getSampleSynth();
 
+void setMidiNote(float midiNote);
+
 protected:
-//make oscillators
 
 float carrierFreq; //frequency for the carrier
 float modulator1Freq; //frequency for the modulator 1

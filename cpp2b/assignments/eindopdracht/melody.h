@@ -15,7 +15,7 @@ public:
 
 protected:
   // Cmaj7 -  arpeggio
-  float melody[NUM_NOTES] = {60, 60, 67, 60, 64, 64, 55, 60, 55};
+  float melody[NUM_NOTES] = {60, 64, 67, 71, 64, 67, 64, 60, 55};
   // the index of the current note - readIndex
   int index;
 };

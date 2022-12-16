@@ -19,6 +19,8 @@ AddSynth(int midiNote);//constructor
 
 void AddSynthCalc();
 
+void tickSynth();
+
 float getSampleSynth();
 
 void setMidiNote(float midiNote);

@@ -40,3 +40,10 @@ void AddSynth::setMidiNote(float midiNote){ //setting the midi note of the synth
      this -> midiNote = midiNote;
      AddSynthCalc();
 }
+
+void AddSynth::tickSynth()
+{
+    myOscillators[0] -> tick(); //car
+    myOscillators[1] -> tick(); //mod1
+    myOscillators[2] -> tick(); //mod2
+}
