@@ -30,6 +30,7 @@ protected:
 float carrierFreq; //frequency for the carrier
 float modulator1Freq; //frequency for the modulator 1
 float modulator2Freq; //frequency for the modulator 2
+float modulatedFreq;
 };
 
 #endif
