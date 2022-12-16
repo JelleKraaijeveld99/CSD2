@@ -2,14 +2,14 @@
 #include <thread>
 #include "jack_module.h"
 #include "math.h"
-#include "audioToFile.h"
+
+#include "writeToFile.h"
 #include "oscillator.h"
 #include "callback.h"
 #include "synth.h"
 #include "fm_synth.h"
 #include "addSynth.h"
 #include "jack_module.h"
-#include "math.h"
 #include "melody.h"
 /*
  * NOTE: jack2 needs to be installed
@@ -21,10 +21,10 @@
 
 #define WRITE_TO_FILE 0
 
-void updatePitch(Melody* melody, Synthesizer* ADDsynth) { //function for updating the pitch of a synthesizer
+void updatePitch(Melody* melody, Synthesizer* synthesizer) { //function for updating the pitch of a synthesizer
   float pitch = melody->getPitch();
   std::cout << "next pitch: " << pitch << std::endl;
-  ADDsynth->setMidiNote(pitch);
+  synthesizer->setMidiNote(pitch);
 }
 
 int main(int argc,char **argv)
@@ -58,7 +58,6 @@ int main(int argc,char **argv)
   const int frameInterval = 0.20 * samplerate;
   // start with the first pitch
   updatePitch(&melody, &ADDsynth);
-
 
   //assign a function to the JackModule::onProces
   jack.onProcess = [&ADDsynth, &amplitude, &melody, &frameIndex, frameInterval](jack_default_audio_sample_t *inBuf,
