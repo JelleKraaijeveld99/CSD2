@@ -16,7 +16,7 @@
  * jackd -d coreaudio
  */
 
-#define WRITE_TO_FILE 0
+#define WRITE_TO_FILE 1
 
 
 void updatePitch(Melody* melody, FmSynth* fmsynth) {
@@ -44,8 +44,8 @@ int main(int argc,char **argv)
   WriteToFile fileWriter("output.csv", true);
 
   for(int i = 0; i < 5000; i++) {
-    fileWriter.write(std::to_string(square.getSample()) + "\n");
-    square.tick();
+    fileWriter.write(std::to_string(fmsynth.getSampleSynth()) + "\n");
+    fmsynth.tickSynth();
   }
   std::cout << "\nWROTE TO FILE = DONE." << std::endl;
 #else
