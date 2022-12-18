@@ -4,11 +4,11 @@
 FmSynth::FmSynth(int midiNote) : Synthesizer(midiNote) //constructor
 {
     frequency = midiToFreq(midiNote,0); // calculate the midi note to a frequency
-    modulator1Freq = frequency * 5.6;
+    modulatorFreq = frequency * 5.6;
     // modulator2Freq = frequency * 4.5;
 
     myOscillators[0] = new Sine(frequency,1.0f,44100); //carrier
-    myOscillators[1] = new Sine(modulator1Freq,1.0f,44100); //modulator
+    myOscillators[1] = new Sine(modulatorFreq,1.0f,44100); //modulator
     myOscillators[2] = new Sine(0,1.0f,44100); //resulted sound
 }
 
@@ -17,15 +17,14 @@ FmSynth::~FmSynth() //deconstructor
 
 }
 
-void FmSynth::FmSynthCalc() //function for giving the oscilators in the fm_synth.h file a certain frequency 
+void FmSynth::FmSynthCalc() 
 {
     frequency = midiToFreq(midiNote,0); // calculate the midi note to a frequency
-    modulator1Freq = midiToFreq(midiNote,7) * 5.6;
-    modulator2Freq = modulatedFreq;
+    modulatorFreq = midiToFreq(midiNote,7) * 3.5;
 
     myOscillators[0] -> setFrequency(frequency); //carrier
-    myOscillators[1] -> setFrequency(modulator1Freq); //modulator
-    myOscillators[2] -> setFrequency(modulator2Freq); //result
+    myOscillators[1] -> setFrequency(modulatorFreq); //modulator
+    myOscillators[2] -> setFrequency(modulatedFreq); //result
 }
 
 float FmSynth::getSampleSynth()
@@ -35,9 +34,9 @@ float FmSynth::getSampleSynth()
     float modulatedFreq = carrierVar * ((myOscillators[1] -> getSample() + 1)*0.9); //modulate the freq of the carrier with the modulator the multiplier is depth
     // std::cout << modulatedFreq << std::endl;
     myOscillators[2] -> setFrequency(modulatedFreq); //use the modulated frequency to set the third oscillator (modulated) signal
-    float carriersample = myOscillators[2] -> getSample(); //return the samples of the modulated frequency (+ the carrier) 
+    float modulatedsample = myOscillators[2] -> getSample(); //return the samples of the modulated frequency (+ the carrier) 
     // std::cout << carriersample;
-    return carriersample;
+    return modulatedsample;
 }
 
 void FmSynth::tickSynth()

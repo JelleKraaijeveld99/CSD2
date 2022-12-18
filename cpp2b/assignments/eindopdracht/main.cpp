@@ -16,10 +16,10 @@
  * jackd -d coreaudio
  */
 
-#define WRITE_TO_FILE 1
+#define WRITE_TO_FILE 0
 
 
-void updatePitch(Melody* melody, FmSynth* fmsynth) {
+void updatePitch(Melody* melody, Synthesizer* fmsynth) {
   float pitch = melody->getPitch();
   std::cout << "next pitch: " << pitch << std::endl;
   fmsynth->setMidiNote(pitch);
@@ -27,16 +27,21 @@ void updatePitch(Melody* melody, FmSynth* fmsynth) {
 
 
 
-int main(int argc,char **argv)
+int main()
 {
   // create a JackModule instance
   JackModule jack;
 
   // init the jack, use program name as JACK client name
-  jack.init(argv[0]);
+  jack.init("jelle_synth");
   const double samplerate = jack.getSamplerate();
 
+//make the synth objects
   FmSynth fmsynth(60);
+  AddSynth addsynth(60);
+
+  //make a pointer for the synths
+  Synthesizer *synthpointer = &fmsynth;
 
   Melody melody;
 
@@ -56,11 +61,11 @@ int main(int argc,char **argv)
   int frameIndex = 0;
   const int frameInterval = 0.2 * samplerate;
   // start with the first pitch
-  updatePitch(&melody, &fmsynth);
+  updatePitch(&melody, synthpointer);
 
 
   //assign a function to the JackModule::onProces
-  jack.onProcess = [&fmsynth, &amplitude, &melody, &frameIndex, frameInterval](jack_default_audio_sample_t *inBuf,
+  jack.onProcess = [synthpointer, &amplitude, &melody, &frameIndex, frameInterval](jack_default_audio_sample_t *inBuf,
     jack_default_audio_sample_t *outBuf, jack_nframes_t nframes) {
 
     // fill output buffer
@@ -70,17 +75,17 @@ int main(int argc,char **argv)
       if(frameIndex >= frameInterval) {
         // reset frameIndex
         frameIndex = 0;
-        updatePitch(&melody, &fmsynth);
+        updatePitch(&melody, synthpointer);
       } else {
         // increment frameindex
         frameIndex++;
       }
 
       // write sample to output
-      outBuf[i] = fmsynth.getSampleSynth() * amplitude;
+      outBuf[i] = synthpointer -> getSampleSynth() * amplitude;
 
       // calculate next sample
-      fmsynth.tickSynth();
+      synthpointer -> tickSynth();
 
     }
 
