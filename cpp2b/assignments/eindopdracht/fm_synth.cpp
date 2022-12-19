@@ -41,7 +41,6 @@ float FmSynth::getSampleSynth()
 
 void FmSynth::tickSynth()
 {   //carrier carrier*modulator1.getsample*modulator2.getsample
-
     myOscillators[0] -> tick(); //car
     myOscillators[1] -> tick(); //smod1
     myOscillators[2] -> tick(); //mod2
@@ -51,3 +50,46 @@ void FmSynth::setMidiNote(float midiNote){ //setting the midi note of the synth 
      this -> midiNote = midiNote;
      FmSynthCalc();
 }
+
+
+void FmSynth::setOscillator(Waveform type, int osc)
+{
+  std::cout << "\n• Synth::setWaveform" << std::endl;
+
+  std::cout << "\n - using " << waveformTypeToString(type) << " as waveform"
+    << std::endl;
+  switch (type) {
+  case Waveform::Sine1:
+    // set sine
+    std::cout << "\n--- selecting sine";
+    myOscillators[osc] = new Sine(0,1.0f,44100);
+    break;
+  case Waveform::Saw1:
+    // set saw
+    std::cout << "\n--- selecting saw";
+    myOscillators[osc] = new Saw(0,1.0f,44100);
+    break;
+  case Waveform::Square1:
+    // set square
+    std::cout << "\n--- selecting square";
+    myOscillators[osc] = new Square(0,1.0f,44100);
+    break;
+  default:
+    break;
+  }
+}
+
+std::string FmSynth::waveformTypeToString(Waveform type)
+{
+  switch(type) {
+    case Waveform::Sine1:
+      return "sine";
+    case Waveform::Saw1:
+      return "saw";
+    case Waveform::Square1:
+      return "square";
+    default:
+      return "Invalid waveform";
+  }
+}
+

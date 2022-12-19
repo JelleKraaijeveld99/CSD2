@@ -9,15 +9,25 @@
 #include "fm_synth.h"
 
 /*
- * NOTE: jack2 needs to be installed
- * jackd invokes the JACK audio server daemon
+ * NOTE: the development library with headers for jack2 needs to be installed to build this program.
+ * 
+ * When built, before running the program start jackd, the JACK audio server daemon.
+ *
  * https://github.com/jackaudio/jackaudio.github.com/wiki/jackd(1)
- * on mac, you can start the jack audio server daemon in the terminal:
- * jackd -d coreaudio
+ *
+ * start jackd : jackd -d <backend>
+ * where backend is e.g. coreaudio (MacOS) or alsa (Linux)
+ *
+ * Alternatively there are graphical clients that start jackd.
  */
 
 #define WRITE_TO_FILE 0
 
+
+class Callback : public AudioCallback
+{
+
+public:
 
 void updatePitch(Melody* melody, Synthesizer* fmsynth) {
   float pitch = melody->getPitch();
@@ -26,89 +36,96 @@ void updatePitch(Melody* melody, Synthesizer* fmsynth) {
 }
 
 
+void prepare (double sampleRate) override {
+  this->sampleRate=sampleRate;
+  updatePitch(&melody, synthpointer);
+} // prepare()
 
-int main()
-{
-  // create a JackModule instance
-  JackModule jack;
 
-  // init the jack, use program name as JACK client name
-  jack.init("jelle_synth");
-  const double samplerate = jack.getSamplerate();
+    /*
+     * process() gets called by the JACK engine.
+     *
+     * If you are interested in incoming audio, use inputChannels[channel][sample]
+     * For sending audio to the output(s), use outputChannels[channel][sample]
+     */
+    void process (AudioBuffer buffer) override {
+        auto [inputChannels, outputChannels, numInputChannels, numOutputChannels, numFrames] = buffer;
+	for (int channel = 0; channel < numOutputChannels; ++channel) {
+	    for (int sample = 0; sample < numFrames; ++sample) {
+		outputChannels[channel][sample] = synthpointer -> getSampleSynth() * amplitude;
+		synthpointer -> tickSynth(); // rather mixed up functionality
 
-//make the synth objects
-  FmSynth fmsynth(60);
-  AddSynth addsynth(60);
+	    /* After every sample, check if we need to advance to the next note
+	     * This is a bit awkward in this scheme of buffers per channel
+	     *  In a multichannel setting we should update pitches independently per channel!
+	     */
+	    if(frameIndex >= noteDelayFactor * sampleRate) {
+	      // reset frameIndex
+	      frameIndex = 0;
+	      updatePitch(&melody, synthpointer);
+	    }
+	    else {
+	      // increment frameindex
+	      frameIndex++;
+	    }
+	  } // for sample
+	} // for channel
+    } // process()
 
+protected:
+  double sampleRate;
+  //make the synth objects
+  FmSynth fmsynth{60};
+  AddSynth addsynth{60};
   //make a pointer for the synths
   Synthesizer *synthpointer = &fmsynth;
 
+  float amplitude = 0.025;
   Melody melody;
+  int frameIndex = 0;
 
-#if WRITE_TO_FILE
-  WriteToFile fileWriter("output.csv", true);
+  /* instead of using bpm and specifying note lenghts we'll make every note
+   * equal length and specify the delay between notes in term of the
+   * samplerate
+   *
+   * A note of say 500 msec or 0.5 sec, takes 0.5*samplerate samples to be
+   * played
+   */
+  double noteDelayFactor=0.5;
+}; // Callback{}
+
+
+
+int main(int argc,char **argv)
+{
+  auto callback = Callback{};
+  auto jack_module = JackModule(callback);
+
+    #if WRITE_TO_FILE
+    WriteToFile fileWriter("output.csv", true);
 
   for(int i = 0; i < 5000; i++) {
     fileWriter.write(std::to_string(fmsynth.getSampleSynth()) + "\n");
     fmsynth.tickSynth();
   }
   std::cout << "\nWROTE TO FILE = DONE." << std::endl;
-#else
+  #else
+  
 
-  float amplitude = 0.025;
+  jack_module.init(1,1);
 
-  // keep track of the frameIndex, to play notes at a given frame interval
-  int frameIndex = 0;
-  const int frameInterval = 0.2 * samplerate;
-  // start with the first pitch
-  updatePitch(&melody, synthpointer);
-
-
-  //assign a function to the JackModule::onProces
-  jack.onProcess = [synthpointer, &amplitude, &melody, &frameIndex, frameInterval](jack_default_audio_sample_t *inBuf,
-    jack_default_audio_sample_t *outBuf, jack_nframes_t nframes) {
-
-    // fill output buffer
-    for(unsigned int i = 0; i < nframes; i++) {
-
-      // check if we need to set the frequency to the next note
-      if(frameIndex >= frameInterval) {
-        // reset frameIndex
-        frameIndex = 0;
-        updatePitch(&melody, synthpointer);
-      } else {
-        // increment frameindex
-        frameIndex++;
-      }
-
-      // write sample to output
-      outBuf[i] = synthpointer -> getSampleSynth() * amplitude;
-
-      // calculate next sample
-      synthpointer -> tickSynth();
-
-    }
-
-    return 0;
-  };
-
-  jack.autoConnect();
-
-  //keep the program running and listen for user input, q = quit
-  std::cout << "\n\nPress 'q' when you want to quit the program.\n";
+  std::cout << "\n\nType 'quit' to exit\n";
   bool running = true;
-  while (running)
-  {
+  while (running) {
     switch (std::cin.get())
     {
       case 'q':
         running = false;
-        jack.end();
         break;
     }
-  }
+  } // while
 #endif
-  //end the program
   return 0;
 
 } // main()
+
