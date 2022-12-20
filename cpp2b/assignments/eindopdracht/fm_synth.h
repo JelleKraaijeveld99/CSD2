@@ -36,10 +36,15 @@ static std::string waveformTypeToString(Waveform type);
 
 protected:
 
+//variables for the synth
 float carrierFreq; //frequency for the carrier
-float modulatorFreq; //frequency for the modulator 1
-float modulator2Freq; //frequency for the modulator 2
-float modulatedFreq;
+float modulatorFreq; //frequency for the modulator 
+float modulatedFreq; //frequency that is modulated
+float modulationDepth; //depth of the modulation
+
+//variables for the user
+float userModulationDepth; 
+float userModulatorFreq;
 };
 
 #endif

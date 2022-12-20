@@ -21,13 +21,28 @@
  * Alternatively there are graphical clients that start jackd.
  */
 
-#define WRITE_TO_FILE 0
+#define WRITE_TO_FILE 1
 
 
 class Callback : public AudioCallback
 {
 
 public:
+
+void write(){
+         
+   
+    WriteToFile fileWriter("output.csv", true);
+
+      for(int i = 0; i < 5000; i++) {
+        fileWriter.write(std::to_string(synthpointer -> getSampleSynth()) + "\n");
+          synthpointer -> tickSynth();
+           }
+
+        std::cout << "\nWROTE TO FILE = DONE." << std::endl;
+       
+
+}
 
 void updatePitch(Melody* melody, Synthesizer* fmsynth) {
   float pitch = melody->getPitch();
@@ -49,11 +64,16 @@ void prepare (double sampleRate) override {
      * For sending audio to the output(s), use outputChannels[channel][sample]
      */
     void process (AudioBuffer buffer) override {
+       
+       
+
         auto [inputChannels, outputChannels, numInputChannels, numOutputChannels, numFrames] = buffer;
 	for (int channel = 0; channel < numOutputChannels; ++channel) {
 	    for (int sample = 0; sample < numFrames; ++sample) {
 		outputChannels[channel][sample] = synthpointer -> getSampleSynth() * amplitude;
 		synthpointer -> tickSynth(); // rather mixed up functionality
+
+
 
 	    /* After every sample, check if we need to advance to the next note
 	     * This is a bit awkward in this scheme of buffers per channel
@@ -71,6 +91,7 @@ void prepare (double sampleRate) override {
 	  } // for sample
 	} // for channel
     } // process()
+
 
 protected:
   double sampleRate;
@@ -91,7 +112,7 @@ protected:
    * A note of say 500 msec or 0.5 sec, takes 0.5*samplerate samples to be
    * played
    */
-  double noteDelayFactor=0.5;
+  double noteDelayFactor= 0.5 ;
 }; // Callback{}
 
 
@@ -100,17 +121,6 @@ int main(int argc,char **argv)
 {
   auto callback = Callback{};
   auto jack_module = JackModule(callback);
-
-    #if WRITE_TO_FILE
-    WriteToFile fileWriter("output.csv", true);
-
-  for(int i = 0; i < 5000; i++) {
-    fileWriter.write(std::to_string(fmsynth.getSampleSynth()) + "\n");
-    fmsynth.tickSynth();
-  }
-  std::cout << "\nWROTE TO FILE = DONE." << std::endl;
-  #else
-  
 
   jack_module.init(1,1);
 
@@ -124,7 +134,10 @@ int main(int argc,char **argv)
         break;
     }
   } // while
-#endif
+ 
+  #if WRITE_TO_FILE 
+  callback.write();
+  #endif
   return 0;
 
 } // main()
