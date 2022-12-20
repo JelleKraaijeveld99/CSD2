@@ -2,6 +2,8 @@
 #include <fstream>
 #include <sys/stat.h>
 
+#pragma once
+
 
 class WriteToFile
 {

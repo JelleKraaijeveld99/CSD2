@@ -5,8 +5,8 @@ FmSynth::FmSynth(int midiNote) : Synthesizer(midiNote) //constructor
 {   
 
     frequency = midiToFreq(midiNote,0); // calculate the midi note to a frequency
-    modulatorFreq = 100;
-    modulationDepth = 100.0f; 
+    modulatorFreq = 90;
+    modulationDepth = 300.0f; 
 
 
     myOscillators[0] = new Sine(frequency,1.0f,44100); //carrier
@@ -32,7 +32,7 @@ float FmSynth::getSampleSynth()
 {   
 
     float carrierVar = myOscillators[0]->getFrequency(); // carrier frequency
-    float modulatedFreq = carrierVar + ((myOscillators[1] -> getSample() + 1) * modulationDepth); //modulate the freq of the carrier with the modulator the multiplier is depth
+    float modulatedFreq = carrierVar + ((myOscillators[1] -> getSample() + 1 )/2) * modulationDepth; //modulate the freq of the carrier with the modulator the multiplier is depth
     // std::cout << modulatedFreq << std::endl;
     myOscillators[2] -> setFrequency(modulatedFreq); //use the modulated frequency to set the third oscillator (modulated) signal
     float modulatedsample = myOscillators[2] -> getSample(); //return the samples of the modulated frequency (+ the carrier) 

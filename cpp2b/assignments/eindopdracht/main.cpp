@@ -7,6 +7,8 @@
 #include "synth.h"
 #include "addSynth.h"
 #include "fm_synth.h"
+#include "uiUtilities.h"
+#include <iostream>
 
 /*
  * NOTE: the development library with headers for jack2 needs to be installed to build this program.
@@ -21,8 +23,7 @@
  * Alternatively there are graphical clients that start jackd.
  */
 
-#define WRITE_TO_FILE 1
-
+#define WRITE_TO_FILE 0
 
 class Callback : public AudioCallback
 {
@@ -46,14 +47,19 @@ void write(){
 
 void updatePitch(Melody* melody, Synthesizer* fmsynth) {
   float pitch = melody->getPitch();
-  std::cout << "next pitch: " << pitch << std::endl;
+  // std::cout << "next pitch: " << pitch << std::endl;
   fmsynth->setMidiNote(pitch);
 }
 
 
 void prepare (double sampleRate) override {
   this->sampleRate=sampleRate;
+
+  //section for UI
+  std::string value = UIUtilities::retrieveSelection(synthOptions, synthAmount);
+  playing = true;
   updatePitch(&melody, synthpointer);
+  
 } // prepare()
 
 
@@ -64,33 +70,26 @@ void prepare (double sampleRate) override {
      * For sending audio to the output(s), use outputChannels[channel][sample]
      */
     void process (AudioBuffer buffer) override {
-       
-       
-
-        auto [inputChannels, outputChannels, numInputChannels, numOutputChannels, numFrames] = buffer;
-	for (int channel = 0; channel < numOutputChannels; ++channel) {
-	    for (int sample = 0; sample < numFrames; ++sample) {
-		outputChannels[channel][sample] = synthpointer -> getSampleSynth() * amplitude;
-		synthpointer -> tickSynth(); // rather mixed up functionality
-
-
-
-	    /* After every sample, check if we need to advance to the next note
-	     * This is a bit awkward in this scheme of buffers per channel
-	     *  In a multichannel setting we should update pitches independently per channel!
-	     */
-	    if(frameIndex >= noteDelayFactor * sampleRate) {
+        
+      auto [inputChannels, outputChannels, numInputChannels, numOutputChannels, numFrames] = buffer;
+	      
+      if (playing == true)
+      {
+	        for (int sample = 0; sample < numFrames; ++sample) {
+		        outputChannels[0][sample] = synthpointer -> getSampleSynth() * amplitude;
+            outputChannels[1][sample] = synthpointer -> getSampleSynth() * amplitude;
+		        synthpointer -> tickSynth(); // rather mixed up functionality
+	    frameIndex++;
+      if(frameIndex >= noteDelayFactor * sampleRate) {
 	      // reset frameIndex
 	      frameIndex = 0;
 	      updatePitch(&melody, synthpointer);
 	    }
-	    else {
-	      // increment frameindex
-	      frameIndex++;
-	    }
-	  } // for sample
-	} // for channel
-    } // process()
+	  
+	      
+	    }// for sample
+	  } //if playing
+	}  // process()
 
 
 protected:
@@ -105,6 +104,12 @@ protected:
   Melody melody;
   int frameIndex = 0;
 
+  bool playing = false; //bool so i have control over when the synth is playing
+
+  //lists for input options:
+  std::string synthOptions[2] = {"fm", "add"};
+  int synthAmount = 2;
+
   /* instead of using bpm and specifying note lenghts we'll make every note
    * equal length and specify the delay between notes in term of the
    * samplerate
@@ -118,11 +123,11 @@ protected:
 
 
 int main(int argc,char **argv)
-{
+{  
   auto callback = Callback{};
   auto jack_module = JackModule(callback);
 
-  jack_module.init(1,1);
+  jack_module.init(1,2);
 
   std::cout << "\n\nType 'quit' to exit\n";
   bool running = true;
@@ -133,6 +138,7 @@ int main(int argc,char **argv)
         running = false;
         break;
     }
+  
   } // while
  
   #if WRITE_TO_FILE 
