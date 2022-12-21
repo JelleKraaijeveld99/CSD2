@@ -26,3 +26,11 @@ float Synthesizer::midiToFreq(int midiNote, int interval) //extra functionality 
     return freq;
 }
 
+
+void Synthesizer::setModulationDepth(float depth){
+
+}
+
+void Synthesizer::setModulationFreq(float freq){
+
+}

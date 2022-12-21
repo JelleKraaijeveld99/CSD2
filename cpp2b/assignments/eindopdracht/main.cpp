@@ -23,7 +23,7 @@
  * Alternatively there are graphical clients that start jackd.
  */
 
-#define WRITE_TO_FILE 0
+#define WRITE_TO_FILE 1
 
 class Callback : public AudioCallback
 {
@@ -56,7 +56,40 @@ void prepare (double sampleRate) override {
   this->sampleRate=sampleRate;
 
   //section for UI
-  std::string value = UIUtilities::retrieveSelection(synthOptions, synthAmount);
+  std::cout << "which synthesizer do you want? " << std::endl;
+  std::string chosenSynth = UIUtilities::retrieveSelection(synthOptions, synthAmount); //ask user fm or add
+  std::cout << "\nyou have chosen: " << chosenSynth << std::endl;
+
+  if(chosenSynth =="fm") //if fm
+  {
+    synthpointer = &fmsynth;
+    
+    std::cout << "\nwhich waveform do you want the carrier of the FM synth to be? " << std::endl;
+    FmSynth::Waveform waveTypeCarrier = (FmSynth::Waveform) //make variable containing enum but not declaring
+      UIUtilities::retrieveSelectionIndex(oscWaveOptions, FmSynth::Waveform::Size); //declare the variable
+    synthpointer -> setOscillator(waveTypeCarrier, 0);
+    synthpointer -> setOscillator(waveTypeCarrier, 2);
+
+    std::cout << "\nwhich waveform do you want the modulator of the FM synth to be? " << std::endl;
+    FmSynth::Waveform waveTypeModulator = (FmSynth::Waveform) //make variable containing enum but not declaring
+      UIUtilities::retrieveSelectionIndex(oscWaveOptions, FmSynth::Waveform::Size); //declare the variable
+    synthpointer -> setOscillator(waveTypeModulator, 1);
+
+    std::cout << "\nwhat do you want the modulation depth to be? " << std::endl;
+    float modDepthAnwser = UIUtilities::retrieveValueInRange(1, 1000);
+    std::cout << "you have given this awnser: " << modDepthAnwser << std::endl;
+    synthpointer -> setModulationDepth(modDepthAnwser);
+
+    std::cout << "\nwhat do you want the modulation frequency to be? " << std::endl;
+    float modFreqAnwser = UIUtilities::retrieveValueInRange(20, 14000);
+    std::cout << "you have given this awnser: " << modFreqAnwser << std::endl;
+    synthpointer -> setModulationDepth(modFreqAnwser);
+  } 
+  
+  else { // if add
+    synthpointer = &addsynth;
+  }
+
   playing = true;
   updatePitch(&melody, synthpointer);
   
@@ -108,7 +141,10 @@ protected:
 
   //lists for input options:
   std::string synthOptions[2] = {"fm", "add"};
+  std::string oscWaveOptions[3] = {"sine", "square", "saw"};
+
   int synthAmount = 2;
+  int waveAmount = 3;
 
   /* instead of using bpm and specifying note lenghts we'll make every note
    * equal length and specify the delay between notes in term of the

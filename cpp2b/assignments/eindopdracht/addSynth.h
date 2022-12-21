@@ -25,6 +25,11 @@ float getSampleSynth();
 
 void setMidiNote(float midiNote);
 
+void setOscillator(Waveform type, int osc); //function for setting the oscillators
+
+// static method because this method does not depend on objects
+static std::string waveformTypeToString(Waveform type);
+
 protected:
 //make oscillators
 

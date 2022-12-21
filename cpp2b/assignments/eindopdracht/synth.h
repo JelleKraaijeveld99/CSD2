@@ -9,6 +9,14 @@
 class Synthesizer
 {
     public:
+
+    enum Waveform{ //waveforms possible as oscillators
+    Sine1 = 0,
+    Square1 = 1,
+    Saw1 = 2,
+    Size = 3
+    };
+
     Synthesizer(int midiNote); //constructor
     ~Synthesizer(); //deconstructor
 
@@ -20,6 +28,9 @@ class Synthesizer
 
     //setter
     virtual void setMidiNote(float midiNote) = 0; //function for setting the midiNote of a synth
+    virtual void setOscillator(Waveform type, int osc) = 0; //function for setting the oscillators of a synth, defined in the subclasses
+    virtual void setModulationDepth(float depth);
+    virtual void setModulationFreq(float freq); 
 
     protected:
 

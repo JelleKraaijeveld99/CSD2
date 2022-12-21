@@ -17,12 +17,6 @@ public:
 FmSynth(int midiNote);//constructor
 ~FmSynth();//deconstructor 
 
-enum Waveform{
-    Sine1 = 0,
-    Square1 = 1,
-    Saw1 = 2
-};
-
 void tickSynth(); //function for ticking all the oscs in this synth
 void FmSynthCalc(); //function for giving the oscilators in the fm_synth.h file a certain frequency based on the midi note
 
@@ -30,6 +24,9 @@ void FmSynthCalc(); //function for giving the oscilators in the fm_synth.h file 
 float getSampleSynth(); //function for calculating and returning the sample of the modulated signal
 void setMidiNote(float midiNote); //function for setting the midinote of the synth
 void setOscillator(Waveform type, int osc); //function for setting the oscillators
+
+void setModulationDepth(float depth);
+void setModulationFreq(float freq);
 
 // static method because this method does not depend on objects
 static std::string waveformTypeToString(Waveform type);
