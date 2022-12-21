@@ -3,6 +3,8 @@
 #include <iostream>
 #include <cmath>
 #include "sine.h"
+#include "square.h"
+#include "saw.h"
 
 #pragma once
 
@@ -26,11 +28,17 @@ class Synthesizer
 
     float midiToFreq(int midiNote, int interval); //calculate the frequency according to the midinote
 
-    //setter
+    //setters
+
+    void setOscillator(Waveform type, int osc); //function for setting the oscillators of a synth, defined in the subclasses
+    
     virtual void setMidiNote(float midiNote) = 0; //function for setting the midiNote of a synth
-    virtual void setOscillator(Waveform type, int osc) = 0; //function for setting the oscillators of a synth, defined in the subclasses
     virtual void setModulationDepth(float depth);
     virtual void setModulationFreq(float freq); 
+    
+    
+    // static method because this method does not depend on objects
+    static std::string waveformTypeToString(Waveform type);
 
     protected:
 

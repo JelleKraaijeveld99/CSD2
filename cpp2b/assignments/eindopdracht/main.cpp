@@ -60,19 +60,19 @@ void prepare (double sampleRate) override {
   std::string chosenSynth = UIUtilities::retrieveSelection(synthOptions, synthAmount); //ask user fm or add
   std::cout << "\nyou have chosen: " << chosenSynth << std::endl;
 
-  if(chosenSynth =="fm") //if fm
+  if(chosenSynth =="fm") //if fm synthesizer
   {
-    synthpointer = &fmsynth;
+    synthpointer = &fmsynth; //initialise synthpointer
     
     std::cout << "\nwhich waveform do you want the carrier of the FM synth to be? " << std::endl;
-    FmSynth::Waveform waveTypeCarrier = (FmSynth::Waveform) //make variable containing enum but not declaring
-      UIUtilities::retrieveSelectionIndex(oscWaveOptions, FmSynth::Waveform::Size); //declare the variable
+    Synthesizer::Waveform waveTypeCarrier = (Synthesizer::Waveform) //make variable containing enum but not declaring
+      UIUtilities::retrieveSelectionIndex(oscWaveOptions, Synthesizer::Waveform::Size); //declare the variable
     synthpointer -> setOscillator(waveTypeCarrier, 0);
     synthpointer -> setOscillator(waveTypeCarrier, 2);
 
     std::cout << "\nwhich waveform do you want the modulator of the FM synth to be? " << std::endl;
-    FmSynth::Waveform waveTypeModulator = (FmSynth::Waveform) //make variable containing enum but not declaring
-      UIUtilities::retrieveSelectionIndex(oscWaveOptions, FmSynth::Waveform::Size); //declare the variable
+    Synthesizer::Waveform waveTypeModulator = (Synthesizer::Waveform) //make variable containing enum but not declaring
+      UIUtilities::retrieveSelectionIndex(oscWaveOptions, Synthesizer::Waveform::Size); //declare the variable
     synthpointer -> setOscillator(waveTypeModulator, 1);
 
     std::cout << "\nwhat do you want the modulation depth to be? " << std::endl;
@@ -86,8 +86,22 @@ void prepare (double sampleRate) override {
     synthpointer -> setModulationDepth(modFreqAnwser);
   } 
   
-  else { // if add
-    synthpointer = &addsynth;
+  else { // if additive
+    synthpointer = &addsynth; //initialise synthpointer
+    std::cout << "\nwhich waveform do you want the carrier of the additive synth to be? " << std::endl;
+    Synthesizer::Waveform waveTypeCarrier = (Synthesizer::Waveform) //make variable containing enum but not declaring
+      UIUtilities::retrieveSelectionIndex(oscWaveOptions, Synthesizer::Waveform::Size); //declare the variable
+    synthpointer -> setOscillator(waveTypeCarrier, 0);
+
+    std::cout << "\nwhich waveform do you want the first modulator of the additive synth to be? " << std::endl;
+    Synthesizer::Waveform waveTypeModulator1 = (Synthesizer::Waveform) //make variable containing enum but not declaring
+      UIUtilities::retrieveSelectionIndex(oscWaveOptions, Synthesizer::Waveform::Size); //declare the variable
+    synthpointer -> setOscillator(waveTypeModulator1, 1);
+
+    std::cout << "\nwhich waveform do you want the second modulator of the additive synth to be? " << std::endl;
+    Synthesizer::Waveform waveTypeModulator2 = (Synthesizer::Waveform) //make variable containing enum but not declaring
+      UIUtilities::retrieveSelectionIndex(oscWaveOptions, Synthesizer::Waveform::Size); //declare the variable
+    synthpointer -> setOscillator(waveTypeModulator2, 2);
   }
 
   playing = true;

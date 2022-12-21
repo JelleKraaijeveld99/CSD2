@@ -23,13 +23,8 @@ void FmSynthCalc(); //function for giving the oscilators in the fm_synth.h file 
 //setters and getters
 float getSampleSynth(); //function for calculating and returning the sample of the modulated signal
 void setMidiNote(float midiNote); //function for setting the midinote of the synth
-void setOscillator(Waveform type, int osc); //function for setting the oscillators
-
 void setModulationDepth(float depth);
 void setModulationFreq(float freq);
-
-// static method because this method does not depend on objects
-static std::string waveformTypeToString(Waveform type);
 
 protected:
 
