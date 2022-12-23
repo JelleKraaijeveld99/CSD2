@@ -29,7 +29,6 @@ class Synthesizer
     float midiToFreq(int midiNote, int interval); //calculate the frequency according to the midinote
 
     //setters
-
     void setOscillator(Waveform type, int osc); //function for setting the oscillators of a synth, defined in the subclasses
     
     virtual void setMidiNote(float midiNote) = 0; //function for setting the midiNote of a synth
