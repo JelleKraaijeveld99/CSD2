@@ -81,9 +81,9 @@ void prepare (double sampleRate) override {
     synthpointer -> setModulationDepth(modDepthAnwser);
 
     std::cout << "\nwhat do you want the modulation frequency to be? " << std::endl;
-    float modFreqAnwser = UIUtilities::retrieveValueInRange(20, 14000);
+    float modFreqAnwser = UIUtilities::retrieveValueInRange(1, 14000);
     std::cout << "you have given this awnser: " << modFreqAnwser << std::endl;
-    synthpointer -> setModulationDepth(modFreqAnwser);
+    synthpointer -> setModulationFreq(modFreqAnwser);
   } 
   
   else { // if additive
@@ -123,7 +123,7 @@ void prepare (double sampleRate) override {
       if (playing == true)
       {
 	        for (int sample = 0; sample < numFrames; ++sample) {
-		        outputChannels[0][sample] = synthpointer -> getSampleSynth() * amplitude;
+		        outputChannels[0][sample] = synthpointer -> getSampleSynth() * amplitude; //make it stereo
             outputChannels[1][sample] = synthpointer -> getSampleSynth() * amplitude;
 		        synthpointer -> tickSynth(); // rather mixed up functionality
 	    frameIndex++;

@@ -23,8 +23,8 @@ void FmSynthCalc(); //function for giving the oscilators in the fm_synth.h file 
 //setters and getters
 float getSampleSynth(); //function for calculating and returning the sample of the modulated signal
 void setMidiNote(float midiNote); //function for setting the midinote of the synth
-void setModulationDepth(float depth);
-void setModulationFreq(float freq);
+void setModulationDepth(float depth); //function for setting the modulation depth
+void setModulationFreq(float freq); //function for setting the modulator frequency
 
 protected:
 

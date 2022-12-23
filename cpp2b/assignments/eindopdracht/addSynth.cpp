@@ -6,7 +6,7 @@
 AddSynth::AddSynth(int midiNote) : Synthesizer(midiNote) //constructor
 {
     frequency = midiToFreq(midiNote,0); // calculate the midi note to a frequency
-    modulator1Freq = midiToFreq(midiNote,7);
+    modulator1Freq = midiToFreq(midiNote,7); 
     modulator2Freq = midiToFreq(midiNote,12);
 
     myOscillators[0] = new Sine(frequency,1.0f,44100); //carrier
