@@ -192,16 +192,16 @@ timestamps_k = stamps8th_to_stampstime(default_bpm, total_rhythm_k)
 timestamps_c = stamps8th_to_stampstime(default_bpm, total_rhythm_c)
 timestamps_tb = stamps8th_to_stampstime(default_bpm, total_rhythm_tb)
  
-#function for making events according to the timestamps and a random instrument from the instrument list
-def event_maker(t_stamp, sample, durations, instrument):
+#function for making events according to the timestamps and a random instrument from the instrument list, also give to instruments a midinote value for exporting midi
+def event_maker(t_stamp, sample, durations, instrument, midinote):
     event_list = []
     for x in range(len(t_stamp)):
-           event_list.append({'timestamp': t_stamp[x], 'sample': sample, 'duration': durations[x], 'instrument': instrument})
+           event_list.append({'timestamp': t_stamp[x], 'sample': sample, 'duration': durations[x], 'instrument': instrument, 'midinote': midinote })
     return event_list
 
-kick_events = event_maker(timestamps_k, kick, all_dur_k, 'kick')
-clap_events = event_maker(timestamps_c, clap, all_dur_c, 'clap')
-tambourine_events = event_maker(timestamps_tb, tambourine, all_dur_tb, 'tambourine')
+kick_events = event_maker(timestamps_k, kick, all_dur_k, 'kick', 60)
+clap_events = event_maker(timestamps_c, clap, all_dur_c, 'clap', 65)
+tambourine_events = event_maker(timestamps_tb, tambourine, all_dur_tb, 'tambourine', 68)
 
 
 #section for adding all the events together and sorting them in the right order according to the timestamp value
@@ -210,8 +210,8 @@ all_events = kick_events + clap_events + tambourine_events
 all_events = sorted(all_events, key=lambda x: x['timestamp'])
 
 #copy the eventlist so i can still use the events if the user wants to output MIDI
+all_events_buffer = list(all_events)
 
-all_events_buffer = all_events.copy
 # print("after the sort:", all_events)
 print("all events here:", all_events)
 #section of the code for the audio playback
@@ -239,8 +239,10 @@ while True:
 
 time.sleep(1)
 
-print("these are all the events after the playback:", all_events)
+print("THESE ARE ALL THE EVENTS AFTER THE PLAYBACK", all_events_buffer)
 
+
+#section in the code for MIDI
 midi_output = 'no'
 
 retrieve_midi = True
@@ -258,3 +260,43 @@ while retrieve_midi:
         else: 
          print("\nSorry, can u please type yes or no")
 
+matches_true = ['yes', 'Yes', 'y', 'Y', 'YES']
+
+if midi_output in matches_true:
+    # set the necessary values for MIDI util
+    velocity=80
+    track = 0
+    channel = 9 # corresponds to channel 10 drums
+    bpm = default_bpm
+
+    #make midiFile
+    mf = MIDIFile(1)
+
+    #ask the user the name of the midiFile 
+    retrieve_midiname = True
+    while retrieve_midiname:
+        try:
+            midi_name = input("\nHow do you want to name your midi file? Please give a name between 1 and 15 characters.\n")
+        except:
+            print("\nSorry can u pls give a name between 1 and 15 characters")
+        else:
+            if len(midi_name) >= 1 and len(midi_name) <= 15:
+                print("\nOkay, the name of your midiFile will be:", midi_name)
+                retrieve_midiname = False
+            else:
+                print("\nSorry can u pls give a name between 1 and 15 characters")
+
+
+    #set name and tempo
+    time_beginning = 0
+    mf.addTrackName(track, time_beginning, midi_name)
+    mf.addTempo(track, time_beginning, bpm)
+    midi_time = 0
+
+    #for loop for adding all the events to a midi file
+    for event in all_events_buffer:
+        mf.addNote(track, channel, event['midinote'], midi_time, 1.5, velocity)
+        midi_time = midi_time + event['timestamp']
+    
+    with open(midi_name+".midi",'wb') as outf:
+        mf.writeFile(outf)
