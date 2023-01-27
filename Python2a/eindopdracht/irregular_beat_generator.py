@@ -92,7 +92,6 @@ def euclidean_gen(num_pulses, num_notes, offset):
     for x in range(len(sequence)-1):
         sum = int(sum) + int(sequence[x])
         timestamp_sequence.append(sum)
-    print("hoi dit is de sequence voor de offset:", timestamp_sequence)
     
     #section for offset 
     timestamp_sequence = [x+offset for x in timestamp_sequence] #add the offset value to every dur in the list   
@@ -138,10 +137,6 @@ total_rhythm_tb = rhythm_bars(tambourine_pattern, bars_amount, amount_of_notes)
 total_rhythm_k = rhythm_bars(kick_pattern, bars_amount, amount_of_notes)
 total_rhythm_c = rhythm_bars(clap_pattern, bars_amount, amount_of_notes)
 
-print("this is the total kick rhythm:", total_rhythm_k) 
-print("this is the total clap rhythm:", total_rhythm_c) 
-print("this is the total tambourine rhythm:", total_rhythm_tb) 
-
 #section for converting ts to durations so i can export to midi later on 
 def ts_to_dur_list(ts_list,x_bpm):
     #empty list for durations
@@ -170,13 +165,8 @@ def ts_to_dur_list(ts_list,x_bpm):
 all_dur_tb = ts_to_dur_list(total_rhythm_tb, default_bpm)
 all_dur_k = ts_to_dur_list(total_rhythm_k, default_bpm)
 all_dur_c = ts_to_dur_list(total_rhythm_c, default_bpm)
-
 dur_combined = all_dur_tb + all_dur_c + all_dur_c
 
-
-# print("durations tb:", all_dur_tb)
-# print("durations k:", all_dur_k)
-# print("durations c:", all_dur_c)
 
 #function for convertion timestamps in 8th notes to timestamps in actual time
 def stamps8th_to_stampstime(x_bpm, y_ts_8th):
@@ -199,9 +189,10 @@ def event_maker(t_stamp, sample, durations, instrument, midinote):
            event_list.append({'timestamp': t_stamp[x], 'sample': sample, 'duration': durations[x], 'instrument': instrument, 'midinote': midinote })
     return event_list
 
-kick_events = event_maker(timestamps_k, kick, all_dur_k, 'kick', 60)
-clap_events = event_maker(timestamps_c, clap, all_dur_c, 'clap', 65)
-tambourine_events = event_maker(timestamps_tb, tambourine, all_dur_tb, 'tambourine', 68)
+#making a list with events with the funtion event_maker
+kick_events = event_maker(timestamps_k, kick, all_dur_k, 'kick', 36)
+clap_events = event_maker(timestamps_c, clap, all_dur_c, 'clap', 39)
+tambourine_events = event_maker(timestamps_tb, tambourine, all_dur_tb, 'tambourine', 44)
 
 
 #section for adding all the events together and sorting them in the right order according to the timestamp value
@@ -239,12 +230,9 @@ while True:
 
 time.sleep(1)
 
-print("THESE ARE ALL THE EVENTS AFTER THE PLAYBACK", all_events_buffer)
-
 
 #section in the code for MIDI
 midi_output = 'no'
-
 retrieve_midi = True
 
 while retrieve_midi:
@@ -286,17 +274,17 @@ if midi_output in matches_true:
             else:
                 print("\nSorry can u pls give a name between 1 and 15 characters")
 
-
     #set name and tempo
     time_beginning = 0
     mf.addTrackName(track, time_beginning, midi_name)
     mf.addTempo(track, time_beginning, bpm)
     midi_time = 0
+    e_note = 30000/default_bpm
 
     #for loop for adding all the events to a midi file
     for event in all_events_buffer:
         mf.addNote(track, channel, event['midinote'], midi_time, 1.5, velocity)
-        midi_time = midi_time + event['timestamp']
+        midi_time = midi_time + (event['duration']/e_note)
     
     with open(midi_name+".midi",'wb') as outf:
         mf.writeFile(outf)
