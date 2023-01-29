@@ -89,22 +89,16 @@ def rhythm_bars(eucl_list, bars, note_amount):
 def ts_to_dur_list(ts_list,x_bpm):
     #empty list for durations
     dur_list = []
-
-    #duration in of an eigtht note in ms:
-    e_note = 30000/x_bpm
-
     #reverse the ts list to avoid index error in the for loop
     ts_list.reverse()
-
     # subtract 2 consecutive values in the ts_list to calculate the difference in value between them. This must be the duration
     for i in range(len(ts_list)-1):
         dur_note = ts_list[i] - ts_list[i+1]
-        dur_list.append(dur_note * e_note)
-    
+        dur_list.append(dur_note)
+
     #add the last timestamp value (which is the first because i reversed the list) to the duration list. 
-    dur_list.insert(0, 1*e_note)
-    
-    
+    dur_list.insert(0, 1)
+
     #now reverse the duration list so all the durations are in the right order again. 
     dur_list.reverse()
 
@@ -126,6 +120,7 @@ def event_maker(t_stamp, sample, durations, instrument, midinote):
     for x in range(len(t_stamp)):
            event_list.append({'timestamp': t_stamp[x], 'sample': sample, 'duration': durations[x], 'instrument': instrument, 'midinote': midinote })
     return event_list
+
 
 
 ######## RUN THE PROGRAM #########
@@ -204,7 +199,7 @@ while run_the_program:
 
     #making a list with events with the funtion event_maker, giving a midi value and name 
     kick_events = event_maker(timestamps_k, kick, all_dur_k, 'kick', 36)
-    clap_events = event_maker(timestamps_c, clap, all_dur_c, 'clap', 39)
+    clap_events = event_maker(timestamps_c, clap, all_dur_c, 'clap', 40)
     tambourine_events = event_maker(timestamps_tb, tambourine, all_dur_tb, 'tambourine', 44)
 
     #adding all the events together and sorting them in the right order according to the timestamp value
@@ -294,17 +289,15 @@ while run_the_program:
         time_beginning = 0
         mf.addTrackName(track, time_beginning, midi_name)
         mf.addTempo(track, time_beginning, bpm)
-        midi_time = 0
-        e_note = 30000/default_bpm
+        qnote_dur = 60 / bpm
 
         #for loop for adding all the events to a midi file
         for event in all_events_buffer:
-            mf.addNote(track, channel, event['midinote'], midi_time, 1.5, velocity)
-            midi_time = midi_time + (event['duration']/e_note)
-        
+            qnote_time = event["timestamp"] / qnote_dur
+            mf.addNote(track, channel, event['midinote'], qnote_time, event['duration'], velocity)
+
         with open(midi_name+".midi",'wb') as outf:
             mf.writeFile(outf)
-
 
 
     retrieve_gen_rhythm = True
