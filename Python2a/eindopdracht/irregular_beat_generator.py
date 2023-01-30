@@ -50,7 +50,6 @@ def euclidean_gen(num_pulses, num_notes, offset):
     
     #section for offset 
     timestamp_sequence = [x+offset for x in timestamp_sequence] #add the offset value to every dur in the list   
-    
     #modulo all the new values in the list based on the maximum amount of possible notes
     for i in range(len(timestamp_sequence)):
         timestamp_sequence[i] = timestamp_sequence[i] % num_pulses
@@ -211,9 +210,6 @@ while run_the_program:
 
     #copy the eventlist so i can still use the events if the user wants to output MIDI
     all_events_buffer = list(all_events)
-
-    # print("after the sort:", all_events)
-    print("all events here:", all_events)
     #section of the code for the audio playback
     start_time = time.time()
 
@@ -225,7 +221,7 @@ while run_the_program:
         #var for storing current time 
         current_time = time.time()
         #check if the event has to be played
-        if(current_time - start_time >= event['timestamp']):
+        if(current_time - start_time >= event['ti   mestamp']):
             event['sample'].play()
             #replace the event var with the next event in the list and check if there are events left in the event_list
             if(all_events):
@@ -299,9 +295,10 @@ while run_the_program:
         with open(midi_name+".midi",'wb') as outf:
             mf.writeFile(outf)
 
+  
 
+    #does the user want to generate a new rhytm?
     retrieve_gen_rhythm = True
-
     while retrieve_gen_rhythm:
         matches = ['yes', 'Yes', 'y', 'Y', 'YES', 'no', 'No', 'n', 'N', 'NO']
         try:
