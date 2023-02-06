@@ -14,6 +14,7 @@ public:
     void input (float value); //function for adding the input to the buffer (write)
     float output(); //function for returning a value from the buffer (read)
     void setDistance (uint distance);// set the difference in a number between writehead and readhead (delay)
+    float getWriteHead();
     void incrementHeads(); // increment both heads with a value
 
 
