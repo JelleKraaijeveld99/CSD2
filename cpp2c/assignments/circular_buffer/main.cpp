@@ -3,7 +3,10 @@
 
 int main(){
     
-    CircBuffer buffer(5);
-    std::cout << "hoi" << std::endl;
+    CircBuffer buffer(3);
+    buffer.input(0.44);
+    buffer.input(0.66);
+    buffer.input(0.69);
+    buffer.input(0.111);
     return 0;
 }
