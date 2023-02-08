@@ -2,31 +2,16 @@
 #include <iostream>
 
 int main(){
-    int buffersize = 3;
+    int buffersize = 10;
     CircBuffer buffer(buffersize);
+    // buffer.setDistance(4);
     
+    for(int i=0; i<buffersize*2; i++){
     std::cout << "this is the writeHead BEFORE: " << buffer.getWriteHead() << std::endl;
-    buffer.input(0.44);
+    buffer.input(0.2);
     std::cout << "this is the writeHead: " << buffer.getWriteHead() << std::endl;
-    std::cout << "this is the OUTPUT: " << buffer.output() << std::endl;
+    buffer.incrementHeads();
+    };
 
-
-
-
-    std::cout << "this is the writeHead BEFORE: " << buffer.getWriteHead() << std::endl;
-    buffer.input(0.66);
-    std::cout << "this is the writeHead: " << buffer.getWriteHead() << std::endl;
-    std::cout << "this is the OUTPUT: " << buffer.output() << std::endl;
-    
-    std::cout << "this is the writeHead BEFORE: " << buffer.getWriteHead() << std::endl;
-    buffer.input(0.69);
-    std::cout << "this is the writeHead: " << buffer.getWriteHead() << std::endl;
-    std::cout << "this is the OUTPUT: " << buffer.output() << std::endl;
-    
-    std::cout << "this is the writeHead BEFORE: " << buffer.getWriteHead() << std::endl;
-    buffer.input(0.111);
-    std::cout << "this is the writeHead: " << buffer.getWriteHead() << std::endl;
-    std::cout << "this is the OUTPUT: " << buffer.output() << std::endl;
-    
     return 0;
 }
