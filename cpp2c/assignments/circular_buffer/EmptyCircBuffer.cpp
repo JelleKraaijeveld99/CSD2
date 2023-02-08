@@ -14,21 +14,21 @@ CircBuffer::~CircBuffer() { // deconstructor
 
 void CircBuffer::input(float value){
     buffer[writeHead] = value; // add value to buffer on the writeHead index
-    std::cout << value << " is added to the array!" << std::endl;
+    std::cout << value << " IS THE INPUT" << std::endl;
 }
 
 float CircBuffer::output(){ //function for returning a value from the buffer (read)
-    
-    if (readHead>=0){
-        return buffer[readHead];
-    } 
-    else {
-        return 0;
-    }
+    std::cout << buffer[readHead] << " IS THE OUTPUT" << std::endl;
+    return buffer[readHead];
 }
 
 void CircBuffer::setDistance (uint distance){ // set the difference in a number between writehead and readhead (delay)
-    readHead = writeHead - distance;
+    int readHeadBuffer = writeHead - distance;
+    if(readHeadBuffer < 0){
+        readHead = readHeadBuffer + currentSize;
+    } else {
+        readHead = readHeadBuffer;
+    }
 }
 
 float CircBuffer::getWriteHead(){

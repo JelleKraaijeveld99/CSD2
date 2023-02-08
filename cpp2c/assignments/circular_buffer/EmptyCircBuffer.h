@@ -23,8 +23,8 @@ private:
     inline void incrementRead(); // add a value to the readHead
     void deleteBuffer(); // function for deleting the buffer 
 
-
-    float* buffer; // empty pointer for a buffer
-    uint currentSize { 0 }; // variable for the size of the buffer 
+    uint currentSize { 0 }; // variable for the size of the buffer
     uint writeHead { 0 }, readHead { 0 }; //variables for the index of a header
+    float* buffer; // empty pointer for a buffer
+    
 };  
