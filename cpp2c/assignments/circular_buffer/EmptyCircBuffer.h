@@ -17,12 +17,12 @@ public:
     float getWriteHead();
     void incrementHeads(); // increment both heads with a value
 
-
 private:
     inline void wrapHeader (uint& head); // function for "wrapping" an index for a header
     inline void incrementWrite(); // add a value to the writeHead
     inline void incrementRead(); // add a value to the readHead
     void deleteBuffer(); // function for deleting the buffer 
+
 
     float* buffer; // empty pointer for a buffer
     uint currentSize { 0 }; // variable for the size of the buffer 
