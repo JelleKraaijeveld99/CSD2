@@ -23,7 +23,7 @@ CircBuffer::~CircBuffer() { // deconstructor
 
 void CircBuffer::input(float value){
     buffer[writeHead] = value; // add value to buffer on the writeHead index
-    std::cout << value << " IS THE INPUT" << std::endl;
+    // std::cout << value << " IS THE INPUT" << std::endl;
 }
 
 float CircBuffer::output(){ //function for returning a value from the buffer (read)
@@ -41,9 +41,6 @@ void CircBuffer::setDistance (uint distance){ // set the difference in a number 
     }
 }
 
-float CircBuffer::getWriteHead(){
-    return writeHead;
-}
 
 void CircBuffer::incrementHeads(){  // increment both heads with a value
     incrementRead();
@@ -52,35 +49,29 @@ void CircBuffer::incrementHeads(){  // increment both heads with a value
     wrapHeader(writeHead);
 }
 
+void CircBuffer::getResetSize(uint size){
+    resize = true;
+    newSizeBuffer = size;
+}
+
 void CircBuffer::resetSize(uint size){
     
-    currentSize = size;
+    wrapValue = size;
     resizedBuffer = new float[size];
-        
     for (uint i = 0; i < sizeof(resizedBuffer); i++){
-            resizedBuffer[i] = buffer[i];
+        resizedBuffer[i] = buffer[i];
     }
+    deleteBuffer();
 
-    deleteBuffer(); 
-
+    buffer = new float[sizeof(resizedBuffer)];
     for (uint i = 0; i < sizeof(resizedBuffer); i++){
         buffer[i] = resizedBuffer[i];
     }
-
     deleteResizedBuffer();
-   
-    if(writeHead>currentSize){
-        wrapValue = writeHead + 1;
-        setDistance(currentDistance);
-    } else {
-        setDistance(currentDistance);
-    }
-     
+    setDistance(currentDistance);
+    resize = false;    
 }
 
-void CircBuffer::setWrapValue(uint value){
-    wrapValue = value;
-}
 
 float CircBuffer::getCurrentSize(){
     return currentSize;
@@ -90,7 +81,7 @@ float CircBuffer::getCurrentSize(){
 
 inline void CircBuffer::wrapHeader(uint& head){ // function for "wrapping" an index for a header
     if (head >= wrapValue) {
-        head = head - wrapValue;
+         head = head - wrapValue;
     };
 } 
 
@@ -99,6 +90,11 @@ inline void CircBuffer::incrementWrite(){ // add a value to the writeHead
 }
 
 inline void CircBuffer::incrementRead(){ // add a value to the readHead
+   
+   if(readHead == 0 && resize == true ){
+        std::cout << "RESIZE IS TRUUUUUEEEE "<<  std::endl;
+        resetSize(newSizeBuffer);
+    }
     readHead += 1;
 }
 
