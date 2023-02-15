@@ -13,16 +13,16 @@ public:
     void prepare (int sampleRate) override {
         for (Tremolo& tremolo : tremolos)
             tremolo.prepareToPlay (static_cast<double> (sampleRate));
-            Sine osc;
             
     }
 
     void process (AudioBuffer buffer) override {
         auto [inputChannels, outputChannels, numInputChannels, numOutputChannels, numFrames] = buffer; // "link" the variables in  main.cpp to the variables in jack_moduole
-
+        Sine osc;
+        osc.prepareToPlay(48000);
         for (int channel = 0u; channel < numOutputChannels; ++channel) {
             for (int sample = 0u; sample < numFrames; ++sample) {
-                outputChannels[channel][sample] = tremolos[channel].output (inputChannels[0][sample]);
+                outputChannels[channel][sample] = tremolos[channel].output (osc.output());
             }
         }
     }

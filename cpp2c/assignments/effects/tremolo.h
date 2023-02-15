@@ -1,32 +1,32 @@
 //
 // Created by Dean on 27/10/2022.
 //
+#ifndef _TREM_H_
+#define _TREM_H_
+
 #pragma once
 
 #include "effect.h"
 #include "sine.h"
 
-struct Tremolo : Effect {
-    void prepareToPlay (double sampleRate) override {
-        osc.prepareToPlay (sampleRate);
-    }
+class Tremolo : public Effect {
 
-    float output (float input) override {
-        auto modSignal = osc.output();
-        modSignal *= amp;
-        modSignal += 1.0f - amp;
-        return input * modSignal;
-    }
+public:
+ //constructor and destructor
+    Tremolo();
+    ~Tremolo();
 
-    void setAmplitude (float amplitude) {
-        amp = amplitude;
-    }
+    //functions
+    void prepareToPlay(double sampleRate) override;
+    float output(float input) override; 
 
-    void setRate (float rate) {
-        osc.setDelta (rate);
-    }
+    //setters and getters
+    void setAmplitude (float amplitude);
+    void setRate (float rate);
 
-private:
+protected:
     Sine osc;
     float amp { 1.0f };
 };
+
+#endif

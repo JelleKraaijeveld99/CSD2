@@ -1,6 +1,8 @@
 //
 // Created by Dean on 05/02/2023.
 //
+#ifndef _CIRCBUFF_H_
+#define _CIRCBUFF_H_
 
 #pragma once
 
@@ -40,3 +42,5 @@ private:
     
     bool resize = false; //boolean for resizing the buffer when readhead is 0
 };  
+
+#endif

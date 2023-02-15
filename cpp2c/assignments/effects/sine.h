@@ -1,11 +1,15 @@
 //
 // Created by Dean on 27/10/2022.
 //
+#ifndef _SINE_H_
+#define _SINE_H_
+
 #pragma once
 
 #include <cmath>
-
-struct Sine {
+class Sine {
+    
+public:
     void prepareToPlay (double sampleRate) {
         samplerate = sampleRate;
         resetPhase();
@@ -42,3 +46,5 @@ private:
     float currentFrequency { 0.0f };
     float delta { 0.0f };
 };
+
+#endif
