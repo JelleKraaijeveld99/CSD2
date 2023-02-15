@@ -1,5 +1,4 @@
 #include "effect.h"
-#include "tremolo.h"
 
 Effect::Effect(){
 
@@ -24,4 +23,6 @@ void Effect::setOutputChannels(int amount){
 void Effect::changeDryWet(float wet){
 
 }
+
+
 

@@ -1,5 +1,5 @@
 #include "tremolo.h"
-#include "effect.h"
+#include "sine.h"
 
 Tremolo::Tremolo() : Effect() {
 

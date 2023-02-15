@@ -4,18 +4,14 @@
 #ifndef _EFF_H_
 #define _EFF_H_
 #pragma once
-#include "tremolo.h"
-#include "sine.h"
-
 
 class Effect {
     
-    //constructor and destructor
 public:
+  //constructor and destructor
     Effect();
     ~Effect();
 
-protected:
     //setters and getters
     void setInputChannels(int amount);
     void setOutputChannels(int amount);

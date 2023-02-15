@@ -45,6 +45,7 @@
 #include <unistd.h>
 #include <vector>
 
+
 /// This struct contains pointers to the input and output buffers provided by Jack, as well as the
 /// number of channels in each buffer and the number of frames.
 struct AudioBuffer {
