@@ -8,8 +8,12 @@ Effect::~Effect(){
 
 }
 
-void Effect::setDryWet(float wet){
-
+void Effect::setDryWet(float wetSig){
+    if(wetSig>1.0){
+        wetSig = 1.0;
+    }
+    wet = wetSig;
+    dry = 1 - wetSig;
 }
 
 void Effect::setInputChannels(int amount){
@@ -20,9 +24,6 @@ void Effect::setOutputChannels(int amount){
 
 }
 
-void Effect::changeDryWet(float wet){
-
-}
 
 
 

@@ -9,19 +9,22 @@ class Effect {
     
 public:
   //constructor and destructor
-    Effect();
-    ~Effect();
+  Effect();
+  ~Effect();
 
-    //setters and getters
-    void setInputChannels(int amount);
-    void setOutputChannels(int amount);
-    void setDryWet(float wet);
+  //setters and getters
+  void setInputChannels(int amount);
+  void setOutputChannels(int amount);
+  void setDryWet(float wetSig);
 
-    //functions 
-    void changeDryWet(float wet);
-    virtual void prepareToPlay (double sampleRate) = 0;
-    virtual float output (float input) = 0;
+  //functions 
+  // void changeDryWet(float wet);
+  virtual void prepareToPlay (double sampleRate) = 0;
+  virtual float output (float input) = 0;
 
+protected:
+  float wet { 0 };
+  float dry { 0 }; 
 };
 
 #endif

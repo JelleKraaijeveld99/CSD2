@@ -8,7 +8,7 @@
 CircBuffer::CircBuffer(uint size) : currentSize(size), buffer(new float[currentSize])
 
 { // constructor
-    std::cout << "THIS IS THE CONSTRUCTOR" << std::endl;
+    // std::cout << "THIS IS THE CONSTRUCTOR" << std::endl;
     wrapValue = currentSize;
     for (uint i = 0; i < sizeof(buffer); i++){
         buffer[i] = 0;
@@ -17,7 +17,7 @@ CircBuffer::CircBuffer(uint size) : currentSize(size), buffer(new float[currentS
 }
 
 CircBuffer::~CircBuffer() { // deconstructor 
-    std::cout << "THIS IS THE DECONSTRUCTOR" << std::endl;
+    // std::cout << "THIS IS THE DECONSTRUCTOR" << std::endl;
     deleteBuffer();
 }
 
@@ -27,7 +27,7 @@ void CircBuffer::input(float value){
 }
 
 float CircBuffer::output(){ //function for returning a value from the buffer (read)
-    std::cout << buffer[readHead] << " IS THE OUTPUT" << std::endl;
+    // std::cout << buffer[readHead] << " IS THE OUTPUT" << std::endl;
     return buffer[readHead];
 }
 
