@@ -1,4 +1,5 @@
 #include "delay.h"
+#include <iostream>
 
 Delay::Delay(){
 
@@ -18,10 +19,10 @@ void Delay::prepareToPlay(double sampleRate){
 }
 
 float Delay::output(float input){
-    buffer -> input(input);
-    float Output = buffer -> output();
+    buffer -> input(input+(outputBuffer*feedbackAmount));
+    outputBuffer = buffer -> output();
     buffer -> incrementHeads();
-    return Output;
+    return (outputBuffer*wet) + (input*wet);
 }
 
 void Delay::setDelayTime(int MsDelay){
@@ -31,5 +32,15 @@ void Delay::setDelayTime(int MsDelay){
 
 void Delay::msDelayToSamples(int MsDelay){
     currentDelaySamples = linearMap(MsDelay,0,sampleRateDelay);
+}
+
+void Delay::setFeedback(float feedback){
+    if(feedback>0 && feedback<0.99){
+        feedbackAmount = feedback;
+        std::cout<< "FEEDBACK IS OKAY: " << feedbackAmount << std::endl;
+    } else {
+        feedbackAmount = 0;
+        std::cout<< "PLEASE GIVE VALUE BETWEEN 0 AND 0.99! THE FEEDBACK IS NOW SET TO: " << feedbackAmount << std::endl; 
+    }   
 }
 

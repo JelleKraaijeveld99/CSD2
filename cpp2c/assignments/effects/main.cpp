@@ -21,7 +21,9 @@ public:
 
         for (Delay& delay : delays){
             delay.setDelayTime(2000);
+            delay.setFeedback(0.3);
             delay.prepareToPlay(static_cast<double> (sampleRate));
+            delay.setDryWet(1);
         }
     }
 

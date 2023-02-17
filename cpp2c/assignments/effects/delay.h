@@ -19,10 +19,13 @@ public:
     float output(float input) override;
     void setDelayTime(int MsDelay);
     void msDelayToSamples(int MsDelay);
+    void setFeedback(float feedback);
 
-    int currentDelayMs;
-    int currentDelaySamples;
-    int sampleRateDelay;
+    int currentDelayMs { 0 };
+    int currentDelaySamples { 0 };
+    int sampleRateDelay { 0 };
+    float feedbackAmount { 0 };
+    float outputBuffer { 0 };
 
     CircBuffer *buffer; //empty pointer of the type CircBuffer
 };
