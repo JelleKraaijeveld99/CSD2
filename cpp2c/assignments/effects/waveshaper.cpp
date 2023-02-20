@@ -35,5 +35,5 @@ void WaveShaper::setDrive (float k) {
 void WaveShaper::prepareToPlay(double sampleRate){
     bufferSize = 1024;
     buffer = new float[bufferSize];
-    setDrive(300.0f);
+    setDrive(30.0f);
 }

@@ -1,5 +1,5 @@
-#ifndef _SINE_H_
-#define _SINE_H_ 
+#ifndef _SQUARE_H_
+#define _SQUARE_H_ 
 #include <iostream>
 #include <cmath>
 
@@ -8,12 +8,12 @@
 #pragma once
 
 
-class Sine : public Oscillator
+class Square : public Oscillator
 {
 public:
   //Constructor and destructor
-  Sine(float frequency, float amplitude, float samplerate = 44100);
-  ~Sine(); 
+  Square(float frequency, float amplitude, float samplerate = 44100);
+  ~Square(); 
 
   // go to next sample
   void calculate();

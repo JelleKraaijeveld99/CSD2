@@ -7,7 +7,10 @@
 #pragma once
 
 #include "effect.h"
+#include "oscillator.h"
 #include "sine.h"
+#include "square.h"
+#include "saw.h"
 
 class Tremolo : public Effect {
 
@@ -25,7 +28,7 @@ public:
     void setRate (float rate);
 
 protected:
-    Sine osc;
+    Oscillator *osc;
     float amp { 1.0f };
 };
 
