@@ -19,7 +19,6 @@ public:
     //functions
     void prepareToPlay(double sampleRate) override;
     float output(float input) override;
-    // void setDryWet(float wetSig); 
 
     //setters and getters
     void setAmplitude (float amplitude);

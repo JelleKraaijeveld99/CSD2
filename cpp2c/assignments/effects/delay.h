@@ -18,8 +18,8 @@ public:
     void prepareToPlay(double sampleRate) override;
     float output(float input) override;
     void setDelayTime(int MsDelay);
-    void msDelayToSamples(int MsDelay);
     void setFeedback(float feedback);
+    void resetDelayTime(int ms);
 
     int currentDelayMs { 0 };
     int currentDelaySamples { 0 };

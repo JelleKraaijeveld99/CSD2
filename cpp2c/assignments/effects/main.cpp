@@ -25,10 +25,12 @@ public:
             delay.setFeedback(0.3);
             delay.prepareToPlay(static_cast<double> (sampleRate));
             delay.setDryWet(1);
+            delay.resetDelayTime(1000);
         }
 
         for (WaveShaper& waveshaper : waveshapers){
             waveshaper.prepareToPlay(static_cast<double> (sampleRate));
+            waveshaper.setDryWet(1);
         }
     }
 
@@ -39,7 +41,9 @@ public:
    
         for (int channel = 0u; channel < numOutputChannels; ++channel) {
             for (int sample = 0u; sample < numFrames; ++sample) {
-                outputChannels[channel][sample] = waveshapers[channel].output (osc.output());
+                // outputChannels[channel][sample] = waveshapers[channel].output (osc.output());
+                outputChannels[channel][sample] = delays[channel].output (inputChannels[0][sample]);
+                // outputChannels[channel][sample] = tremolos[channel].output (osc.output());
             }
         }
     }

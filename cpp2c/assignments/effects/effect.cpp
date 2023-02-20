@@ -24,6 +24,10 @@ void Effect::setOutputChannels(int amount){
 
 }
 
+int Effect::msToSamples(int ms, int sampleRate){
+    return(int)(((long) ms) * sampleRate/1000);
+}
+
 
 
 

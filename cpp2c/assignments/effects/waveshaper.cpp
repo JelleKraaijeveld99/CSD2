@@ -20,11 +20,11 @@ float WaveShaper::output (float input) {  //map the input to values in the trans
     // subtract from the original value to find the remainder
     float indexDecimal = index - (float) i;
 
-    // the remainder is the interpolation factor. To accurately estimate the value between two buffer positions
-    return linearMap (indexDecimal, buffer[i], buffer[i + 1]);
+    // the remainder is the interpolation factor. To accurately estimate the value between two buffer positions  
+    return (linearMap(indexDecimal, buffer[i], buffer[i + 1])*wet) + (input*dry);
 }
 
-void WaveShaper::setDrive (float k) { //map the input to values in the transfer curve
+void WaveShaper::setDrive (float k) { 
     // fill buffer using arc-tan function
     for (int i = 0; i < bufferSize; ++i) {
         float x = mapInRange (i, 0.0f, bufferSize, -1.0f, 1.0f);
@@ -35,5 +35,5 @@ void WaveShaper::setDrive (float k) { //map the input to values in the transfer 
 void WaveShaper::prepareToPlay(double sampleRate){
     bufferSize = 1024;
     buffer = new float[bufferSize];
-    setDrive(5.0f);
+    setDrive(300.0f);
 }
