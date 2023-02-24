@@ -18,14 +18,22 @@ class Chorus : public Effect
     void setMinDelay(int ms);
     void setModDepth(int ms);
 
+    void calculateDelayLine();
+    void calculateDelayCenter(); 
+
     protected:
     //variables
-    int minDelay { 0 };
-    int modDepth { 0 };
-    int maxDelay = { 0 };
-    int delayMs { 0 };
-    int delaySamples { 0 };
+    float minDelay { 1 };
+    float modDepth { 0 };
+    float maxDelay { 0 };
+    float delayCenterMs { 0 };
+    float delayCenterSamples { 0 };
+    
+    float delayMs { 0 };
+    float delaySamples { 0 };
     float feedbackAmount { 0 };
+
+    float modulatedDelayLine { 0 };
 
     //LFO
     Oscillator *osc;
