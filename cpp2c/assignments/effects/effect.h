@@ -25,6 +25,7 @@ public:
 protected:
   float wet { 0 };
   float dry { 0 }; 
+  int sampleRate { 0 }; 
 };
 
 #endif

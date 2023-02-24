@@ -17,7 +17,7 @@ public:
         {
             tremolo.prepareToPlay (static_cast<double> (sampleRate));
             tremolo.setDryWet(0.5);
-            tremolo.setRate(300);
+            tremolo.setRate(3);
         }
 
         for (Delay& delay : delays){
@@ -25,7 +25,7 @@ public:
             delay.setFeedback(0.3);
             delay.prepareToPlay(static_cast<double> (sampleRate));
             delay.setDryWet(1);
-            delay.resetDelayTime(1000);
+            delay.resetDelayTime(3000);
         }
 
         for (WaveShaper& waveshaper : waveshapers){

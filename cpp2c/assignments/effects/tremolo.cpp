@@ -21,6 +21,7 @@ float Tremolo::output(float input){
     auto modSignal = osc -> tick();
     modSignal *= amp;
     modSignal += 1.0f - amp;
+    // std::cout << modSignal << std::endl;
     return ((input * modSignal) * wet) + (input * dry);
 }
 

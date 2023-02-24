@@ -23,7 +23,7 @@ float Delay::output(float input){
     buffer -> input(input+(outputBuffer*feedbackAmount)); //input the input to the buffer + output from the sample before * feedback amount to implement feedback
     outputBuffer = buffer -> output();//safe the output of the buffer to add it to the next input 
     buffer -> incrementHeads();
-    return (outputBuffer*wet) + (input*wet); //implement wet and dry
+    return (outputBuffer*wet) + (input*dry); //implement wet and dry
 }
 
 void Delay::setDelayTime(int MsDelay){
