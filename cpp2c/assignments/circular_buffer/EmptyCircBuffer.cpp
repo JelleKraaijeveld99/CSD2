@@ -31,7 +31,9 @@ float CircBuffer::output(){ //function for returning a value from the buffer (re
     return buffer[readHead];
 }
 
-void CircBuffer::setDistance (uint distance){ // set the difference in a number between writehead and readhead (delay)
+void CircBuffer::setDistance (float distance){ // set the difference in a number between writehead and readhead (delay)
+    std::cout << "THIS IS THE DISTANCE FIRST: "<< distance<<std::endl;
+    
     currentDistance = distance;
     int readHeadBuffer = writeHead - distance;
     if(readHeadBuffer < 0){

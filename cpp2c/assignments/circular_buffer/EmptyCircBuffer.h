@@ -33,8 +33,10 @@ private:
     uint currentDistance { 0 }; //the distance between the write and readHead
     uint currentSize { 0 }; // variable for the size of the buffer
     uint writeHead { 0 }, readHead { 0 }; //variables for the index of a header
+
     float* buffer; // empty pointer for a buffer
     float* resizedBuffer; //empty pointer for a buffer if you want to resize 
+
     
     bool resize = false; //boolean for resizing the buffer when readhead is 0
 };  
