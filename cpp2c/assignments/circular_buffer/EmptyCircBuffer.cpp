@@ -2,6 +2,7 @@
 #include <iostream>
 #include <algorithm>
 #include <iterator>
+#include <cmath>
 
 //////////PUBLIC//////////
 
@@ -22,13 +23,19 @@ CircBuffer::~CircBuffer() { // deconstructor
 }
 
 void CircBuffer::input(float value){
-    buffer[writeHead] = value; // add value to buffer on the writeHead index
+    int writeHeadBuffer; //make an variable of an int type to use as index for the buffer
+    writeHeadBuffer = writeHead; //give the buffer the value of the writehead
+    buffer[writeHeadBuffer] = value; // add value to buffer on the writeHead index
     // std::cout << value << " IS THE INPUT" << std::endl;
 }
 
 float CircBuffer::output(){ //function for returning a value from the buffer (read)
-    std::cout << buffer[readHead] << " IS THE OUTPUT" << std::endl;
-    return buffer[readHead];
+    // truncate index (remove everything after the decimal point)
+    int i = (int) trunc (readHead);
+    // subtract from the original value to find the remainder
+    float indexDecimal = readHead - (float) i;
+    std::cout << linearMap(indexDecimal, buffer[i], buffer[i + 1]) << " IS THE OUTPUT" << std::endl;
+    return linearMap(indexDecimal, buffer[i], buffer[i + 1]);
 }
 
 void CircBuffer::setDistance (float distance){ // set the difference in a number between writehead and readhead (delay)
@@ -51,12 +58,12 @@ void CircBuffer::incrementHeads(){  // increment both heads with a value
     wrapHeader(writeHead);
 }
 
-void CircBuffer::getResetSize(uint size){
+void CircBuffer::getResetSize(float size){
     resize = true;
     newSizeBuffer = size;
 }
 
-void CircBuffer::resetSize(uint size){
+void CircBuffer::resetSize(float size){
     
     wrapValue = size;
     resizedBuffer = new float[size];
@@ -81,7 +88,7 @@ float CircBuffer::getCurrentSize(){
 
 ///////////PRIVATE//////////
 
-inline void CircBuffer::wrapHeader(uint& head){ // function for "wrapping" an index for a header
+inline void CircBuffer::wrapHeader(float& head){ // function for "wrapping" an index for a header
     if (head >= wrapValue) {
          head = head - wrapValue;
     };

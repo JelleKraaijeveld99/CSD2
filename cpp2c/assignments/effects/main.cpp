@@ -17,32 +17,32 @@ public:
         {
             tremolo.prepareToPlay (static_cast<double> (sampleRate));
             tremolo.setDryWet(0.5);
-            tremolo.setRate(3);
+            tremolo.setRate(200);
         }
 
         for (Delay& delay : delays){
             delay.setDelayTime(2000);
-            delay.setFeedback(0.3);
+            delay.setFeedback(0.90);
             delay.prepareToPlay(static_cast<double> (sampleRate));
-            delay.setDryWet(1);
-            delay.resetDelayTime(3000);
+            delay.setDryWet(0.5);
+            delay.resetDelayTime(2000);
         }
 
         for (WaveShaper& waveshaper : waveshapers){
             waveshaper.prepareToPlay(static_cast<double> (sampleRate));
-            waveshaper.setDryWet(1);
+            waveshaper.setDryWet(1.0);
         }
     }
 
     void process (AudioBuffer buffer) override {
         auto [inputChannels, outputChannels, numInputChannels, numOutputChannels, numFrames] = buffer; // "link" the variables in  main.cpp to the variables in jack_moduole
-        Sine osc(440,0.2,48000);
+        Sine osc(140,0.2,48000);
    
         for (int channel = 0u; channel < numOutputChannels; ++channel) {
             for (int sample = 0u; sample < numFrames; ++sample) {
-                // outputChannels[channel][sample] = waveshapers[channel].output (osc.tick());
+                outputChannels[channel][sample] = waveshapers[channel].output (osc.tick());
                 // outputChannels[channel][sample] = delays[channel].output (inputChannels[0][sample]);
-                outputChannels[channel][sample] = tremolos[channel].output (osc.tick());
+                // outputChannels[channel][sample] = tremolos[channel].output (osc.tick());
             }
         }
     }
