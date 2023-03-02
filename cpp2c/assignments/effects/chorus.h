@@ -16,9 +16,10 @@ class Chorus : public Effect
     //setters and getters
     void setMaxDelay(int ms);
     void setMinDelay(int ms);
-    void setModDepth(int ms);
+    void setModDepth(float depth);
+    void setRate(float freq);
 
-    void calculateDelayLine();
+    float calculateDelayLine();
     void calculateDelayCenter(); 
 
     protected:
@@ -28,6 +29,7 @@ class Chorus : public Effect
     float maxDelay { 0 };
     float delayCenterMs { 0 };
     float delayCenterSamples { 0 };
+    float modRate { 0 };
     
     float delayMs { 0 };
     float delaySamples { 0 };

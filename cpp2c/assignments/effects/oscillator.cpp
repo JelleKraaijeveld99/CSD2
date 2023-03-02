@@ -43,3 +43,7 @@ float Oscillator::tick()
   calculate();
   return sample;
 }
+
+void Oscillator::setAmplitude(float amp){
+  amplitude = amp;
+}

@@ -28,7 +28,7 @@ float Delay::output(float input){
 
 void Delay::setDelayTime(int MsDelay){
     currentDelayMs = MsDelay; //set the delay time in ms
-    msToSamples(currentDelayMs,sampleRateDelay); //calculate the amount of delay in samples according to the delay in ms
+    // currentDelaySamples = msToSamples(currentDelayMs,sampleRateDelay); //calculate the amount of delay in samples according to the delay in ms
 }
 
 void Delay::resetDelayTime(int ms){

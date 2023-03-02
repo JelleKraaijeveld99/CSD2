@@ -24,8 +24,8 @@ void Effect::setOutputChannels(int amount){
 
 }
 
-int Effect::msToSamples(int ms, int sampleRate){
-    return(int)(((long) ms) * sampleRate/1000);
+float Effect::msToSamples(float ms, int sampleRate){
+    return(float) ( ( (double) ms) * sampleRate/1000.0);
 }
 
 

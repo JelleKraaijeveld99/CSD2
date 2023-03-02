@@ -18,6 +18,7 @@ public:
 
   //getters and setters
   void setFrequency(float frequency);
+  void setAmplitude(float amp);
   float getFrequency();
   float tick();
 

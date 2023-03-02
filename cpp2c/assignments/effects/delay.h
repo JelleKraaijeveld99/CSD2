@@ -22,7 +22,7 @@ public:
     void resetDelayTime(int ms);
 
     int currentDelayMs { 0 };
-    int currentDelaySamples { 0 };
+    float currentDelaySamples { 0 };
     int sampleRateDelay { 0 };
     float feedbackAmount { 0 };
     float outputBuffer { 0 };

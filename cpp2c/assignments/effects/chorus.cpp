@@ -13,35 +13,35 @@ Chorus::~Chorus(){
 
 void Chorus::prepareToPlay(double sampleRate){
     minDelay = 1; //initialise the minimum delay in ms
-    modDepth = 20; //initialise the modulation depth (rate of the LFO)
-    maxDelay = minDelay + modDepth; //the maximum delaytime 
+    modDepth = 1; //initialise the modulation depth (amp of the LFO)
+    modRate = 30; //initialise the modulation rate (freq of the LFO)
+    maxDelay = minDelay + modRate; //the maximum delaytime 
     calculateDelayCenter(); //function calculating the center of the delay that is going to be modulated 
-    osc = new Sine(modDepth,0.4,sampleRate); //use sine as LFO
+    osc = new Sine(modRate,modDepth,sampleRate); //use sine as LFO
     buffer = new CircBuffer(msToSamples(maxDelay, sampleRate)); //make buffer as big as the maximum delay time
 }
 
 float Chorus::output(float input){
-    // buffer -> setDistance(delayCenter*osc->getSample());
+    float newDelayDist = calculateDelayLine();
+    buffer -> setDistance(newDelayDist);
     buffer -> input(input);
-
-}
+} 
 
 void Chorus::setMaxDelay(int ms){
     maxDelay = ms;
-    minDelay = maxDelay - modDepth;
+    minDelay = maxDelay - modRate;
     calculateDelayCenter();
 }
 
 void Chorus::setMinDelay(int ms){
     minDelay = ms;
-    maxDelay = minDelay + modDepth;
+    maxDelay = minDelay + modRate;
     calculateDelayCenter();
 }
 
-void Chorus::setModDepth(int ms){
-    modDepth = ms;
-    maxDelay = minDelay + modDepth;
-    calculateDelayCenter();
+void Chorus::setModDepth(float depth){
+    modDepth = depth;
+    // osc -> setAmplitude(modDepth);
 }
 
 void Chorus::calculateDelayCenter(){
@@ -49,8 +49,22 @@ void Chorus::calculateDelayCenter(){
     // delayCenterSamples = msToSamples(delayCenterMs, sampleRate);
 }
 
-void Chorus::calculateDelayLine(){
+float Chorus::calculateDelayLine(){
+    // -1 tot 1
+    float value = osc->tick();
+    // 0 tot 1
+    value = value / 2 + 1;
+    // 0 tot modDepth
+    value *= modDepth;
+    // (minDelay) tot (modDepth + minDelay)
+    value += minDelay;
     
+    return value;
+}
+
+void Chorus::setRate(float freq){
+    modRate = freq; 
+    osc -> setFrequency(freq);
 }
 
 

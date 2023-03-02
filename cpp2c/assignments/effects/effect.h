@@ -20,7 +20,7 @@ public:
   //functions 
   virtual void prepareToPlay (double sampleRate) = 0;
   virtual float output (float input) = 0;
-  int msToSamples(int ms, int sampleRate);
+  float msToSamples(float ms, int sampleRate);
 
 protected:
   float wet { 0 };
