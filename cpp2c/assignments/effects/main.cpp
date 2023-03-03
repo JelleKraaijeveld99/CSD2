@@ -1,6 +1,7 @@
 #include "jack_module.h"
 #include "circ_buff.h"
 #include "waveshaper.h"
+#include "chorus.h"
 #include "tremolo.h"
 #include "sine.h"
 #include "delay.h"
@@ -32,6 +33,11 @@ public:
             waveshaper.prepareToPlay(static_cast<double> (sampleRate));
             waveshaper.setDryWet(1.0);
         }
+
+        for (Chorus& chor : chorus){
+            chor.prepareToPlay(static_cast<double> (sampleRate));
+            chor.setDryWet(1.0);
+        }
     }
 
     void process (AudioBuffer buffer) override {
@@ -40,7 +46,8 @@ public:
    
         for (int channel = 0u; channel < numOutputChannels; ++channel) {
             for (int sample = 0u; sample < numFrames; ++sample) {
-                outputChannels[channel][sample] = waveshapers[channel].output (osc.tick());
+                // outputChannels[channel][sample] = waveshapers[channel].output (osc.tick());
+                outputChannels[channel][sample] = chorus[channel].output (osc.tick());
                 // outputChannels[channel][sample] = delays[channel].output (inputChannels[0][sample]);
                 // outputChannels[channel][sample] = tremolos[channel].output (osc.tick());
             }
@@ -51,6 +58,7 @@ private:
     std::array<Tremolo,2> tremolos;
     std::array<Delay,2> delays;
     std::array<WaveShaper, 2> waveshapers;
+    std::array<Chorus, 2> chorus;
 };
 
 
