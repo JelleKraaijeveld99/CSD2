@@ -56,8 +56,8 @@ void CircBuffer::setDistance (float distance){ // set the difference in a number
         readHead = readHeadBuffer;
     }
 
-    std::cout << "this is the readHead: " << readHead << std::endl;
-    std::cout << "this is the distance: " << currentDistance << std::endl;
+    // std::cout << "this is the readHead: " << readHead << std::endl;
+    // std::cout << "this is the distance: " << currentDistance << std::endl;
 }
 
 

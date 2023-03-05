@@ -14,28 +14,28 @@ Chorus::~Chorus(){
 void Chorus::prepareToPlay(double sampleRate){
     Effect::sampleRate = sampleRate;
     minDelay = 1; //initialise the minimum delay in ms
-    modDepth = 1; //initialise the modulation depth (amp of the LFO)
-    modRate = 30; //initialise the modulation rate (freq of the LFO)
-    maxDelay = minDelay + modRate; //the maximum delaytime 
-    int maxDelaySamples = msToSamples(maxDelay, sampleRate);
+    modDepth = 5; //initialise the modulation depth range the modulation modulates between
+    modRate = 5; //initialise the modulation rate (freq of the LFO)
+    maxDelay = minDelay + modDepth; //the maximum delaytime 
+    float maxDelaySamples = msToSamples(maxDelay, sampleRate);
+    std::cout << "this is the maxDelaySamples: " << maxDelaySamples << std::endl;
     calculateDelayCenter(); //function calculating the center of the delay that is going to be modulated 
     std::cout << "this is the delaycenter ms: " << delayCenterMs << std::endl;
     std::cout << "this is the delaycenter samples: " << delayCenterSamples << std::endl;
-    osc = new Sine(modRate,modDepth,Effect::sampleRate); //use sine as LFO
+    osc = new Sine(modRate,0.99,Effect::sampleRate); //use sine as LFO
     buffer = new CircBuffer(maxDelaySamples+1); //make buffer as big as the maximum delay time
 }
 
 float Chorus::output(float input){
-    float newDelayDistMs = (delayCenterMs * calculateDelayLine());
-    // std::cout << "this is the newDelayDistMs: " << newDelayDistMs << std::endl;
-
+    //calculating the delayline in ms
+    float newDelayDistMs = calculateDelayLine();
+    //transfer ms to samples
     float newDelayDistSamples = msToSamples(newDelayDistMs,sampleRate);
-    // std::cout << "this is the newDelayDistSamples: " << newDelayDistSamples << std::endl;
-
-    // std::cout << "this is the modulatedDelaySamples " << modulatedDelaySamples << std::endl;
-
+    //set the distance of the buffer in samples
     buffer -> setDistance(newDelayDistSamples);
+    //input value in buffer
     buffer -> input(input);
+    //return interpolated output
     float outputBuffer = buffer -> interpolatedOutput();
     buffer -> incrementHeads();
     
@@ -67,12 +67,12 @@ void Chorus::calculateDelayCenter(){
 float Chorus::calculateDelayLine(){
     // -1 tot 1
     float value = osc->tick();
-    // // 0 tot 2
-    value = value + 1;
+    // 0 tot 1
+    value = (value + 1)/2;
     // 0 tot modDepth
-    value *= modDepth;
+    value = value * modDepth;
     // (minDelay) tot (modDepth + minDelay)
-    // value += minDelay;
+    value += minDelay;
     return value;
 }
 

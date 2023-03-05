@@ -36,7 +36,7 @@ public:
 
         for (Chorus& chor : chorus){
             chor.prepareToPlay(static_cast<double> (sampleRate));
-            chor.setDryWet(1.0);
+            chor.setDryWet(0.5);
         }
     }
 
@@ -48,6 +48,7 @@ public:
             for (int sample = 0u; sample < numFrames; ++sample) {
                 // outputChannels[channel][sample] = waveshapers[channel].output (osc.tick());
                 outputChannels[channel][sample] = chorus[channel].output (osc.tick());
+
                 // outputChannels[channel][sample] = delays[channel].output (inputChannels[0][sample]);
                 // outputChannels[channel][sample] = tremolos[channel].output (osc.tick());
             }
