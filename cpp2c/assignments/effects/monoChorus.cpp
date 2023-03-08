@@ -1,17 +1,17 @@
-#include "monoChorus.h"
+#include "MonoChorus.h"
 #include "sine.h"
 #include "saw.h"
 #include "square.h"
 
-monoChorus::monoChorus() : Effect(){
+MonoChorus::MonoChorus() : Effect(){
 
 }
 
-monoChorus::~monoChorus(){
+MonoChorus::~MonoChorus(){
     delete buffer;
 }
 
-void monoChorus::prepareToPlay(double sampleRate){
+void MonoChorus::prepareToPlay(double sampleRate){
     Effect::sampleRate = sampleRate;
     minDelay = 1; //initialise the minimum delay in ms
     modDepth = 5; //initialise the modulation depth range the modulation modulates between
@@ -23,10 +23,10 @@ void monoChorus::prepareToPlay(double sampleRate){
     std::cout << "this is the delaycenter ms: " << delayCenterMs << std::endl;
     std::cout << "this is the delaycenter samples: " << delayCenterSamples << std::endl;
     osc = new Sine(modRate,0.99,Effect::sampleRate); //use sine as LFO
-    buffer = new CircBuffer(maxDelaySamples+1); //make buffer as big as the maximum delay time
+    buffer = new CircBuffer(sampleRate); //make buffer as big as the maximum delay time
 }
 
-float monoChorus::output(float input){
+float MonoChorus::output(float input){
     //calculating the delayline in ms
     float newDelayDistMs = calculateDelayLine();
     //transfer ms to samples
@@ -42,29 +42,29 @@ float monoChorus::output(float input){
     return (outputBuffer*wet)+(input*dry);
 } 
 
-void monoChorus::setMaxDelay(int ms){
+void MonoChorus::setMaxDelay(int ms){
     maxDelay = ms;
     minDelay = maxDelay - modRate;
     calculateDelayCenter();
 }
 
-void monoChorus::setMinDelay(int ms){
+void MonoChorus::setMinDelay(int ms){
     minDelay = ms;
     maxDelay = minDelay + modRate;
     calculateDelayCenter();
 }
 
-void monoChorus::setModDepth(float depth){
+void MonoChorus::setModDepth(float depth){
     modDepth = depth;
     // osc -> setAmplitude(modDepth);
 }
 
-void monoChorus::calculateDelayCenter(){
+void MonoChorus::calculateDelayCenter(){
     delayCenterMs = ((maxDelay-minDelay)/2)+minDelay;
     delayCenterSamples = msToSamples(delayCenterMs, sampleRate);
 }
 
-float monoChorus::calculateDelayLine(){
+float MonoChorus::calculateDelayLine(){
     // -1 tot 1
     float value = osc->tick();
     // 0 tot 1
@@ -76,7 +76,7 @@ float monoChorus::calculateDelayLine(){
     return value;
 }
 
-void monoChorus::setRate(float freq){
+void MonoChorus::setRate(float freq){
     modRate = freq; 
     osc -> setFrequency(freq);
 }

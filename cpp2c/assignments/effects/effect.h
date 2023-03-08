@@ -4,6 +4,9 @@
 #ifndef _EFF_H_
 #define _EFF_H_
 #pragma once
+#include <array>
+
+using uint = unsigned int;
 
 class Effect {
     
@@ -20,10 +23,6 @@ public:
   //functions for mono signals
   virtual void prepareToPlay (double sampleRate) = 0;
   virtual float output (float input) = 0;
-
-  //functions for multi-channel signals
-  virtual void multiChPrepareToPlay (double sampleRate, uint inChannels, uint outChannels) = 0;
-  virtual float multiChOutput (float input, uint channel = 0) = 0;
 
   float msToSamples(float ms, int sampleRate);
 

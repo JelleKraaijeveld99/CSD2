@@ -1,13 +1,18 @@
+#ifndef _MCHOR_H_
+#define _MCHOR_H_
+
+#pragma once
+
 #include "effect.h"
 #include "oscillator.h"
 #include "circ_buff.h"
 
-class monoChorus : public Effect
+class MonoChorus : public Effect
 {   
     public: 
     //constructor and destructor 
-    monoChorus();
-    ~monoChorus(); 
+    MonoChorus();
+    ~MonoChorus(); 
     
     //functions
     void prepareToPlay(double sampleRate) override;
@@ -44,3 +49,5 @@ class monoChorus : public Effect
     CircBuffer *buffer;
 
 };
+
+#endif

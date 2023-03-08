@@ -1,12 +1,14 @@
 #include "jack_module.h"
+#include "stereoChorus.h"
 #include "circ_buff.h"
 #include "waveshaper.h"
-#include "monoChorus.h"
+#include "MonoChorus.h"
 #include "tremolo.h"
 #include "sine.h"
 #include "delay.h"
 #include <array>
 #include <iostream>
+
 
 
 class Callback : public AudioCallback {
@@ -34,10 +36,12 @@ public:
             waveshaper.setDryWet(1.0);
         }
 
-        for (monoChorus& monoChor : mChorus){
+        for (MonoChorus& monoChor : mChorus){
             monoChor.prepareToPlay(static_cast<double> (sampleRate));
             monoChor.setDryWet(0.3);
         }
+
+        stereoChor.multiChPrepareToPlay(static_cast<double> (sampleRate),1,2);
     }
 
     void process (AudioBuffer buffer) override {
@@ -47,9 +51,10 @@ public:
         for (int channel = 0u; channel < numOutputChannels; ++channel) {
             for (int sample = 0u; sample < numFrames; ++sample) {
                 // outputChannels[channel][sample] = waveshapers[channel].output (osc.tick());
-                // std::cout << channel << std::endl;
-                outputChannels[channel][sample] = mChorus[channel].output (osc.tick());
-
+                std::cout << channel << std::endl;
+                // outputChannels[channel][sample] = mChorus[channel].output (osc.tick());
+                outputChannels[channel][sample] = stereoChor.multiChOutput(osc.tick(),channel);
+                
                 // outputChannels[channel][sample] = delays[channel].output (inputChannels[0][sample]);
                 // outputChannels[channel][sample] = tremolos[channel].output (osc.tick());
             }
@@ -60,7 +65,9 @@ private:
     std::array<Tremolo,2> tremolos;
     std::array<Delay,2> delays;
     std::array<WaveShaper, 2> waveshapers;
-    std::array<monoChorus, 2> mChorus;
+    std::array<MonoChorus, 2> mChorus;
+    stereoChorus stereoChor;
+
 };
 
 
