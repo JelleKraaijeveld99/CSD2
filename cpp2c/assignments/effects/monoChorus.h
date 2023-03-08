@@ -2,12 +2,12 @@
 #include "oscillator.h"
 #include "circ_buff.h"
 
-class Chorus : public Effect
+class monoChorus : public Effect
 {   
     public: 
     //constructor and destructor 
-    Chorus();
-    ~Chorus(); 
+    monoChorus();
+    ~monoChorus(); 
     
     //functions
     void prepareToPlay(double sampleRate) override;
@@ -37,7 +37,7 @@ class Chorus : public Effect
 
     float modulatedDelayLine { 0 };
 
-    //LFO
+    //LFO's
     Oscillator *osc;
 
     //Buffer 

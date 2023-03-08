@@ -1,17 +1,17 @@
-#include "chorus.h"
+#include "monoChorus.h"
 #include "sine.h"
 #include "saw.h"
 #include "square.h"
 
-Chorus::Chorus() : Effect(){
+monoChorus::monoChorus() : Effect(){
 
 }
 
-Chorus::~Chorus(){
+monoChorus::~monoChorus(){
     delete buffer;
 }
 
-void Chorus::prepareToPlay(double sampleRate){
+void monoChorus::prepareToPlay(double sampleRate){
     Effect::sampleRate = sampleRate;
     minDelay = 1; //initialise the minimum delay in ms
     modDepth = 5; //initialise the modulation depth range the modulation modulates between
@@ -26,7 +26,7 @@ void Chorus::prepareToPlay(double sampleRate){
     buffer = new CircBuffer(maxDelaySamples+1); //make buffer as big as the maximum delay time
 }
 
-float Chorus::output(float input){
+float monoChorus::output(float input){
     //calculating the delayline in ms
     float newDelayDistMs = calculateDelayLine();
     //transfer ms to samples
@@ -42,29 +42,29 @@ float Chorus::output(float input){
     return (outputBuffer*wet)+(input*dry);
 } 
 
-void Chorus::setMaxDelay(int ms){
+void monoChorus::setMaxDelay(int ms){
     maxDelay = ms;
     minDelay = maxDelay - modRate;
     calculateDelayCenter();
 }
 
-void Chorus::setMinDelay(int ms){
+void monoChorus::setMinDelay(int ms){
     minDelay = ms;
     maxDelay = minDelay + modRate;
     calculateDelayCenter();
 }
 
-void Chorus::setModDepth(float depth){
+void monoChorus::setModDepth(float depth){
     modDepth = depth;
     // osc -> setAmplitude(modDepth);
 }
 
-void Chorus::calculateDelayCenter(){
+void monoChorus::calculateDelayCenter(){
     delayCenterMs = ((maxDelay-minDelay)/2)+minDelay;
     delayCenterSamples = msToSamples(delayCenterMs, sampleRate);
 }
 
-float Chorus::calculateDelayLine(){
+float monoChorus::calculateDelayLine(){
     // -1 tot 1
     float value = osc->tick();
     // 0 tot 1
@@ -76,7 +76,7 @@ float Chorus::calculateDelayLine(){
     return value;
 }
 
-void Chorus::setRate(float freq){
+void monoChorus::setRate(float freq){
     modRate = freq; 
     osc -> setFrequency(freq);
 }

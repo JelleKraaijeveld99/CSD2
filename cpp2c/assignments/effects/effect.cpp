@@ -17,11 +17,11 @@ void Effect::setDryWet(float wetSig){
 }
 
 void Effect::setInputChannels(int amount){
-
+    inputChannels = amount;
 }
 
 void Effect::setOutputChannels(int amount){
-
+    outputChannels = amount;
 }
 
 float Effect::msToSamples(float ms, int sampleRate){
