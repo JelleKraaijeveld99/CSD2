@@ -12,7 +12,7 @@ class Saw : public Oscillator
 {
 public:
   //Constructor and destructor
-  Saw(float frequency, float amplitude, float samplerate = 44100);
+  Saw(float frequency = 220, float amplitude = 0.5, float samplerate = 44100);
   ~Saw(); 
 
   // go to next sample

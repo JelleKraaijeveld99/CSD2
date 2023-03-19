@@ -3,7 +3,7 @@
 #include <iostream>
 #include <array>
 #include <vector>
-#include "MonoChorus.h"
+#include "monoChorus.h"
 
 #pragma once
 
@@ -13,17 +13,18 @@ public:
 //constructor and destructor
     stereoChorus();
     ~stereoChorus();
+    
 //functions for multi channel processing
     void multiChPrepareToPlay (double sampleRate, uint inChannels, uint outChannels);
     float multiChOutput (float input, uint channel);
-    void setChannel(int channel, int depth, int rate, int minimumDelay, float wet);
+
 //setters and getters
-  
+    void setChannel(int channel, float depth, int rate, int minimumDelay, float wet);
+
 protected:
-//empty pointer of type MonoChorus
+//use pointer for MonoChorus class
     MonoChorus *monoChorusArrP;
 
-//variables 
     uint inputChannels;
     uint outputChannels;
 };

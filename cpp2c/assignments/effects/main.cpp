@@ -2,7 +2,8 @@
 #include "stereoChorus.h"
 #include "circ_buff.h"
 #include "waveshaper.h"
-#include "MonoChorus.h"
+#include "monoChorus.h"
+#include "oscillator.h"
 #include "tremolo.h"
 #include "sine.h"
 #include "delay.h"
@@ -41,22 +42,29 @@ public:
             monoChor.setDryWet(0.3);
         }
 
+        for (Saw& sine : sines){
+           sine.setFrequency(220);
+           sine.setSamplerate(sampleRate);
+           sine.setAmplitude(0.8);
+        }
+
         stereoChor.multiChPrepareToPlay(static_cast<double> (sampleRate),1,2);
+        // osc = new Sine(440,0.4,static_cast<double> (sampleRate));
+    
     }
 
     void process (AudioBuffer buffer) override {
         auto [inputChannels, outputChannels, numInputChannels, numOutputChannels, numFrames] = buffer; // "link" the variables in  main.cpp to the variables in jack_moduole
-        Sine osc(140,0.2,48000);
-   
+    
         for (int channel = 0u; channel < numOutputChannels; ++channel) {
             for (int sample = 0u; sample < numFrames; ++sample) {
                 // outputChannels[channel][sample] = waveshapers[channel].output (osc.tick());
-                std::cout << channel << std::endl;
-                // outputChannels[channel][sample] = mChorus[channel].output (osc.tick());
-                outputChannels[channel][sample] = stereoChor.multiChOutput(osc.tick(),channel);
+                // std::cout << channel << std::endl;
+                // outputChannels[channel][sample] = mChorus[channel].output (sines[channel].tick());
+                // outputChannels[channel][sample] = stereoChor.multiChOutput(inputChannels[0][sample],channel);
                 
-                // outputChannels[channel][sample] = delays[channel].output (inputChannels[0][sample]);
-                // outputChannels[channel][sample] = tremolos[channel].output (osc.tick());
+                outputChannels[channel][sample] = delays[0].output (inputChannels[0][sample]);
+                // outputChannels[channel][sample] = tremolos[channel].output (sines[channel].tick());
             }
         }
     }
@@ -67,6 +75,8 @@ private:
     std::array<WaveShaper, 2> waveshapers;
     std::array<MonoChorus, 2> mChorus;
     stereoChorus stereoChor;
+    // Oscillator *osc;
+    std::array<Saw,2> sines;
 
 };
 

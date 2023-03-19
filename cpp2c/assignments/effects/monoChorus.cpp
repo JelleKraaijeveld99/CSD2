@@ -1,4 +1,4 @@
-#include "MonoChorus.h"
+#include "monoChorus.h"
 #include "sine.h"
 #include "saw.h"
 #include "square.h"
@@ -8,7 +8,7 @@ MonoChorus::MonoChorus() : Effect(){
 }
 
 MonoChorus::~MonoChorus(){
-    delete buffer;
+    // delete buffer;
 }
 
 void MonoChorus::prepareToPlay(double sampleRate){

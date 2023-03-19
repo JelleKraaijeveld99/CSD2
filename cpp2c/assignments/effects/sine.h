@@ -12,7 +12,7 @@ class Sine : public Oscillator
 {
 public:
   //Constructor and destructor
-  Sine(float frequency, float amplitude, float samplerate = 44100);
+  Sine(float frequency = 440, float amplitude = 0.5, float samplerate = 44100);
   ~Sine(); 
 
   // go to next sample

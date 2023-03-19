@@ -34,7 +34,7 @@ float CircBuffer::output(){ //function for returning a value from the buffer (re
     int i = (int) trunc (readHead);
     // subtract from the original value to find the remainder
     float indexDecimal = readHead - (float) i;
-    std::cout << linearMap(indexDecimal, buffer[i], buffer[i + 1]) << " IS THE OUTPUT" << std::endl;
+    // std::cout << linearMap(indexDecimal, buffer[i], buffer[i + 1]) << " IS THE OUTPUT" << std::endl;
     return linearMap(indexDecimal, buffer[i], buffer[i + 1]);
 }
 
