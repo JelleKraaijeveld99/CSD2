@@ -3,6 +3,7 @@
 #include "circ_buff.h"
 #include "waveshaper.h"
 #include "monoChorus.h"
+#include "lcrDelay.h"
 #include "oscillator.h"
 #include "tremolo.h"
 #include "sine.h"
@@ -49,8 +50,8 @@ public:
         }
 
         stereoChor.multiChPrepareToPlay(static_cast<double> (sampleRate),1,2);
-        // osc = new Sine(440,0.4,static_cast<double> (sampleRate));
-    
+
+        lcrdelay.lcrDelayPrepareToPlay(static_cast<double> (sampleRate));
     }
 
     void process (AudioBuffer buffer) override {
@@ -75,7 +76,7 @@ private:
     std::array<WaveShaper, 2> waveshapers;
     std::array<MonoChorus, 2> mChorus;
     stereoChorus stereoChor;
-    // Oscillator *osc;
+    LcrDelay lcrdelay;
     std::array<Saw,2> sines;
 
 };
