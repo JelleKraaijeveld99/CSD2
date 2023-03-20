@@ -11,33 +11,34 @@ LcrDelay::~LcrDelay(){
 }
 
 void LcrDelay::lcrDelayPrepareToPlay(double samplerate){
-    DelayArrP = new Delay[3];
-
+    DelayArrP = new Delay[3];   
+//initialise the delays
     for(uint i = 0; i < 3; i++){
-        DelayArrP[i].prepareToPlay(samplerate);
         //set all delaylines using the values in the array for each parameter
         setDelayLine(i,delayTimesLCR[i],feedbackLCR[i],drywetLCR[i]);
+        DelayArrP[i].prepareToPlay(samplerate);
     };
 
 }
 
-float LcrDelay::lcrDelayOutput(float input, uint channel){
-
+float LcrDelay::lcrDelayOutput(float input, uint ch){
 //variables for all the delaylines
-    float lOutput;
+    float LorRoutput;
     float cOutput;
-    float rOutput;
-//calculating all the values
-    // lOutput = DelayArrp[];
+//calculating all the values ch 0 = L, 1 = R and 2 = C
+    LorRoutput = DelayArrP[ch].output(input);
+    cOutput = DelayArrP[2].output(input);
+
+    return LorRoutput+cOutput;
 }
 
 void LcrDelay::setDelayLine(int ch, int delaytime, float feedback, float drywet){
     delayTimesLCR[ch] = delaytime;
-    DelayArrP[ch].setDelayTime(delayTimesLCR[ch]);
+    DelayArrP[ch].setDelayTime(delaytime);
 
     feedbackLCR[ch] = feedback;
-    DelayArrP[ch].setFeedback(feedbackLCR[ch]);
+    DelayArrP[ch].setFeedback(feedback);
 
     drywetLCR[ch] = drywet;
-    DelayArrP[ch].setDryWet(drywetLCR[ch]);
+    DelayArrP[ch].setDryWet(drywet);
 }

@@ -59,13 +59,16 @@ public:
     
         for (int channel = 0u; channel < numOutputChannels; ++channel) {
             for (int sample = 0u; sample < numFrames; ++sample) {
-                // outputChannels[channel][sample] = waveshapers[channel].output (osc.tick());
-                // std::cout << channel << std::endl;
+                // outputChannels[channel][sample] = waveshapers[channel].output (sines[channel].tick());
+
+                // std::cout << "sample: " << sample << std::endl;
+                std::cout << "channel: " << channel << std::endl;
                 // outputChannels[channel][sample] = mChorus[channel].output (sines[channel].tick());
                 // outputChannels[channel][sample] = stereoChor.multiChOutput(inputChannels[0][sample],channel);
-                
-                outputChannels[channel][sample] = delays[0].output (inputChannels[0][sample]);
+                outputChannels[channel][sample] = lcrdelay.lcrDelayOutput(inputChannels[0][sample],channel);
+                // outputChannels[channel][sample] = delays[0].output (inputChannels[0][sample]);
                 // outputChannels[channel][sample] = tremolos[channel].output (sines[channel].tick());
+
             }
         }
     }

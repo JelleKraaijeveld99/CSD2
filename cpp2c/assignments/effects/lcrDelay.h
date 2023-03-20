@@ -4,6 +4,7 @@
 #pragma once
 
 #include "delay.h"
+#include <iostream>
 
 class LcrDelay {
     
@@ -14,7 +15,7 @@ public:
 
 //functions
     void lcrDelayPrepareToPlay (double sampleRate);
-    float lcrDelayOutput (float input, uint channel);
+    float lcrDelayOutput (float input, uint ch);
 
 //setters and getters
     void setDelayLine(int ch, int delaytime, float feedback, float drywet);
@@ -22,10 +23,11 @@ public:
 protected:
 //pointer for all the delays in the LCR delay
     Delay *DelayArrP;
-//variables for the delaylines
-    int delayTimesLCR[3] {2000, 1000, 3000};
-    float feedbackLCR[3] {0.0, 0.5, 0.0};
-    float drywetLCR[3] {0.5, 1.0, 0.5};
+//variables for the delaylines, 0 = L, 1 = R, 2 = C
+
+    int delayTimesLCR[3]= {2000, 3000, 1000};
+    float feedbackLCR[3]= {0.0, 0.0, 0.5};
+    float drywetLCR[3]= {0.5,0.5,0.9};
 };
 
 #endif
