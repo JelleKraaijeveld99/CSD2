@@ -56,20 +56,22 @@ public:
 
     void process (AudioBuffer buffer) override {
         auto [inputChannels, outputChannels, numInputChannels, numOutputChannels, numFrames] = buffer; // "link" the variables in  main.cpp to the variables in jack_moduole
-    
-        for (int channel = 0u; channel < numOutputChannels; ++channel) {
-            for (int sample = 0u; sample < numFrames; ++sample) {
+        
+        for (int sample = 0u; sample < numFrames; ++sample) {
+            for (int channel = 0u; channel < numOutputChannels; ++channel) {
+            
                 // outputChannels[channel][sample] = waveshapers[channel].output (sines[channel].tick());
 
                 // std::cout << "sample: " << sample << std::endl;
-                std::cout << "channel: " << channel << std::endl;
+                // std::cout << "channel: " << channel << std::endl;
                 // outputChannels[channel][sample] = mChorus[channel].output (sines[channel].tick());
-                // outputChannels[channel][sample] = stereoChor.multiChOutput(inputChannels[0][sample],channel);
-                outputChannels[channel][sample] = lcrdelay.lcrDelayOutput(inputChannels[0][sample],channel);
+                outputChannels[channel][sample] = stereoChor.multiChOutput(inputChannels[0][sample],channel);
+                // outputChannels[channel][sample] = lcrdelay.lcrDelayOutput(inputChannels[0][sample],channel);
                 // outputChannels[channel][sample] = delays[0].output (inputChannels[0][sample]);
                 // outputChannels[channel][sample] = tremolos[channel].output (sines[channel].tick());
 
             }
+            lcrdelay.lcrIncrementC();
         }
     }
 

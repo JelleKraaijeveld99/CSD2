@@ -44,3 +44,12 @@ void Delay::setFeedback(float feedback){
     }   
 }
 
+float Delay::outputNoIncrement(float input){
+    buffer -> input(input+(outputBuffer*feedbackAmount)); //input the input to the buffer + output from the sample before * feedback amount to implement feedback
+    outputBuffer = buffer -> output();//safe the output of the buffer to add it to the next input 
+    return (outputBuffer*wet) + (input*dry); //implement wet and dry
+}
+
+void Delay::incrementDelay(){
+    buffer -> incrementHeads();
+}

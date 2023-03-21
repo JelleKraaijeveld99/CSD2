@@ -17,6 +17,8 @@ public:
     //functions
     void prepareToPlay(double sampleRate) override;
     float output(float input) override;
+    float outputNoIncrement(float input);
+    void incrementDelay();
     void setDelayTime(int MsDelay);
     void setFeedback(float feedback);
     void resetDelayTime(int ms);
