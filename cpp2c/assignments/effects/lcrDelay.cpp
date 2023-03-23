@@ -46,6 +46,18 @@ void LcrDelay::setDelayLine(int ch, int delaytime, float feedback, float drywet)
     DelayArrP[ch].setDryWet(drywet);
 }
 
+void LcrDelay::resetDelayLine(int ch, int delaytime, float feedback, float drywet){
+    std::cout << "resetDelayLine: " << ch << ", " << delaytime << ", " << feedback << ", " << drywet << std::endl;
+    delayTimesLCR[ch] = delaytime;
+    DelayArrP[ch].resetDelayTime(delaytime);
+
+    feedbackLCR[ch] = feedback;
+    DelayArrP[ch].setFeedback(feedback);
+
+    drywetLCR[ch] = drywet;
+    DelayArrP[ch].setDryWet(drywet);
+}
+
 void LcrDelay::lcrIncrementC(){
     DelayArrP[2].incrementDelay();
 }

@@ -71,23 +71,28 @@ void CircBuffer::incrementHeads(){  // increment both heads with a value
 void CircBuffer::getResetSize(uint size){
     resize = true;
     newSizeBuffer = size;
+    std::cout << "NEW SIZE BUFF: "<<  newSizeBuffer << std::endl;
 }
 
 void CircBuffer::resetSize(uint size){
+    std::cout << "Resetting size from " << currentSize << " to " << newSizeBuffer << " and distance " << currentDistance << std::endl;
     
     wrapValue = size;
     resizedBuffer = new float[size];
-    for (uint i = 0; i < sizeof(resizedBuffer); i++){
+    for (uint i = 0; i < currentSize; i++){
         resizedBuffer[i] = buffer[i];
     }
     deleteBuffer();
 
-    buffer = new float[sizeof(resizedBuffer)];
-    for (uint i = 0; i < sizeof(resizedBuffer); i++){
+    currentSize = newSizeBuffer;
+    buffer = new float[currentSize];
+    for (uint i = 0; i < sizeof(currentSize); i++){
         buffer[i] = resizedBuffer[i];
     }
     deleteResizedBuffer();
-    setDistance(currentDistance);
+
+    setDistance(currentSize - 1);
+    std::cout << "Resetting size success. Size is now " << currentSize << " and distance " << currentDistance << std::endl;
     resize = false;    
 }
 

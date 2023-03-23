@@ -33,6 +33,7 @@ void Delay::setDelayTime(int MsDelay){
 
 void Delay::resetDelayTime(int ms){
     currentDelaySamples = msToSamples(ms,sampleRateDelay);
+    std::cout << "resetDelayTime: " << ms << ", " << currentDelaySamples << std::endl;
     buffer -> getResetSize(currentDelaySamples+1); //resetting the size of the buffer according to the delaytime in samples
 }
 

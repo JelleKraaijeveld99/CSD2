@@ -20,8 +20,8 @@ void stereoChorus::multiChPrepareToPlay(double sampleRate, uint inChannels, uint
     }
 
     //setting the channels with the variables depth, rate and minimum delay
-    setChannel(0,1,15,17,0.8);
-    setChannel(1,1,15,10,0.8);
+    setChannel(0,1,8,17,0.8);
+    setChannel(1,0.3,15,10,0.8);
 }
 
 float stereoChorus::multiChOutput(float input, uint channel){

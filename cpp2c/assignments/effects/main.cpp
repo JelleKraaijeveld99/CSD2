@@ -52,8 +52,12 @@ public:
         stereoChor.multiChPrepareToPlay(static_cast<double> (sampleRate),1,2);
 
         lcrdelay.lcrDelayPrepareToPlay(static_cast<double> (sampleRate));
+        lcrdelay.resetDelayLine(0,3000,0,1);
+        lcrdelay.resetDelayLine(1,3000,0,1);
+        lcrdelay.resetDelayLine(2,3000,0,1);
     }
 
+    unsigned long counter = 0;
     void process (AudioBuffer buffer) override {
         auto [inputChannels, outputChannels, numInputChannels, numOutputChannels, numFrames] = buffer; // "link" the variables in  main.cpp to the variables in jack_moduole
         
@@ -65,13 +69,22 @@ public:
                 // std::cout << "sample: " << sample << std::endl;
                 // std::cout << "channel: " << channel << std::endl;
                 // outputChannels[channel][sample] = mChorus[channel].output (sines[channel].tick());
-                outputChannels[channel][sample] = stereoChor.multiChOutput(inputChannels[0][sample],channel);
-                // outputChannels[channel][sample] = lcrdelay.lcrDelayOutput(inputChannels[0][sample],channel);
+                // outputChannels[channel][sample] = stereoChor.multiChOutput(inputChannels[0][sample],channel);
+                outputChannels[channel][sample] = lcrdelay.lcrDelayOutput(inputChannels[0][sample],channel);
+                // outputChannels[channel][sample] = stereoChor.multiChOutput(lcrdelay.lcrDelayOutput(inputChannels[0][sample],channel),channel);
                 // outputChannels[channel][sample] = delays[0].output (inputChannels[0][sample]);
                 // outputChannels[channel][sample] = tremolos[channel].output (sines[channel].tick());
 
             }
             lcrdelay.lcrIncrementC();
+            counter++;
+
+            if (counter >= 44100*10) {
+                lcrdelay.resetDelayLine(0,500,0,1);
+                lcrdelay.resetDelayLine(1,700,0,1);
+                lcrdelay.resetDelayLine(2,800,0,1);
+                counter = 0;
+            }
         }
     }
 
