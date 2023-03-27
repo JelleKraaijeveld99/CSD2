@@ -11,9 +11,11 @@ LcrDelay::~LcrDelay(){
 }
 
 void LcrDelay::lcrDelayPrepareToPlay(double samplerate){
+    //make array with 3 delays
     DelayArrP = new Delay[3];   
+    //set the coefficient of the onepole filter
     onepole.setCoefficient(0.98);
-//initialise the delays
+    //initialise the delays
     for(uint i = 0; i < 3; i++){
         //set all delaylines using the values in the array for each parameter
         setDelayLine(i,delayTimesLCR[i],feedbackLCR[i],drywetLCR[i]);
@@ -30,12 +32,11 @@ float LcrDelay::lcrDelayOutput(float input, uint ch){
     LorRoutput = DelayArrP[ch].output(input);
 //getting the output for the C delayline but not increment it, the increment happens in the main.cpp
     cOutput = onepole.output(DelayArrP[2].outputNoIncrement(input));
-    // DelayArrP[2].incrementDelay();
-    // std::cout << "THIS IS THE cOutput: " << cOutput << std::endl;
     return LorRoutput + cOutput;
 }
 
 void LcrDelay::setDelayLine(int ch, int delaytime, float feedback, float drywet){
+    //in this function you pick a channel (0 = L, 1 = C and 2 = R) and set all the parameters of the delay on this channel
     delayTimesLCR[ch] = delaytime;
     DelayArrP[ch].setDelayTime(delaytime);
 
@@ -47,7 +48,7 @@ void LcrDelay::setDelayLine(int ch, int delaytime, float feedback, float drywet)
 }
 
 void LcrDelay::resetDelayLine(int ch, int delaytime, float feedback, float drywet){
-    std::cout << "resetDelayLine: " << ch << ", " << delaytime << ", " << feedback << ", " << drywet << std::endl;
+ //in this function you pick a channel (0 = L, 1 = C and 2 = R) and change all the parameters of the delay on this channel
     delayTimesLCR[ch] = delaytime;
     DelayArrP[ch].resetDelayTime(delaytime);
 
@@ -59,5 +60,6 @@ void LcrDelay::resetDelayLine(int ch, int delaytime, float feedback, float drywe
 }
 
 void LcrDelay::lcrIncrementC(){
+    //the C delay needs to be incremented outside the output() function because we use the C value for L and also R
     DelayArrP[2].incrementDelay();
 }

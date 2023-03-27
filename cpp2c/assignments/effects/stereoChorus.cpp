@@ -1,20 +1,21 @@
-#include "stereoChorus.h"
+#include "StereoChorus.h"
 
 //constructor
-stereoChorus::stereoChorus(){
+StereoChorus::StereoChorus(){
 
 }
 
 //destructor
-stereoChorus::~stereoChorus() {
+StereoChorus::~StereoChorus() {
     // delete monoChorusArrP;
 }
 
-void stereoChorus::multiChPrepareToPlay(double sampleRate, uint inChannels, uint outChannels){
+void StereoChorus::multiChPrepareToPlay(double sampleRate, uint inChannels, uint outChannels){
     outputChannels = outChannels;
     inputChannels = inChannels;
+    //make an array with the amount of monochorus according to the number of output channels
     monoChorusArrP = new MonoChorus[outputChannels];
-
+    //initialise the mono chorusses 
     for(uint i = 0; i < outChannels; i++){
         monoChorusArrP[i].prepareToPlay(sampleRate);
     }
@@ -24,15 +25,13 @@ void stereoChorus::multiChPrepareToPlay(double sampleRate, uint inChannels, uint
     setChannel(1,0.3,15,10,0.8);
 }
 
-float stereoChorus::multiChOutput(float input, uint channel){
-    // std::cout << "multiChOutput " << channel << std::endl;
-
+float StereoChorus::multiChOutput(float input, uint channel){
     float output = monoChorusArrP[channel].output(input);
-    
+
     return output;
 }
 
-void stereoChorus::setChannel(int channel, float depth, int rate, int minimumDelay, float wet){
+void StereoChorus::setChannel(int channel, float depth, int rate, int minimumDelay, float wet){
     // std::cout << "setChannel " << channel << std::endl;
     //monoChorusArrP + 0 = first MonoChorus in the array
    monoChorusArrP[channel].setMinDelay(minimumDelay);

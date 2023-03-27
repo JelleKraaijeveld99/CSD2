@@ -9,10 +9,6 @@ Tremolo::~Tremolo(){
 
 }
 
-// void Tremolo::setDryWet(float wetSig){
-//     Effect::setDryWet(wetSig);
-// }
-
 void Tremolo::prepareToPlay(double sampleRate){
     osc = new Saw(3,0.4,sampleRate);
 }

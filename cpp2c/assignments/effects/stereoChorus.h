@@ -7,12 +7,12 @@
 
 #pragma once
 
-class stereoChorus {
+class StereoChorus {
 
 public:
 //constructor and destructor
-    stereoChorus();
-    ~stereoChorus();
+    StereoChorus();
+    ~StereoChorus();
     
 //functions for multi channel processing
     void multiChPrepareToPlay (double sampleRate, uint inChannels, uint outChannels);

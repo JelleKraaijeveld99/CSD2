@@ -69,30 +69,33 @@ void CircBuffer::incrementHeads(){  // increment both heads with a value
 }
 
 void CircBuffer::getResetSize(uint size){
-    resize = true;
-    newSizeBuffer = size;
-    std::cout << "NEW SIZE BUFF: "<<  newSizeBuffer << std::endl;
+    //this function does not reset the size immidiatly but waiting for the readhead to hit 0
+    resize = true; //set resize bool on true so next time the readhead hits 0 the buffer will resize
+    newSizeBuffer = size; // save the new size of the buffer
 }
 
 void CircBuffer::resetSize(uint size){
-    std::cout << "Resetting size from " << currentSize << " to " << newSizeBuffer << " and distance " << currentDistance << std::endl;
-    
+    //the buffer wraps at the new size    
     wrapValue = size;
+    //make new buffer for a buffer of the new size and fill it with the values in the old buffer
     resizedBuffer = new float[size];
     for (uint i = 0; i < currentSize; i++){
         resizedBuffer[i] = buffer[i];
     }
+    //delete the old buffer
     deleteBuffer();
 
+    //change the currentsize to the size of the new buffer
     currentSize = newSizeBuffer;
+    //make the buffer we are actually gonna use and fill it with the values in the buffer of the buffer haha
     buffer = new float[currentSize];
     for (uint i = 0; i < sizeof(currentSize); i++){
         buffer[i] = resizedBuffer[i];
     }
+    //delete the old buffer
     deleteResizedBuffer();
 
     setDistance(currentSize - 1);
-    std::cout << "Resetting size success. Size is now " << currentSize << " and distance " << currentDistance << std::endl;
     resize = false;    
 }
 
@@ -129,7 +132,3 @@ void CircBuffer::deleteBuffer(){  // function for deleting the buffer
 void CircBuffer::deleteResizedBuffer(){
     delete[] resizedBuffer;
 }
-
-
-//als writeHead groter is dan buffersize, wrapfunctie word writehead+1 totdat readHead 0 is, 
-//dan wordt wrapfunctie weer de buffersize

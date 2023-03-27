@@ -16,15 +16,15 @@ public:
   ~Effect();
 
   //setters and getters
-  void setInputChannels(int amount);
-  void setOutputChannels(int amount);
-  void setDryWet(float wetSig);
+  void setInputChannels(int amount); //amount of input channels
+  void setOutputChannels(int amount); //amount of output channels
+  void setDryWet(float wetSig); //set the wet signal with a float 
 
   //functions for mono signals
   virtual void prepareToPlay (double sampleRate) = 0;
   virtual float output (float input) = 0;
 
-  float msToSamples(float ms, int sampleRate);
+  float msToSamples(float ms, int sampleRate);//function for calculating ms to samples
 
 protected:
   float wet { 0 };
