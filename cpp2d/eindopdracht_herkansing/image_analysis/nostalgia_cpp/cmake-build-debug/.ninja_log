@@ -1,0 +1,12 @@
+# ninja log v5
+1	851	1686585270370122728	CMakeFiles/nostalgia_cpp.dir/analyse.cpp.o	1901a0749f425a67
+1	449	1685629531661653082	CMakeFiles/nostalgia_cpp.dir/osc.cpp.o	2ab8a76020843e47
+867	903	1692524381383519261	nostalgia_cpp	ceb2f4a67f9ae732
+1	867	1692524381344661038	CMakeFiles/nostalgia_cpp.dir/main.cpp.o	19537094f64e2e7b
+0	130	1692526973066010340	build.ninja	1c4436c6ea99d44b
+5	707	1692526979901288090	CMakeFiles/nostalgia_cpp.dir/osc.cpp.o	e0bcd43b86355e39
+1	1577	1692526980772153888	CMakeFiles/nostalgia_cpp.dir/main.cpp.o	4c46a6901305988a
+3	1594	1692526980789819210	CMakeFiles/nostalgia_cpp.dir/analyse.cpp.o	779e90d5d8aef893
+1594	1644	1692526980842712926	nostalgia_cpp	ceb2f4a67f9ae732
+2	812	1692527200656152178	CMakeFiles/nostalgia_cpp.dir/main.cpp.o	4c46a6901305988a
+812	851	1692527200697361138	nostalgia_cpp	ceb2f4a67f9ae732
