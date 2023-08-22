@@ -24,6 +24,7 @@ int main() {
     colorPercentage.rgbToHsv();
     colorPercentage.colorMask();
     colorPercentage.pixelColors();
+    colorPercentage.percentageColors();
 
     waitKey(0);
     destroyAllWindows();

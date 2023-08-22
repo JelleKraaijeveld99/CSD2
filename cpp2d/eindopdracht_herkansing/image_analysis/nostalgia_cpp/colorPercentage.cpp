@@ -104,15 +104,43 @@ void ColorPercentage::pixelColors() {
 //
         }
     }
-    std::cout << "amount of pixels: " << pixelAmount << std::endl;
-    std::cout << "amount of light green pixels: " << lightGreen << std::endl;
-    std::cout << "amount of dark green pixels: " << darkGreen << std::endl;
-    std::cout << "amount of red pixels: " << red << std::endl;
-    std::cout << "amount of light blue pixels: " << lightBlue << std::endl;
-    std::cout << "amount of darkblue pixels: " << darkBlue << std::endl;
-    std::cout << "amount of purple pixels: " << purple << std::endl;
-    std::cout << "amount of pink pixels: " << pink << std::endl;
-    std::cout << "amount of orange pixels: " << orange << std::endl;
-    std::cout << "amount of yellow pixels: " << yellow << std::endl;
-    std::cout << "amount of cyan pixels: " << cyan << std::endl;
+//    std::cout << "amount of pixels: " << pixelAmount << std::endl;
+//    std::cout << "amount of light green pixels: " << lightGreen << std::endl;
+//    std::cout << "amount of dark green pixels: " << darkGreen << std::endl;
+//    std::cout << "amount of red pixels: " << red << std::endl;
+//    std::cout << "amount of light blue pixels: " << lightBlue << std::endl;
+//    std::cout << "amount of darkblue pixels: " << darkBlue << std::endl;
+//    std::cout << "amount of purple pixels: " << purple << std::endl;
+//    std::cout << "amount of pink pixels: " << pink << std::endl;
+//    std::cout << "amount of orange pixels: " << orange << std::endl;
+//    std::cout << "amount of yellow pixels: " << yellow << std::endl;
+//    std::cout << "amount of cyan pixels: " << cyan << std::endl;
+}
+
+void ColorPercentage::percentageColors() {
+    int totalColoredPixels = red + darkBlue + lightBlue + darkGreen + lightGreen + purple + pink + orange + yellow + cyan;
+
+    perRed = ((float) red/totalColoredPixels)*100.0;
+    perLightBlue = ((float) lightBlue/totalColoredPixels)*100;
+    perDarkBlue = ((float) darkBlue/totalColoredPixels)*100;
+    perLightGreen = ((float) lightGreen/totalColoredPixels)*100;
+    perDarkGreen = ((float) darkGreen/totalColoredPixels)*100;
+    perPurple = ((float) purple/totalColoredPixels)*100;
+    perPink = ((float) pink/totalColoredPixels)*100;
+    perOrange = ((float) orange/totalColoredPixels)*100;
+    perYellow = ((float) yellow/totalColoredPixels)*100;
+    perCyan = ((float) cyan/totalColoredPixels)*100;
+
+    std::cout << "% of pixels: " << pixelAmount << std::endl;
+    std::cout << "% of light green pixels: " << perLightGreen << std::endl;
+    std::cout << "% of dark green pixels: " << perDarkGreen << std::endl;
+    std::cout << "% of red pixels: " << perRed << std::endl;
+    std::cout << "% of light blue pixels: " << perLightBlue << std::endl;
+    std::cout << "% of darkblue pixels: " << perDarkBlue << std::endl;
+    std::cout << "% of purple pixels: " << perPurple << std::endl;
+    std::cout << "% of pink pixels: " << perPink << std::endl;
+    std::cout << "% of orange pixels: " << perOrange << std::endl;
+    std::cout << "% of yellow pixels: " << perYellow << std::endl;
+    std::cout << "% of cyan pixels: " << perCyan << std::endl;
+
 }
