@@ -60,12 +60,12 @@ void ColorPercentage::pixelColors() {
             }
 
             //check how many pixels are light green
-            if(hueValue >= 35 && hueValue <= 55){
+            if(hueValue >= 35 && hueValue <= 45){
                 lightGreen++;
             }
 
             //check how many pixels are dark green
-            if(hueValue >= 56 && hueValue <= 80){
+            if(hueValue >= 46 && hueValue <= 80){
                 darkGreen++;
             }
 
@@ -75,12 +75,12 @@ void ColorPercentage::pixelColors() {
             }
 
             //check how many pixels are blue
-            if(hueValue >= 90 && hueValue <= 110){
+            if(hueValue >= 90 && hueValue <= 94){
                 lightBlue++;
             }
 
             //check how many pixels are blue
-            if(hueValue >= 111 && hueValue <= 130){
+            if(hueValue >= 95 && hueValue <= 130){
                 darkBlue++;
             }
 
@@ -104,4 +104,15 @@ void ColorPercentage::pixelColors() {
 //
         }
     }
+    std::cout << "amount of pixels: " << pixelAmount << std::endl;
+    std::cout << "amount of light green pixels: " << lightGreen << std::endl;
+    std::cout << "amount of dark green pixels: " << darkGreen << std::endl;
+    std::cout << "amount of red pixels: " << red << std::endl;
+    std::cout << "amount of light blue pixels: " << lightBlue << std::endl;
+    std::cout << "amount of darkblue pixels: " << darkBlue << std::endl;
+    std::cout << "amount of purple pixels: " << purple << std::endl;
+    std::cout << "amount of pink pixels: " << pink << std::endl;
+    std::cout << "amount of orange pixels: " << orange << std::endl;
+    std::cout << "amount of yellow pixels: " << yellow << std::endl;
+    std::cout << "amount of cyan pixels: " << cyan << std::endl;
 }

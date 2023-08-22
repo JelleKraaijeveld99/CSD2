@@ -23,6 +23,7 @@ int main() {
 //    analyse.sendPercentageOSC();
     colorPercentage.rgbToHsv();
     colorPercentage.colorMask();
+    colorPercentage.pixelColors();
 
     waitKey(0);
     destroyAllWindows();
