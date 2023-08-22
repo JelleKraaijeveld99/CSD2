@@ -12,21 +12,28 @@ using namespace std;
 using namespace cv;
 
 
-class FeatureAnalyser{
+class FeatureAnalyser {
 public:
     //constructor and deconstructor
     FeatureAnalyser(string path);
     ~FeatureAnalyser();
 
+    //function that might come in handy in the subclasses
+    void rgbToHsv();
+
     //setter
     void setSrcImg(string path);
-
-    //variable to store the source image
-    Mat srcImg;
 
 protected:
     string pathToImg;
 
+    //variable to store the source image
+    Mat srcImg;
+    //variable to store the gray image
+    Mat grayImg;
+    //variable to store the thresh image
+    Mat threshImg;
+   
     //total amount of pixels in the picture
     int pixelAmount = 0;
 
