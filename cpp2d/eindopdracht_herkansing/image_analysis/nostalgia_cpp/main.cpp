@@ -13,8 +13,8 @@ int main() {
     //initialise
 //    Analyse analyse;
 
-    FeatureAnalyser FeatureAnalyser("/Users/jellekraaijeveld/Documents/HKU1/Jaar_2/CSD/CodingHKU/cpp2d/eindopdracht_herkansing/image_analysis/nostalgia_cpp/crayon_features_1.jpg");
-    ColorPercentage colorPercentage("/Users/jellekraaijeveld/Documents/HKU1/Jaar_2/CSD/CodingHKU/cpp2d/eindopdracht_herkansing/image_analysis/nostalgia_cpp/crayon_features_1.jpg");
+    FeatureAnalyser FeatureAnalyser("/Users/jellekraaijeveld/Documents/HKU1/Jaar_2/CSD/CodingHKU/cpp2d/eindopdracht_herkansing/image_analysis/nostalgia_cpp/crayon_features_3.jpg");
+    ColorPercentage colorPercentage("/Users/jellekraaijeveld/Documents/HKU1/Jaar_2/CSD/CodingHKU/cpp2d/eindopdracht_herkansing/image_analysis/nostalgia_cpp/crayon_features_3.jpg");
 
     //function for calculating the percentage of each color in the picture
 //    analyse.colorAnalyse("/Users/jellekraaijeveld/Documents/HKU1/Jaar_2/CSD/CodingHKU/cpp2d/eindopdracht_herkansing/image_analysis/nostalgia_cpp/crayon_features_1.jpg");

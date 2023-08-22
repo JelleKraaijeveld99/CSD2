@@ -1,7 +1,8 @@
 #include "colorPercentage.h"
 
 ColorPercentage::ColorPercentage(string path) : FeatureAnalyser(path) {
-
+    pathToImg = path;
+    srcImg = imread(pathToImg);
 }
 
 ColorPercentage::~ColorPercentage() {
@@ -55,12 +56,12 @@ void ColorPercentage::pixelColors() {
             }
 
             //check how many pixels are yellow
-            if(hueValue >= 26 && hueValue <= 34){
+            if(hueValue >= 26 && hueValue <= 38){
                 yellow++;
             }
 
             //check how many pixels are light green
-            if(hueValue >= 35 && hueValue <= 45){
+            if(hueValue >= 39 && hueValue <= 45){
                 lightGreen++;
             }
 
@@ -75,12 +76,12 @@ void ColorPercentage::pixelColors() {
             }
 
             //check how many pixels are blue
-            if(hueValue >= 90 && hueValue <= 94){
+            if(hueValue >= 90 && hueValue <= 100){
                 lightBlue++;
             }
 
             //check how many pixels are blue
-            if(hueValue >= 95 && hueValue <= 130){
+            if(hueValue >= 101 && hueValue <= 130){
                 darkBlue++;
             }
 
