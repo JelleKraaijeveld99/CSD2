@@ -43,6 +43,9 @@ protected:
     int lightBlue = 0;
     int orange = 0;
     int yellow = 0;
+    int cyan = 0;
+    int purple = 0;
+    int pink = 0;
 
     //the percentages of the colors
     float perRed = 0.0;
@@ -52,6 +55,10 @@ protected:
     float perLightGreen = 0.0;
     float perOrange = 0.0;
     float perYellow = 0.0;
+    float perCyan = 0.0;
+    float perPink = 0.0;
+    float perPurple = 0.0;
+
 };
 
 #endif
