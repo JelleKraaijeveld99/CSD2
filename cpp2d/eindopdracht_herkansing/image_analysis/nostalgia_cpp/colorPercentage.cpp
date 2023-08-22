@@ -24,11 +24,11 @@ void ColorPercentage::colorMask() {
     Mat saturationMask;
 
     // E.G. --> with mask 20 or 10, different results
-    int thresholdValue = 20;
+    int thresholdValue = 100;
     threshold(hsvChannels[1], saturationMask,thresholdValue, 255, THRESH_BINARY_INV );
     saturationMask = 255 - saturationMask;
     threshold(hsvChannels[1], saturationMask,thresholdValue, 255, THRESH_BINARY );
-//    imshow("saturationMask", saturationMask);
+    imshow("saturationMask", saturationMask);
 
     // apply mask to filter out the color white
     Mat maskedImg;
@@ -38,7 +38,7 @@ void ColorPercentage::colorMask() {
     cvtColor(maskedImg, hsvMaskedImg, cv::COLOR_BGR2HSV );
 
     split(hsvMaskedImg,maskedChannels);
-//    imshow("hue masked", maskedChannels[0]);
+    imshow("hue masked", maskedChannels[0]);
 }
 
 void ColorPercentage::pixelColors() {
@@ -131,7 +131,6 @@ void ColorPercentage::percentageColors() {
     perYellow = ((float) yellow/totalColoredPixels)*100;
     perCyan = ((float) cyan/totalColoredPixels)*100;
 
-    std::cout << "% of pixels: " << pixelAmount << std::endl;
     std::cout << "% of light green pixels: " << perLightGreen << std::endl;
     std::cout << "% of dark green pixels: " << perDarkGreen << std::endl;
     std::cout << "% of red pixels: " << perRed << std::endl;
@@ -142,5 +141,7 @@ void ColorPercentage::percentageColors() {
     std::cout << "% of orange pixels: " << perOrange << std::endl;
     std::cout << "% of yellow pixels: " << perYellow << std::endl;
     std::cout << "% of cyan pixels: " << perCyan << std::endl;
+
+    std::cout << "total %: " << perLightGreen + perDarkGreen + perRed + perLightBlue + perDarkBlue + perPurple + perPink + perOrange + perYellow + perCyan << std::endl;
 
 }
