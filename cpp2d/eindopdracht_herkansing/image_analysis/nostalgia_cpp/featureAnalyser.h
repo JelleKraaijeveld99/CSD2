@@ -33,7 +33,10 @@ protected:
     Mat grayImg;
     //variable to store the thresh image
     Mat threshImg;
-   
+
+    //store the HSV values in three channels
+    Mat hsvChannels[3];
+
     //total amount of pixels in the picture
     int pixelAmount = 0;
 

@@ -17,6 +17,7 @@ int main() {
 //    //let the program wait
 //    analyse.colorPercentage();
 //    analyse.sendPercentageOSC();
+    FeatureAnalyser.rgbToHsv();
     waitKey(0);
     destroyAllWindows();
     return 0;
