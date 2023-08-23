@@ -25,7 +25,6 @@ public:
     void subColorsIndicators();
     //function of finding the sub colors according to the main color
     void subColors();
-
     //function that returns if the drawing has a harmonic or disharmonic colorscheme
     void harmonyFinder();
     //function that returns the two colors with the biggest contrast
@@ -34,8 +33,10 @@ public:
 protected:
     //variable to store the main color
     string mColor;
-    //variable for storing the indicator of the main color, going from 1 to 10 each color in the hsv scale has is own value
+    //variable for storing the indicator of the main and sub colors, going from 1 to 10 each color in the hsv scale has is own value
     int mColorIndicator;
+    int sColorIndicator1;
+    int sColorIndicator2;
     //vector for the sub colors;
     vector<string> sColors;
     int sColorIndList[2];
