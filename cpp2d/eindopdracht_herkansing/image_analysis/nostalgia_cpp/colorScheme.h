@@ -17,7 +17,7 @@ public:
     ColorScheme(string path);
     ~ColorScheme();
 
-    //function that uses the color percentage class to calculate all color percentages
+    //function that uses the color percentage class to calculate all color percentages needed in color scheme
     void calculatePer();
     //function to find the main color of the drawing
     void mainColor();
@@ -33,8 +33,7 @@ protected:
     string mColor;
     //vector for the sub colors;
     vector<string> sColors;
-    //empty pointer to calculate the percentages
-    ColorPercentage* colorPerPointer;
+
 };
 
 #endif

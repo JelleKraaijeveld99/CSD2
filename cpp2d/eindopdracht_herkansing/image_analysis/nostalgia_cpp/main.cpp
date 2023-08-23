@@ -28,6 +28,7 @@ int main() {
 //    colorPercentage.pixelColors();
 //    colorPercentage.percentageColors();
     colorScheme.calculatePer();
+    colorScheme.mainColor();
 
     waitKey(0);
     destroyAllWindows();
