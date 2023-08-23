@@ -21,7 +21,7 @@ public:
     void calculatePer();
     //function to find the main color of the drawing
     void mainColor();
-    //function of finding the subcolors of the drawing
+    //function of finding the sub colors of the drawing according to the main color
     void subColors();
     //function that returns if the drawing has a harmonic or disharmonic colorscheme
     void harmonyFinder();

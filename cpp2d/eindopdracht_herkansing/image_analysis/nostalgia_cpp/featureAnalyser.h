@@ -8,6 +8,7 @@
 #include "osc.h"
 #include <lo/lo.h>
 #include <map>
+#include <tuple>
 
 using namespace std;
 using namespace cv;

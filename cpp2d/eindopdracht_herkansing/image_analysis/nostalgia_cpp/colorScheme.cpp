@@ -34,3 +34,5 @@ void ColorScheme::mainColor() {
     mColor = mainColor;
     std::cout << "the main color of the drawing is: " << mColor << std::endl;
 }
+
+void
