@@ -121,28 +121,27 @@ void ColorPercentage::pixelColors() {
 void ColorPercentage::percentageColors() {
     int totalColoredPixels = red + darkBlue + lightBlue + darkGreen + lightGreen + purple + pink + orange + yellow + cyan;
 
-    perRed = ((float) red/totalColoredPixels)*100.0;
-    perLightBlue = ((float) lightBlue/totalColoredPixels)*100;
-    perDarkBlue = ((float) darkBlue/totalColoredPixels)*100;
-    perLightGreen = ((float) lightGreen/totalColoredPixels)*100;
-    perDarkGreen = ((float) darkGreen/totalColoredPixels)*100;
-    perPurple = ((float) purple/totalColoredPixels)*100;
-    perPink = ((float) pink/totalColoredPixels)*100;
-    perOrange = ((float) orange/totalColoredPixels)*100;
-    perYellow = ((float) yellow/totalColoredPixels)*100;
-    perCyan = ((float) cyan/totalColoredPixels)*100;
+    colorPerMap["red"] = ((float) red/totalColoredPixels)*100.0;
+    colorPerMap["light blue"] = ((float) lightBlue/totalColoredPixels)*100;
+    colorPerMap["dark blue"] = ((float) darkBlue/totalColoredPixels)*100;
+    colorPerMap["light green"] = ((float) lightGreen/totalColoredPixels)*100;
+    colorPerMap["dark green"] = ((float) darkGreen/totalColoredPixels)*100;
+    colorPerMap["purple"] = ((float) purple/totalColoredPixels)*100;
+    colorPerMap["pink"] = ((float) pink/totalColoredPixels)*100;
+    colorPerMap["orange"] = ((float) orange/totalColoredPixels)*100;
+    colorPerMap["yellow"] = ((float) yellow/totalColoredPixels)*100;
+    colorPerMap["cyan"] = ((float) cyan/totalColoredPixels)*100;
 
-    std::cout << "% of light green pixels: " << perLightGreen << std::endl;
-    std::cout << "% of dark green pixels: " << perDarkGreen << std::endl;
-    std::cout << "% of red pixels: " << perRed << std::endl;
-    std::cout << "% of light blue pixels: " << perLightBlue << std::endl;
-    std::cout << "% of darkblue pixels: " << perDarkBlue << std::endl;
-    std::cout << "% of purple pixels: " << perPurple << std::endl;
-    std::cout << "% of pink pixels: " << perPink << std::endl;
-    std::cout << "% of orange pixels: " << perOrange << std::endl;
-    std::cout << "% of yellow pixels: " << perYellow << std::endl;
-    std::cout << "% of cyan pixels: " << perCyan << std::endl;
-
-    std::cout << "total %: " << perLightGreen + perDarkGreen + perRed + perLightBlue + perDarkBlue + perPurple + perPink + perOrange + perYellow + perCyan << std::endl;
+    std::cout << "% of light green pixels: " <<  colorPerMap["light green"] << std::endl;
+    std::cout << "% of dark green pixels: " << colorPerMap["dark green"] << std::endl;
+    std::cout << "% of red pixels: " << colorPerMap["red"] << std::endl;
+    std::cout << "% of light blue pixels: " << colorPerMap["light blue"] << std::endl;
+    std::cout << "% of darkblue pixels: " << colorPerMap["dark blue"] << std::endl;
+    std::cout << "% of purple pixels: " << colorPerMap["purple"] << std::endl;
+    std::cout << "% of pink pixels: " <<  colorPerMap["pink"] << std::endl;
+    std::cout << "% of orange pixels: " << colorPerMap["orange"] << std::endl;
+    std::cout << "% of yellow pixels: " << colorPerMap["yellow"] << std::endl;
+    std::cout << "% of cyan pixels: " << colorPerMap["cyan"]  << std::endl;
+    
 
 }

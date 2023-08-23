@@ -7,6 +7,7 @@
 #include <utility>
 #include "osc.h"
 #include <lo/lo.h>
+#include <map>
 
 using namespace std;
 using namespace cv;
@@ -35,6 +36,8 @@ protected:
     //total amount of pixels in the picture
     int pixelAmount = 0;
 
+
+
     //all colors to be analysed
     int lightGreen = 0;
     int darkGreen = 0;
@@ -58,6 +61,8 @@ protected:
     float perCyan = 0.0;
     float perPink = 0.0;
     float perPurple = 0.0;
+
+    map<string, float> colorPerMap;
 
 };
 

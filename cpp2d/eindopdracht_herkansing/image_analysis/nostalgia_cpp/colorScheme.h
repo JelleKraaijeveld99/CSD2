@@ -6,6 +6,10 @@
 #include <string>
 #include <utility>
 #include <iostream>
+#include <vector>
+
+using namespace std;
+
 
 class ColorScheme : public ColorPercentage {
 public:
@@ -17,6 +21,12 @@ public:
     void harmonyFinder();
     //function that returns the two colors with the biggest contrast
     void biggestContrast();
+
+protected:
+    //variable to store the main color
+    string mColor;
+    //vector for the sub colors;
+    vector<string> sColors;
 };
 
 #endif
