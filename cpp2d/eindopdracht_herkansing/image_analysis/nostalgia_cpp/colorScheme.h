@@ -13,6 +13,12 @@ using namespace std;
 
 class ColorScheme : public ColorPercentage {
 public:
+    //concstructor and destructor
+    ColorScheme(string path);
+    ~ColorScheme();
+
+    //function that uses the color percentage class to calculate all color percentages
+    void calculatePer();
     //function to find the main color of the drawing
     void mainColor();
     //function of finding the subcolors of the drawing
@@ -27,6 +33,8 @@ protected:
     string mColor;
     //vector for the sub colors;
     vector<string> sColors;
+    //empty pointer to calculate the percentages
+    ColorPercentage* colorPerPointer;
 };
 
 #endif

@@ -5,6 +5,7 @@
 #include "analyse.h"
 #include "featureAnalyser.h"
 #include "colorPercentage.h"
+#include "colorScheme.h"
 #include <filesystem>
 
 using namespace cv;
@@ -15,16 +16,18 @@ int main() {
 
     FeatureAnalyser FeatureAnalyser("/Users/jellekraaijeveld/Documents/HKU1/Jaar_2/CSD/CodingHKU/cpp2d/eindopdracht_herkansing/image_analysis/nostalgia_cpp/crayon_features_3.jpg");
     ColorPercentage colorPercentage("/Users/jellekraaijeveld/Documents/HKU1/Jaar_2/CSD/CodingHKU/cpp2d/eindopdracht_herkansing/image_analysis/nostalgia_cpp/crayon_features_3.jpg");
+    ColorScheme colorScheme("/Users/jellekraaijeveld/Documents/HKU1/Jaar_2/CSD/CodingHKU/cpp2d/eindopdracht_herkansing/image_analysis/nostalgia_cpp/crayon_features_3.jpg");
 
     //function for calculating the percentage of each color in the picture
 //    analyse.colorAnalyse("/Users/jellekraaijeveld/Documents/HKU1/Jaar_2/CSD/CodingHKU/cpp2d/eindopdracht_herkansing/image_analysis/nostalgia_cpp/crayon_features_1.jpg");
 //    //let the program wait
 //    analyse.colorPercentage();
 //    analyse.sendPercentageOSC();
-    colorPercentage.rgbToHsv();
-    colorPercentage.colorMask();
-    colorPercentage.pixelColors();
-    colorPercentage.percentageColors();
+//    colorPercentage.rgbToHsv();
+//    colorPercentage.colorMask();
+//    colorPercentage.pixelColors();
+//    colorPercentage.percentageColors();
+    colorScheme.calculatePer();
 
     waitKey(0);
     destroyAllWindows();

@@ -32,11 +32,8 @@ protected:
     //variable to store the thresh image
     Mat threshImg;
 
-
     //total amount of pixels in the picture
     int pixelAmount = 0;
-
-
 
     //all colors to be analysed
     int lightGreen = 0;
@@ -50,18 +47,7 @@ protected:
     int purple = 0;
     int pink = 0;
 
-    //the percentages of the colors
-    float perRed = 0.0;
-    float perLightBlue = 0.0;
-    float perDarkBlue = 0.0;
-    float perDarkGreen = 0.0;
-    float perLightGreen = 0.0;
-    float perOrange = 0.0;
-    float perYellow = 0.0;
-    float perCyan = 0.0;
-    float perPink = 0.0;
-    float perPurple = 0.0;
-
+    //a map to store all the color percentages in
     map<string, float> colorPerMap;
 
 };

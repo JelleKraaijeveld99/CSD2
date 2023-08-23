@@ -142,6 +142,6 @@ void ColorPercentage::percentageColors() {
     std::cout << "% of orange pixels: " << colorPerMap["orange"] << std::endl;
     std::cout << "% of yellow pixels: " << colorPerMap["yellow"] << std::endl;
     std::cout << "% of cyan pixels: " << colorPerMap["cyan"]  << std::endl;
-    
+
 
 }
