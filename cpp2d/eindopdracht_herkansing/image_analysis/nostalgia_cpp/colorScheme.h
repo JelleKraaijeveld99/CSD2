@@ -21,8 +21,11 @@ public:
     void calculatePer();
     //function to find the main color of the drawing
     void mainColor();
-    //function of finding the sub colors of the drawing according to the main color
+    //function of finding the sub colors indicators of the drawing according to the indicator of the main color
+    void subColorsIndicators();
+    //function of finding the sub colors according to the main color
     void subColors();
+
     //function that returns if the drawing has a harmonic or disharmonic colorscheme
     void harmonyFinder();
     //function that returns the two colors with the biggest contrast
@@ -31,8 +34,11 @@ public:
 protected:
     //variable to store the main color
     string mColor;
+    //variable for storing the indicator of the main color, going from 1 to 10 each color in the hsv scale has is own value
+    int mColorIndicator;
     //vector for the sub colors;
     vector<string> sColors;
+    int sColorIndList[2];
 
 };
 

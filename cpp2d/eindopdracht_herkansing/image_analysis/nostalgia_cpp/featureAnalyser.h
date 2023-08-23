@@ -48,8 +48,19 @@ protected:
     int purple = 0;
     int pink = 0;
 
-    //a map to store all the color percentages in
-    map<string, float> colorPerMap;
+    float perRed = 0.0f;
+    float perOrange = 0.0f;
+    float perYellow = 0.0f;
+    float perLightGreen = 0.0f;
+    float perDarkGreen = 0.0f;
+    float perCyan = 0.0f;
+    float perLightBlue = 0.0f;
+    float perDarkBlue = 0.0f;
+    float perPurple = 0.0f;
+    float perPink = 0.0f;
+
+    //a map to store all the color percentages and color index in
+    map<string, tuple<float,int>> colorPerMap;
 
 };
 

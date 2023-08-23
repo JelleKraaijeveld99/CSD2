@@ -18,21 +18,56 @@ void ColorScheme::calculatePer() {
 
 void ColorScheme::mainColor() {
 
-    //initialize a variable for the highest value
+    //initialize a variable for the highest value, is lower then all the values in the map
     float highestValue = -1.0f;
     //initialize a variable for the main color
     string mainColor;
+    //initialize a variable for the indicator of the main color
+    int mainColorIndicator;
 
     //for loop to find the highest value and return the matching key
-    for (const auto& mapPair : colorPerMap){
-        if (mapPair.second > highestValue){
-            highestValue = mapPair.second;
-            mainColor = mapPair.first;
+    for (const auto& mapPair : colorPerMap){//mapPair is the pair that refers to the key in the map colorPerMap.
+        if (get<0>(mapPair.second) > highestValue){//.second refers to the tuple that's part of a certain key. get<0> is the first value of the tuple, get<1> should be the second
+            highestValue = get<0>(mapPair.second);
+            mainColor = mapPair.first;//.first is the name of the key
+            mainColorIndicator = get<1>(mapPair.second);
         }
     }
 
     mColor = mainColor;
+    mColorIndicator = mainColorIndicator;
     std::cout << "the main color of the drawing is: " << mColor << std::endl;
+//    std::cout << "the main color indicator of the drawing is: " << mColorIndicator << std::endl;
 }
 
-void
+void ColorScheme::subColorsIndicators() {
+    int arr = 0;
+    for(int i = -1; i <= 1; i++){ //for loop that is going from -2 to 2.
+        int result = (mColorIndicator + i - 1 + 10) % 10 + 1; //each step the i in the forloop is added to the mColorIndicator. Using -1 and +1 because my indicators going from 1 to 10 and modulo 0 to 9
+        if(result != mColorIndicator){
+            sColorIndList[arr] = result;
+            arr++;
+        }
+    }
+//    //showing the results
+//    for(int v : sColorIndList){
+//        std::cout << "this is the list: " << v << std::endl;
+//    }
+
+}
+
+void ColorScheme::subColors() {
+    string subColor;
+    int numberOfSubC = 1;
+    int subColorInd1 = sColorIndList[0];
+    int subColorInd2 = sColorIndList[1];
+    for (const auto& mapPair : colorPerMap){
+        if (get<1>(mapPair.second) == subColorInd1 || get<1>(mapPair.second) == subColorInd2  ) {
+            subColor = mapPair.first;
+            sColors.push_back(subColor);
+            std::cout << "this is sub color " << numberOfSubC << ": " << subColor << std::endl;
+            numberOfSubC++;
+        }
+    }
+}
+
