@@ -58,12 +58,11 @@ void Accents::findAccentPos(int hueMin, int hueMax, int indicator) {
                 if ((hueValue > 0 && hueValue <= 10) || (hueValue >= 164 && hueValue <= 180)) {
                     accentX.push_back(x);
                     accentY.push_back(y);
-                } else {
-                    if (hueValue >= hueMin && hueValue <= hueMax) {
-                        accentX.push_back(x);
-                        accentY.push_back(y);
-
-                    }
+                }
+            }else {//if the in indicator is not 1 (red)
+                if (hueValue >= hueMin && hueValue <= hueMax) {
+                    accentX.push_back(x);
+                    accentY.push_back(y);
                 }
             }
         }
@@ -74,8 +73,8 @@ void Accents::findAccentPos(int hueMin, int hueMax, int indicator) {
     }
 
     //calculate the average of both lists to get a middlepoint
-    float sumX;
-    float sumY;
+    float sumX = 0.0;
+    float sumY = 0.0;
 
     for (int x: accentX) {
         sumX = sumX + x;
@@ -96,6 +95,11 @@ void Accents::findAccentPos(int hueMin, int hueMax, int indicator) {
 
     cout << "this is the total of the X pixels: " << totalX << endl;
     cout << "this is the total of the Y pixels: " << totalY << endl;
+
+    //this function shows the result in text and makes it meaningfull
+    showAccentPos(averageX, averageY, totalX, totalY);
+    totalX = 0;
+    totalY = 0;
 }
 
 void Accents::showAccentPos(float xCo, float yCo, int xTotal, int yTotal) {
@@ -147,16 +151,9 @@ void Accents::accentProcess() {
 
     for(const auto& accentPair : accentColors){//small for loop that goes through the (multiple) accents
         color = accentPair.first;//the first spot in the accentPair is the color
-        indicator = accentPair.second;//the second spot is the indicator of the color
-        for(const auto& colorPair : hueValues){//an other for loop that is looking for the min and max hue values in the hueValues map
-            if(color == colorPair.first){//checking with an if statements if the color of the accents matches that with the one in the map
-                minValue = colorPair.second.first;
-                maxValue = colorPair.second.second;
-            }
-        }
-        findAccentPos(minValue,maxValue,indicator);
+        indicator = accentPair.second;//the second spot is the indicator of the color//an other for loop that is looking for the min and max hue values in the hueValues map
+        minValue = hueValues[color].first;
+        maxValue = hueValues[color].second;
+        findAccentPos(minValue, maxValue, indicator);
     }
-
-//    findAccentPos(0,0,1);
-//    showAccentPos(1631.15, 1159.69, 3293, 2396);
 }
