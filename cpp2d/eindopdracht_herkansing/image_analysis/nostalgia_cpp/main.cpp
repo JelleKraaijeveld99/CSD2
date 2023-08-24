@@ -34,9 +34,7 @@ int main() {
     colorScheme.subColors();
     colorScheme.harmonyFinder();
 
-    accents.calculatePer();
-    accents.findAccentColor();
-    accents.findAccentPos(0,0,1);
+    accents.accentProcess();
 
     waitKey(0);
     destroyAllWindows();

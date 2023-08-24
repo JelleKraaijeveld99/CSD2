@@ -21,16 +21,27 @@ public:
     void findAccentColor();
     //find the position of the accent
     void findAccentPos(int hueMin, int hueMax, int indicator);
+    //function for outputting the position in text
+    void showAccentPos(float xCo, float yCo, int toX, int toY);
+    //function for processing
+    void accentProcess();
 
 protected:
     //variable for storing the indicator of the accent
     int accentInd;
     //variable for storing the color of the accent
     string accentColor;
-    //a vector in for the accent colors because i dont know how much accents there are at the start
+    //a vector for the accent colors because i dont know how much accents there are at the start
     vector<pair<string,int>> accentColors;
+    //a vector for the accent coordinates
+    vector<pair<float,float>> accentCoodinates;
     //a vector to store the x and y coordinates of the colors in according to the indicator of the color
-    map<int, tuple<int,int>> accentXY;
+    map<string , tuple<int,int>> accentXY;
+    //total amount points on the x and y axis of the drawing
+    float totalX = 0.0f;
+    float totalY = 0.0f;
+
+
 
 };
 

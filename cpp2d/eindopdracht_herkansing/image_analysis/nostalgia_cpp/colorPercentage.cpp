@@ -157,3 +157,16 @@ void ColorPercentage::percentageColors() {
 
 
 }
+
+void ColorPercentage::fillHueMap() {
+
+    hueValues["orange"] = make_pair(11,25);
+    hueValues["yellow"] = make_pair(26,38);
+    hueValues["light green"] = make_pair(39,45);
+    hueValues["dark green"] = make_pair(46,80);
+    hueValues["cyan"] = make_pair(81,89);
+    hueValues["light blue"] = make_pair(90,100);
+    hueValues["dark blue"] = make_pair(101,130);
+    hueValues["purple"] = make_pair(131,141);
+    hueValues["pink"] = make_pair(142,163);
+}

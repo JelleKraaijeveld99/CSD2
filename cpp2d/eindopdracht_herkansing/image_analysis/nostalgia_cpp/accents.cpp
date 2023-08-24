@@ -48,6 +48,7 @@ void Accents::findAccentPos(int hueMin, int hueMax, int indicator) {
 
     //for loop for getting through all the pixels in the picture
     for (int y = 0; y < maskedChannels[0].rows; y++) {
+        totalY++;//how many points on the y x-axis
         for (int x = 0; x < maskedChannels[0].cols; x++) {
             uchar hueValue = maskedChannels[0].at<uchar>(y, x);
 //            std::cout << "Pixel hue at (" << x << ", " << y << "): " << static_cast<int>(hueValue) << std::endl;
@@ -67,6 +68,11 @@ void Accents::findAccentPos(int hueMin, int hueMax, int indicator) {
             }
         }
     }
+
+    for (int x = 0; x < maskedChannels[0].cols; x++){
+        totalX++;//how many points on the x-axis
+    }
+
     //calculate the average of both lists to get a middlepoint
     float sumX;
     float sumY;
@@ -82,6 +88,75 @@ void Accents::findAccentPos(int hueMin, int hueMax, int indicator) {
     float averageX = sumX / accentX.size();
     float averageY = sumY / accentY.size();
 
-    cout << "this is the average of the X pixels: " << averageX << endl;
-    cout << "this is the average of the Y pixels: " << averageY << endl;
+    cout << "this is the average of the X pixels of the point: " << averageX << endl;
+    cout << "this is the average of the Y pixels of the point: " << averageY << endl;
+
+    //make a pair of the X and Y coordinates and push them into a vector
+    accentCoodinates.push_back(make_pair(averageX, averageY));
+
+    cout << "this is the total of the X pixels: " << totalX << endl;
+    cout << "this is the total of the Y pixels: " << totalY << endl;
+}
+
+void Accents::showAccentPos(float xCo, float yCo, int xTotal, int yTotal) {
+    //first calculate the size of the boxes, I want a 3x3 raster
+    int boxWidth = xTotal/3;
+    int boxHeight = yTotal/3;
+
+    //column of the point;
+    int column = xCo / boxWidth;
+    int row = yCo / boxHeight;
+
+    //store a string with the right height or width
+    string height;
+    string width;
+
+    if(column == 0){
+        height = "top ";
+    }
+    if(column == 1){
+        height = "mid ";
+    }
+    if(column == 2){
+        height = "bottom ";
+    }
+
+    if(row == 0){
+        width = "left";
+    }
+    if(row == 1){
+        width = "mid";
+    }
+    if(row == 2){
+        width = "right";
+    }
+
+    cout << "The location of the accent is: " << height << width << endl;
+}
+
+void Accents::accentProcess() {
+    calculatePer();//calculate all the percentages of the colors
+    findAccentColor();//find which colors are the accents
+    fillHueMap();//fill the map with matching colors and their min and max hue values
+
+    //we need some variables that are used in the constructors of the functions
+    int minValue = 0;
+    int maxValue = 0;
+    string color = "";
+    int indicator = 0;
+
+    for(const auto& accentPair : accentColors){//small for loop that goes through the (multiple) accents
+        color = accentPair.first;//the first spot in the accentPair is the color
+        indicator = accentPair.second;//the second spot is the indicator of the color
+        for(const auto& colorPair : hueValues){//an other for loop that is looking for the min and max hue values in the hueValues map
+            if(color == colorPair.first){//checking with an if statements if the color of the accents matches that with the one in the map
+                minValue = colorPair.second.first;
+                maxValue = colorPair.second.second;
+            }
+        }
+        findAccentPos(minValue,maxValue,indicator);
+    }
+
+//    findAccentPos(0,0,1);
+//    showAccentPos(1631.15, 1159.69, 3293, 2396);
 }

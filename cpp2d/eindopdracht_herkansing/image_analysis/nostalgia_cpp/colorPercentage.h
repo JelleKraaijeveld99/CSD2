@@ -13,6 +13,8 @@ public:
     ColorPercentage(string path);
     ~ColorPercentage();
 
+    //fill the map with the correct hue values;
+    void fillHueMap();
     //function that might come in handy in the subclasses
     void rgbToHsv();
     //function for masking the colors
@@ -27,6 +29,9 @@ protected:
     Mat maskedChannels[3];
     //store the HSV values in three channels
     Mat hsvChannels[3];
+    //store all the min and max hue values in a map
+    map<string,pair<int,int>> hueValues;
+
 };
 
 #endif
