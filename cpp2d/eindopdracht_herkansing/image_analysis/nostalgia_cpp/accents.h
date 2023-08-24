@@ -20,7 +20,7 @@ public:
     //find the color of the accent
     void findAccentColor();
     //find the position of the accent
-    void findAccentPos();
+    void findAccentPos(int hueMin, int hueMax, int indicator);
 
 protected:
     //variable for storing the indicator of the accent
@@ -28,7 +28,10 @@ protected:
     //variable for storing the color of the accent
     string accentColor;
     //a vector in for the accent colors because i dont know how much accents there are at the start
-    vector<string> accentColors;
+    vector<pair<string,int>> accentColors;
+    //a vector to store the x and y coordinates of the colors in according to the indicator of the color
+    map<int, tuple<int,int>> accentXY;
+
 };
 
 #endif
