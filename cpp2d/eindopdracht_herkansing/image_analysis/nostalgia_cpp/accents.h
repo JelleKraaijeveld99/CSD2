@@ -20,9 +20,9 @@ public:
     //find the color of the accent
     void findAccentColor();
     //find the position of the accent
-    void findAccentPos(int hueMin, int hueMax, int indicator);
+    void findAccentPos(int hueMin, int hueMax, int indicator, string color);
     //function for outputting the position in text
-    void showAccentPos(float xCo, float yCo, int toX, int toY);
+    void showAccentPos(float xCo, float yCo, int toX, int toY, string color);
     //function for processing
     void accentProcess();
 

@@ -41,7 +41,7 @@ void Accents::findAccentColor() {
     }
 }
 
-void Accents::findAccentPos(int hueMin, int hueMax, int indicator) {
+void Accents::findAccentPos(int hueMin, int hueMax, int indicator, string color) {
     //2 lists for storing the x and y coordinates of the accent
     list<int> accentX;
     list<int> accentY;
@@ -87,22 +87,22 @@ void Accents::findAccentPos(int hueMin, int hueMax, int indicator) {
     float averageX = sumX / accentX.size();
     float averageY = sumY / accentY.size();
 
-    cout << "this is the average of the X pixels of the point: " << averageX << endl;
-    cout << "this is the average of the Y pixels of the point: " << averageY << endl;
+//    cout << "this is the average of the X pixels of the point: " << averageX << endl;
+//    cout << "this is the average of the Y pixels of the point: " << averageY << endl;
 
     //make a pair of the X and Y coordinates and push them into a vector
     accentCoodinates.push_back(make_pair(averageX, averageY));
 
-    cout << "this is the total of the X pixels: " << totalX << endl;
-    cout << "this is the total of the Y pixels: " << totalY << endl;
+//    cout << "this is the total of the X pixels: " << totalX << endl;
+//    cout << "this is the total of the Y pixels: " << totalY << endl;
 
     //this function shows the result in text and makes it meaningfull
-    showAccentPos(averageX, averageY, totalX, totalY);
+    showAccentPos(averageX, averageY, totalX, totalY, color);
     totalX = 0;
     totalY = 0;
 }
 
-void Accents::showAccentPos(float xCo, float yCo, int xTotal, int yTotal) {
+void Accents::showAccentPos(float xCo, float yCo, int xTotal, int yTotal, string color) {
     //first calculate the size of the boxes, I want a 3x3 raster
     int boxWidth = xTotal/3;
     int boxHeight = yTotal/3;
@@ -135,7 +135,7 @@ void Accents::showAccentPos(float xCo, float yCo, int xTotal, int yTotal) {
         width = "right";
     }
 
-    cout << "The location of the accent is: " << height << width << endl;
+    cout << "The location of the " << color << " accent is: " << height << width << endl;
 }
 
 void Accents::accentProcess() {
@@ -154,6 +154,6 @@ void Accents::accentProcess() {
         indicator = accentPair.second;//the second spot is the indicator of the color//an other for loop that is looking for the min and max hue values in the hueValues map
         minValue = hueValues[color].first;
         maxValue = hueValues[color].second;
-        findAccentPos(minValue, maxValue, indicator);
+        findAccentPos(minValue, maxValue, indicator, color);
     }
 }
