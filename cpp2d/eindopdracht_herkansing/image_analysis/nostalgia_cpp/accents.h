@@ -27,6 +27,8 @@ protected:
     int accentInd;
     //variable for storing the color of the accent
     string accentColor;
+    //a vector in for the accent colors because i dont know how much accents there are at the start
+    vector<string> accentColors;
 };
 
 #endif
