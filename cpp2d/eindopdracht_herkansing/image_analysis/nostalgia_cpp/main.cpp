@@ -13,28 +13,16 @@ using namespace cv;
 
 int main() {
     //initialise
-//    Analyse analyse;
-
-    FeatureAnalyser FeatureAnalyser("/Users/jellekraaijeveld/Documents/HKU1/Jaar_2/CSD/CodingHKU/cpp2d/eindopdracht_herkansing/image_analysis/nostalgia_cpp/crayon_features_3.jpg");
-    ColorPercentage colorPercentage("/Users/jellekraaijeveld/Documents/HKU1/Jaar_2/CSD/CodingHKU/cpp2d/eindopdracht_herkansing/image_analysis/nostalgia_cpp/crayon_features_3.jpg");
     ColorScheme colorScheme("/Users/jellekraaijeveld/Documents/HKU1/Jaar_2/CSD/CodingHKU/cpp2d/eindopdracht_herkansing/image_analysis/nostalgia_cpp/crayon_features_3.jpg");
     Accents accents("/Users/jellekraaijeveld/Documents/HKU1/Jaar_2/CSD/CodingHKU/cpp2d/eindopdracht_herkansing/image_analysis/nostalgia_cpp/crayon_features_3.jpg");
-    //function for calculating the percentage of each color in the picture
-//    analyse.colorAnalyse("/Users/jellekraaijeveld/Documents/HKU1/Jaar_2/CSD/CodingHKU/cpp2d/eindopdracht_herkansing/image_analysis/nostalgia_cpp/crayon_features_1.jpg");
-//    //let the program wait
-//    analyse.colorPercentage();
-//    analyse.sendPercentageOSC();
-//    colorPercentage.rgbToHsv();
-//    colorPercentage.colorMask();
-//    colorPercentage.pixelColors();
-//    colorPercentage.percentageColors();
-    colorScheme.calculatePer();
-    colorScheme.mainColor();
-    colorScheme.subColorsIndicators();
-    colorScheme.subColors();
-    colorScheme.harmonyFinder();
 
-    accents.accentProcess();
+    colorScheme.calculatePer(); //calculate percentages of the colors
+    colorScheme.mainColor(); //find the main color of the drawing
+    colorScheme.subColorsIndicators(); //find the sub-color indicators
+    colorScheme.subColors(); //find the actual sub colors in text
+    colorScheme.harmonyFinder(); //find if the drawing has a harmonic or dis-harmonic colorscheme
+
+    accents.accentProcess();//process function for the accents class, more functions inside
 
     waitKey(0);
     destroyAllWindows();
