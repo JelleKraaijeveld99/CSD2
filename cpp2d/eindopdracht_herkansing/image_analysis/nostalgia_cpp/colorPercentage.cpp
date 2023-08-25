@@ -29,7 +29,6 @@ void ColorPercentage::colorMask() {
     threshold(hsvChannels[1], saturationMask,thresholdValue, 255, THRESH_BINARY_INV );
     saturationMask = 255 - saturationMask;
     threshold(hsvChannels[1], saturationMask,thresholdValue, 255, THRESH_BINARY );
-    imshow("saturationMask", saturationMask);
 
     // apply mask to filter out the color white
     Mat maskedImg;
@@ -39,7 +38,7 @@ void ColorPercentage::colorMask() {
     cvtColor(maskedImg, hsvMaskedImg, cv::COLOR_BGR2HSV );
 
     split(hsvMaskedImg,maskedChannels);
-    imshow("hue masked", maskedChannels[0]);
+
 }
 
 void ColorPercentage::pixelColors() {
@@ -61,12 +60,12 @@ void ColorPercentage::pixelColors() {
             }
 
             //check how many pixels are light green
-            if(hueValue >= 39 && hueValue <= 45){
+            if(hueValue >= 39 && hueValue <= 60){
                 lightGreen++;
             }
 
             //check how many pixels are dark green
-            if(hueValue >= 46 && hueValue <= 80){
+            if(hueValue >= 61 && hueValue <= 80){
                 darkGreen++;
             }
 
@@ -144,16 +143,16 @@ void ColorPercentage::percentageColors() {
     colorPerMap["yellow"] = make_tuple(perYellow,3);
     colorPerMap["cyan"] = make_tuple(perCyan,6);
 
-    std::cout << "% of light green pixels: " <<  get<0>(colorPerMap["light green"]) << std::endl;
-    std::cout << "% of dark green pixels: " << get<0>(colorPerMap["dark green"]) << std::endl;
-    std::cout << "% of red pixels: " << get<0>(colorPerMap["red"]) << std::endl;
-    std::cout << "% of light blue pixels: " << get<0>(colorPerMap["light blue"]) << std::endl;
-    std::cout << "% of darkblue pixels: " << get<0>(colorPerMap["dark blue"]) << std::endl;
-    std::cout << "% of purple pixels: " << get<0>(colorPerMap["purple"]) << std::endl;
-    std::cout << "% of pink pixels: " <<  get<0>(colorPerMap["pink"]) << std::endl;
-    std::cout << "% of orange pixels: " << get<0>(colorPerMap["orange"]) << std::endl;
-    std::cout << "% of yellow pixels: " << get<0>(colorPerMap["yellow"]) << std::endl;
-    std::cout << "% of cyan pixels: " << get<0>(colorPerMap["cyan"])  << std::endl;
+//    std::cout << "% of light green pixels: " <<  get<0>(colorPerMap["light green"]) << std::endl;
+//    std::cout << "% of dark green pixels: " << get<0>(colorPerMap["dark green"]) << std::endl;
+//    std::cout << "% of red pixels: " << get<0>(colorPerMap["red"]) << std::endl;
+//    std::cout << "% of light blue pixels: " << get<0>(colorPerMap["light blue"]) << std::endl;
+//    std::cout << "% of darkblue pixels: " << get<0>(colorPerMap["dark blue"]) << std::endl;
+//    std::cout << "% of purple pixels: " << get<0>(colorPerMap["purple"]) << std::endl;
+//    std::cout << "% of pink pixels: " <<  get<0>(colorPerMap["pink"]) << std::endl;
+//    std::cout << "% of orange pixels: " << get<0>(colorPerMap["orange"]) << std::endl;
+//    std::cout << "% of yellow pixels: " << get<0>(colorPerMap["yellow"]) << std::endl;
+//    std::cout << "% of cyan pixels: " << get<0>(colorPerMap["cyan"])  << std::endl;
 
 
 }
@@ -162,8 +161,8 @@ void ColorPercentage::fillHueMap() {
 
     hueValues["orange"] = make_pair(11,25);
     hueValues["yellow"] = make_pair(26,38);
-    hueValues["light green"] = make_pair(39,45);
-    hueValues["dark green"] = make_pair(46,80);
+    hueValues["light green"] = make_pair(39,60);
+    hueValues["dark green"] = make_pair(61,80);
     hueValues["cyan"] = make_pair(81,89);
     hueValues["light blue"] = make_pair(90,100);
     hueValues["dark blue"] = make_pair(101,130);

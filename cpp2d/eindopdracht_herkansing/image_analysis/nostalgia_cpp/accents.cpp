@@ -16,20 +16,47 @@ void Accents::calculatePer() {
     percentageColors();
 }
 
+void Accents::mColorFinder() {
+    //section for finding the main color indicator
+    //initialize a variable for the highest value, is lower then all the values in the map
+    float highestValue = -1.0f;
+
+    //initialize a variable for the indicator of the main color
+    int mainColorIn;
+
+    //for loop to find the highest value and return the matching key
+    for (const auto& mapPair : colorPerMap){//mapPair is the pair that refers to the key in the map colorPerMap.
+        if (get<0>(mapPair.second) > highestValue){//.second refers to the tuple that's part of a certain key. get<0> is the first value of the tuple, get<1> should be the second
+            highestValue = get<0>(mapPair.second);
+            mainColorIn = get<1>(mapPair.second);//indicator of the main color
+        }
+    }
+    mainColorInd = mainColorIn;
+}
+
 void Accents::findAccentColor() {
+    //first find the main color of the drawing
+    mColorFinder();
     //the boundaries of when a color is an accent
     float minValue = 2.0f;
     float maxValue = 6.5f;
+    int accentIndicator = 0;
 
     //for loop to find an accent according the min and max percentage of the color
     for (const auto& mapPair : colorPerMap){//mapPair is the pair that refers to the key in the map colorPerMap.
         if (get<0>(mapPair.second) >= minValue && get<0>(mapPair.second) <= maxValue){//.second refers to the tuple that's part of a certain key. get<0> is the first value of the tuple(percentage), get<1> should be the second(indicator)
             string accent = mapPair.first;
-            int indicator = get<1>(mapPair.second);
-            //make a pair of the accent as a string and the indicator of the color
-            accentColors.push_back(make_pair(accent, indicator));
+            int indicatorAcc = get<1>(mapPair.second);
+            //a variable to check the difference between the indicator of the accent and the indicator of the main color.
+            int diffMainAndAcc = abs(indicatorAcc-mainColorInd);
+
+            if(diffMainAndAcc>=2){//if the difference is bigger than 1, the color must have a big enough contrast with the main color to be an accent
+                //make a pair of the accent as a string and the indicator of the color
+                accentColors.push_back(make_pair(accent, indicatorAcc));
+            }
         }
     }
+
     //check if there are any accents in the vector. If so, cout that there are some accents
     if(accentColors.size() > 0){
         cout << "The drawing seems to have some accents, the colors of the accents are: " << endl;

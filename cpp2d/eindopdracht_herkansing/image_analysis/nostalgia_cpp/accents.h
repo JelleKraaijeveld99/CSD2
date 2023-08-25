@@ -25,6 +25,9 @@ public:
     void showAccentPos(float xCo, float yCo, int toX, int toY, string color);
     //function for processing
     void accentProcess();
+    //function for finding the main color
+    void mColorFinder();
+    //function for finding the color of the
 
 protected:
     //variable for storing the indicator of the accent
@@ -40,6 +43,8 @@ protected:
     //total amount points on the x and y axis of the drawing
     float totalX = 0.0f;
     float totalY = 0.0f;
+
+    int mainColorInd = 0;
 
 
 

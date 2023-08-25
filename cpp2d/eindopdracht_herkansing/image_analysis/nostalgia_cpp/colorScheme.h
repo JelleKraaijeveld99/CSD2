@@ -27,8 +27,6 @@ public:
     void subColors();
     //function that returns if the drawing has a harmonic or disharmonic colorscheme
     void harmonyFinder();
-    //function that returns the two colors with the biggest contrast
-    void biggestContrast();
 
 protected:
     //variable to store the main color
